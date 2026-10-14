@@ -1,13 +1,16 @@
 #!/usr/bin/env node
 // Release check: after `pnpm build`, prove that the PRODUCTION artefacts expose no demo route and no secret.
 // Requires a migrated Postgres at DATABASE_URL_TEST (default local sandbox cluster).
-import { spawn } from 'node:child_process';
+import { spawn, execFileSync } from 'node:child_process';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 const DB = process.env.DATABASE_URL_TEST ?? 'postgres://postgres@127.0.0.1:54329/alfred_test';
 const SENTINEL = 'SENTINEL_SECRET_' + 'Zq9x'.repeat(8);
 let failures = 0;
+const waitExit = (p) => (p.exitCode !== null ? Promise.resolve(p.exitCode) : new Promise((r) => p.on('exit', r)));
+// The check needs a migrated DB regardless of what previous test suites left behind.
+execFileSync('pnpm', ['--filter', '@alfred/db', 'migrate:up'], { env: { ...process.env, DATABASE_URL: DB }, stdio: 'ignore' });
 const check = (ok, msg) => { console.log(`${ok ? 'PASS' : 'FAIL'}: ${msg}`); if (!ok) failures++; };
 
 function walk(dir) {
@@ -28,7 +31,7 @@ const run = (env) => spawn('node', ['apps/api/dist/server.js'], { env, stdio: ['
 const bad = run({ ...baseEnv, MOCK_MODE: 'true' });
 let badErr = '';
 bad.stderr.on('data', (d) => (badErr += d));
-const badCode = await new Promise((r) => bad.on('exit', r));
+const badCode = await waitExit(bad);
 check(badCode !== 0 && /MOCK_MODE/.test(badErr), 'built API exits non-zero with APP_ENV=production MOCK_MODE=true');
 check(!badErr.includes(SENTINEL), 'startup error does not echo secret values');
 
@@ -52,6 +55,6 @@ if (up) {
   check(!t.includes(SENTINEL) && !t.includes('postgres://'), 'ready payload leaks no secret/DSN');
 }
 good.kill('SIGTERM');
-await new Promise((r) => good.on('exit', r));
+await waitExit(good);
 
 process.exit(failures ? 1 : 0);
