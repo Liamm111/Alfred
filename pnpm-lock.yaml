@@ -36,17 +36,76 @@ importers:
         specifier: ^5.0.4
         version: 5.0.4(@types/node@22.20.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(tsx@4.23.15))
 
-  apps/api:
+  apps/web:
+    dependencies:
+      '@alfred/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      next:
+        specifier: ^16.4.1
+        version: 16.4.1(@playwright/test@1.64.1)(@types/node@22.20.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      react:
+        specifier: ^19.3.1
+        version: 19.3.1
+      react-dom:
+        specifier: ^19.3.1
+        version: 19.3.1(react@19.3.1)
+      zod:
+        specifier: ^4.6.7
+        version: 4.6.7
+    devDependencies:
+      '@playwright/test':
+        specifier: ^1.64.1
+        version: 1.64.1
+      '@types/react':
+        specifier: ^19.0.0
+        version: 19.3.0
+      '@types/react-dom':
+        specifier: ^19.0.0
+        version: 19.3.0(@types/react@19.3.0)
+
+  db:
+    dependencies:
+      '@alfred/core':
+        specifier: workspace:*
+        version: link:../packages/core
+      drizzle-orm:
+        specifier: ^0.45.4
+        version: 0.45.4(@types/pg@8.23.1)(kysely@0.29.6)(pg@8.23.1)
+      pg:
+        specifier: ^8.23.1
+        version: 8.23.1
+    devDependencies:
+      '@types/pg':
+        specifier: ^8.15.0
+        version: 8.23.1
+      drizzle-kit:
+        specifier: ^0.31.11
+        version: 0.31.11
+
+  packages/ai:
+    dependencies:
+      zod:
+        specifier: ^4.6.7
+        version: 4.6.7
+
+  packages/core:
+    dependencies:
+      pino:
+        specifier: ^10.4.0
+        version: 10.4.0
+      zod:
+        specifier: ^4.6.7
+        version: 4.6.7
+
+  services/api:
     dependencies:
       '@alfred/core':
         specifier: workspace:*
         version: link:../../packages/core
       '@alfred/db':
         specifier: workspace:*
-        version: link:../../packages/db
-      '@alfred/providers':
-        specifier: workspace:*
-        version: link:../../packages/providers
+        version: link:../../db
       better-auth:
         specifier: 1.7.8
         version: 1.7.8(drizzle-kit@0.31.11)(drizzle-orm@0.45.4(@types/pg@8.23.1)(kysely@0.29.6)(pg@8.23.1))(next@16.4.1(@playwright/test@1.64.1)(@types/node@22.20.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(pg@8.23.1)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(vitest@5.0.4(@types/node@22.20.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(tsx@4.23.15)))
@@ -76,42 +135,14 @@ importers:
         specifier: ^9.0.0
         version: 9.0.0(postcss@8.5.30)(tsx@4.23.15)(typescript@5.9.3)
 
-  apps/web:
-    dependencies:
-      '@alfred/core':
-        specifier: workspace:*
-        version: link:../../packages/core
-      next:
-        specifier: ^16.4.1
-        version: 16.4.1(@playwright/test@1.64.1)(@types/node@22.20.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      react:
-        specifier: ^19.3.1
-        version: 19.3.1
-      react-dom:
-        specifier: ^19.3.1
-        version: 19.3.1(react@19.3.1)
-      zod:
-        specifier: ^4.6.7
-        version: 4.6.7
-    devDependencies:
-      '@playwright/test':
-        specifier: ^1.64.1
-        version: 1.64.1
-      '@types/react':
-        specifier: ^19.0.0
-        version: 19.3.0
-      '@types/react-dom':
-        specifier: ^19.0.0
-        version: 19.3.0(@types/react@19.3.0)
-
-  apps/worker:
+  services/workers:
     dependencies:
       '@alfred/core':
         specifier: workspace:*
         version: link:../../packages/core
       '@alfred/db':
         specifier: workspace:*
-        version: link:../../packages/db
+        version: link:../../db
       drizzle-orm:
         specifier: ^0.45.4
         version: 0.45.4(@types/pg@8.23.1)(kysely@0.29.6)(pg@8.23.1)
@@ -128,49 +159,6 @@ importers:
       tsup:
         specifier: ^9.0.0
         version: 9.0.0(postcss@8.5.30)(tsx@4.23.15)(typescript@5.9.3)
-
-  packages/core:
-    dependencies:
-      pino:
-        specifier: ^10.4.0
-        version: 10.4.0
-      zod:
-        specifier: ^4.6.7
-        version: 4.6.7
-
-  packages/db:
-    dependencies:
-      '@alfred/core':
-        specifier: workspace:*
-        version: link:../core
-      drizzle-orm:
-        specifier: ^0.45.4
-        version: 0.45.4(@types/pg@8.23.1)(kysely@0.29.6)(pg@8.23.1)
-      pg:
-        specifier: ^8.23.1
-        version: 8.23.1
-    devDependencies:
-      '@types/pg':
-        specifier: ^8.15.0
-        version: 8.23.1
-      drizzle-kit:
-        specifier: ^0.31.11
-        version: 0.31.11
-
-  packages/evals:
-    dependencies:
-      zod:
-        specifier: ^4.6.7
-        version: 4.6.7
-
-  packages/providers:
-    dependencies:
-      '@alfred/core':
-        specifier: workspace:*
-        version: link:../core
-      zod:
-        specifier: ^4.6.7
-        version: 4.6.7
 
 packages:
 

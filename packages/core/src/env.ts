@@ -9,6 +9,11 @@ const strictBool = z.enum(['true', 'false']).transform((v) => v === 'true');
 const baseSchema = z.object({
   APP_ENV: z.enum(APP_ENVS).default('development'),
   MOCK_MODE: strictBool.default(false),
+  /**
+   * bot_join has exactly one legal value. PRD v0.2: the product never adds a participant/bot to a meeting, so there is no way to
+   * turn it on: any value other than unset/"false" fails startup.
+   */
+  BOT_JOIN: z.literal('false', { error: 'bot_join cannot be enabled: the product never joins a meeting as an extra participant (PRD v0.2)' }).optional(),
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']).default('info'),
   DATABASE_URL: z.string().min(1).optional(),
   API_HOST: z.string().default('127.0.0.1'),

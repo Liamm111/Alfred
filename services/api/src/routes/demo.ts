@@ -1,5 +1,5 @@
 import type { FastifyPluginAsync } from 'fastify';
-import { DEMO_TRANSCRIPT } from '@alfred/providers';
+import { DEMO_TRANSCRIPT } from '@alfred/core';
 
 /** Deterministic dev demo (simulation only). Registered iff MOCK_MODE=true && APP_ENV != production. */
 export const demoRoutes: FastifyPluginAsync = async (app) => {

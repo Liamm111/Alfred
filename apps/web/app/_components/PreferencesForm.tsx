@@ -80,7 +80,7 @@ export function PreferencesForm({ initial, mode }: { initial: Preferences; mode:
       <div className="field">
         <label htmlFor="firstName">Prénom</label>
         <input id="firstName" type="text" autoComplete="given-name" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
-        <span className="hint">Le bot s&apos;appellera « Assistant IA de {firstName || '[prénom]'} ».</span>
+        <span className="hint">Utilisé pour reconnaître quand on t&apos;appelle pendant le cours. L&apos;assistant ne parle jamais à ta place.</span>
       </div>
 
       <fieldset>

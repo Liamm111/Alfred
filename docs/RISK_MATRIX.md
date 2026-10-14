@@ -1,72 +1,69 @@
-# Matrice P0/P1 → bloc propriétaire → preuve de test
+# Matrice de risques V0.2 (R01–R40) → bloc propriétaire → preuve
 
-Source : PRD §13 (copié verbatim pour ID/gravité/scénario). Les blocs ≥03 ne sont pas définis dans les consignes reçues : « ≥03 » désigne un bloc futur **à nommer**, jamais un bloc existant. Colonne *État* : `NON COUVERT` tant qu'aucun test n'existe ; mise à jour par chaque rapport de bloc.
+Source : PRD V0.2 §J (colonnes ID/risque/prévention/résultat reprises verbatim). Numérotation des blocs = `docs/prompts/CODEX_PROMPTS_MASTER.md` (00–19). Colonne *État* : `NON COUVERT` tant qu'aucun test n'existe ; chaque rapport de bloc la met à jour.
 
-| ID | Gravité | Domaine | Scénario | Bloc propriétaire | Preuve de test exigée | État |
-|---|---|---|---|---|---|---|
-| Z01 | P0 | Zoom/planification | URL Zoom usurpée, domaine ressemblant | planification de cours (≥03) | validation hostname/HTTPS, fuzz URLs, pas de fetch arbitraire | NON COUVERT |
-| Z02 | P1 | Zoom/planification | Lien expiré, passcode manquant, authentification exigée | ≥03 (Zoom/planification) | surface code échec et actions, fixture correspondante | NON COUVERT |
-| Z03 | P0 | Zoom/planification | Bot bloqué en salle d'attente | ≥03 (Zoom/planification) | state waiting_room + timeout, avertir, ne pas prétendre enregistrer | NON COUVERT |
-| Z04 | P0 | Zoom/planification | Consentement enregistrement refusé | ≥03 (Zoom/planification) | pas de capture, état access_denied, audit et notice | NON COUVERT |
-| Z05 | P1 | Zoom/planification | Le professeur commence en retard | ≥03 (Zoom/planification) | handle host late et fenêtre d'attente configurable | NON COUVERT |
-| Z06 | P0 | Zoom/planification | Requête create bot timeout, double création | ≥03 (Zoom/planification) | lease + réconciliation + test race 100 requêtes | NON COUVERT |
-| Z07 | P1 | Zoom/planification | Le cours déplacé annule la mauvaise occurrence | ≥03 (Zoom/planification) | UUID occurrence et clé schedule unique, tests récurrence | NON COUVERT |
-| Z08 | P1 | Zoom/planification | Changement heure d'été/hiver ou timezone erroné | ≥03 (Zoom/planification) | conversion IANA, tests DST fold/gap, affichage UTC/local | NON COUVERT |
-| Z09 | P1 | Zoom/planification | Retard + réessai créent un bot après annulation | ≥03 (Zoom/planification) | cancellation token/version, vérification transactionnelle | NON COUVERT |
-| Z10 | P1 | Zoom/planification | Expulsion du bot/reconnexion non détectée | ≥03 (Zoom/planification) | lifecycle/webhook, terminal/degraded, reprise bornée | NON COUVERT |
-| E01 | P0 | Webhooks/événements | Webhook falsifié accepté | ≥03 (Webhooks/événements) | HMAC raw body + signature invalide tests | NON COUVERT |
-| E02 | P0 | Webhooks/événements | Webhook ancien rejoué | ≥03 (Webhooks/événements) | fenêtre temporelle + unique ID base, tests replay | NON COUVERT |
-| E03 | P1 | Webhooks/événements | Payload géant épuise la mémoire | ≥03 (Webhooks/événements) | limite de taille à l'entrée, réponse contrôlée | NON COUVERT |
-| E04 | P0 | Webhooks/événements | Event reçu mais perdu après HTTP 2xx | 01 (primitive outbox) + ingestion ultérieure | test outbox transactionnel `packages/db` (primitive seule) | PARTIEL (B01) — outbox transactionnel + kill -9 Postgres ; reste : endpoint webhook réel |
-| E05 | P1 | Webhooks/événements | Webhook en retry redouble transcriptions | ≥03 (Webhooks/événements) | unique(provider,id), idempotence test | NON COUVERT |
-| E06 | P1 | Webhooks/événements | Event out of order fait reculer état | ≥03 (Webhooks/événements) | state machine monotone + timestamps/version, tests | NON COUVERT |
-| E07 | P0 | Webhooks/événements | Événements ne sont plus livrés après trop d'échecs | ≥03 (Webhooks/événements) | métrique lastEventAt, DLQ, dégradation visible, alarme | NON COUVERT |
-| E08 | P1 | Webhooks/événements | Mauvaise distinction lifecycle et transcript | ≥03 (Webhooks/événements) | routes/types séparés + contract tests | NON COUVERT |
-| T01 | P1 | Transcription | Parole fragmentée traitée comme plusieurs questions | ≥03 (Transcription) | final vs partial, buffer, test incrémental | NON COUVERT |
-| T02 | P1 | Transcription | Même utterance final apparaît plusieurs fois | ≥03 (Transcription) | stable key + contrainte DB, replay | NON COUVERT |
-| T03 | P1 | Transcription | Noms des locuteurs changent en cours | ≥03 (Transcription) | IDs stables, alias de displayName, tests | NON COUVERT |
-| T04 | P1 | Transcription | Deux voix simultanées, attribution erronée | ≥03 (Transcription) | unknown-speaker, marque faible confiance | NON COUVERT |
-| T05 | P1 | Transcription | Silence de la classe pris pour panne audio | ≥03 (Transcription) | séparer absence parole/état fournisseur ; message prudent | NON COUVERT |
-| T06 | P1 | Transcription | Vrai audio coupé sans statut de panne | ≥03 (Transcription) | coverage gaps heuristics + reconciliation, test interruption | NON COUVERT |
-| T07 | P1 | Transcription | Français et anglais mélangés | ≥03 (Transcription) | STT multi + corpus code-switch + langue de sortie FR | NON COUVERT |
-| T08 | P1 | Transcription | Mot technique et prénom mal reconnus | ≥03 (Transcription) | aliases phonétiques contrôlés, terme list, éval dédiée | NON COUVERT |
-| A01 | P0 | Attention/alertes | « Liam a dit » déclenche urgence | ≥03 (Attention/alertes) | negative rules + corpus précision | NON COUVERT |
-| A02 | P0 | Attention/alertes | Question directe ignorée | ≥03 (Attention/alertes) | recall corpus, seuils, éval live, fallback règles | NON COUVERT |
-| A03 | P1 | Attention/alertes | « Et toi ? » sans cible provoque alerte certaine | ≥03 (Attention/alertes) | class ambiguous, jamais urgent certain sans preuve | NON COUVERT |
-| A04 | P1 | Attention/alertes | Question citée dans un exemple | ≥03 (Attention/alertes) | détecter citations et discours rapporté, fixtures | NON COUVERT |
-| A05 | P1 | Attention/alertes | Consigne de groupe confondue avec question personnelle | ≥03 (Attention/alertes) | assign vs addressed, tests | NON COUVERT |
-| A06 | P1 | Attention/alertes | Reformulation crée 5 push | ≥03 (Attention/alertes) | groupe sémantique temporel, dedupe key | NON COUVERT |
-| A07 | P1 | Attention/alertes | Prompt injection dans la transcription | ≥03 (Attention/alertes) | données non fiables, schema outputs, adversarial tests | NON COUVERT |
-| A08 | P0 | Attention/alertes | L'IA répond oralement au nom de l'étudiant | ≥03 (Attention/alertes) | absence totale de canal output audio, test architecture | PARTIEL (B01) — `packages/providers/test/provider.test.ts` (port sans sortie audio/chat) ; reste : adapter réel |
-| N01 | P0 | Push/notifications | App croit Push actif mais abonnement absent | ≥03 (Push/notifications) | onboarding gate, test subscription/ack | NON COUVERT |
-| N02 | P1 | Push/notifications | Safari iOS non installé PWA → push impossible | ≥03 (Push/notifications) | détection + instructions Add to Home Screen | NON COUVERT |
-| N03 | P1 | Push/notifications | Push service accepte mais téléphone ne voit rien | ≥03 (Push/notifications) | état accepted≠delivered, test device réel | NON COUVERT |
-| N04 | P1 | Push/notifications | Abonnement expiré/revoqué | ≥03 (Push/notifications) | nettoyage 404/410, état dégradé | NON COUVERT |
-| N05 | P1 | Push/notifications | Plusieurs appareils reçoivent les mêmes alertes non voulues | ≥03 (Push/notifications) | prefs/device labels, outbox per-device, unique attempts | NON COUVERT |
-| N06 | P0 | Push/notifications | Push sensible sur écran verrouillé | ≥03 (Push/notifications) | notification discrète par défaut, test payload | NON COUVERT |
-| N07 | P1 | Push/notifications | Alerte 10 min après la fin présentée comme live | ≥03 (Push/notifications) | TTL, mention « tardive », audit time | NON COUVERT |
-| S01 | P0 | Rapport/devoirs | Résumé invente la présentation non entendue | ≥03 (Rapport/devoirs) | provenance obligatoire + limitations visibles | NON COUVERT |
-| S02 | P0 | Rapport/devoirs | Devoir « à rendre » oublié | ≥03 (Rapport/devoirs) | corpus extraction recall + section consignes dédiée | NON COUVERT |
-| S03 | P0 | Rapport/devoirs | Date inventée à partir de « bientôt » | ≥03 (Rapport/devoirs) | due certainty/nullable, tests date parser | NON COUVERT |
-| S04 | P1 | Rapport/devoirs | « pas à rendre » compris « à rendre » | ≥03 (Rapport/devoirs) | tests négation, schema type, human confirm | NON COUVERT |
-| S05 | P1 | Rapport/devoirs | Prof corrige une échéance plus tard | ≥03 (Rapport/devoirs) | chronology merge + conflicting evidence | NON COUVERT |
-| S06 | P1 | Rapport/devoirs | Travail facultatif affiché obligatoire | ≥03 (Rapport/devoirs) | optional field + tests | NON COUVERT |
-| S07 | P1 | Rapport/devoirs | Plusieurs cours mélangent leurs devoirs | ≥03 (Rapport/devoirs) | partition occurrenceId + tests isolation | NON COUVERT |
-| S08 | P1 | Rapport/devoirs | Synthèse 2h tronquée par tokens | ≥03 (Rapport/devoirs) | map-reduce + coverage checks | NON COUVERT |
-| S09 | P1 | Rapport/devoirs | Rapport « complet » sur flux partiel | ≥03 (Rapport/devoirs) | coverage state + gate completed_partial | NON COUVERT |
-| S10 | P1 | Rapport/devoirs | Résumé provisoire remplace rapport final | ≥03 (Rapport/devoirs) | immutabilité par version, CAS | NON COUVERT |
-| Q01 | P0 | Sécurité/vie privée | Accès aux cours d'un autre compte via UUID | 02 (+ chaque bloc métier) | tests IDOR/401 `apps/api/test/*.integration.test.ts` | PARTIEL (B02) — `apps/api/test/auth.integration.test.ts` (401 sur toutes les routes privées, IDOR sessions, isolation préférences) ; reste : cours/alertes/devoirs quand ils existeront |
-| Q02 | P0 | Sécurité/vie privée | Clés Recall/LLM exposées au client | 01 | `pnpm secrets:scan` + test bundle web | PARTIEL (B01) — `scripts/secrets-scan.mjs`, `scripts/check-prod-bundle.mjs` ; reste : clés réelles Recall/LLM |
-| Q03 | P0 | Sécurité/vie privée | Transcription personnelle dans logs/erreurs | 01 | test logger expurgé `packages/core` | PARTIEL (B01) — `packages/core/test/logger.test.ts` ; reste : inspection des logs des blocs métier |
-| Q04 | P1 | Sécurité/vie privée | Suppression de cours mais jobs ressuscitent données | ≥03 (Sécurité/vie privée) | tombstones/version + purge test | NON COUVERT |
-| Q05 | P1 | Sécurité/vie privée | Webhook provider reconstruit données supprimées | ≥03 (Sécurité/vie privée) | tombstone denylist/expiry, delete replay test | NON COUVERT |
-| Q06 | P1 | Sécurité/vie privée | Texte du cours commande au LLM d'exfiltrer | ≥03 (Sécurité/vie privée) | untrusted boundary, pas de tools, injection eval | NON COUVERT |
-| Q07 | P1 | Sécurité/vie privée | Prompt export HTML/XSS via nom d'intervenant | ≥03 (Sécurité/vie privée) | escaping côté UI, CSP, tests XSS | PARTIEL (B02) — alias restreints (pas de balisage/bidi, `packages/core/test/alias.test.ts`) + React échappe ; reste : CSP + noms d'intervenants |
-| Q08 | P1 | Sécurité/vie privée | Incohérence rétention app/Recall | ≥03 (Sécurité/vie privée) | purge contract, fournisseurs audités et limitation explicitée | NON COUVERT |
-| O01 | P1 | Opérations | Déploiement sans migration | 01 | test readiness schéma `apps/api` | COUVERT (B01) — `apps/api/test/ready.integration.test.ts`, démarrage API/worker via `assertSchemaUpToDate` |
-| O02 | P1 | Opérations | Worker redémarre au milieu du cours | 01 (primitive jobs) + worker métier ultérieur | test lease/crash `packages/db` | PARTIEL (B01) — `packages/db/test/jobs.integration.test.ts`, `apps/worker/test/runner.integration.test.ts`, `scripts/crash-recovery.sh` ; reste : chaos sur worker métier |
-| O03 | P1 | Opérations | LLM en surcharge bloque l'ingestion | ≥03 (Opérations) | queue séparation et circuit breaker | NON COUVERT |
-| O04 | P1 | Opérations | Bogue de production invisible jusqu'au prochain cours | 01 (healthchecks) + observabilité ultérieure | test `/health/*` `apps/api` | PARTIEL (B01) — `/health/live`, `/health/ready` ; reste : métriques/Sentry |
-| O05 | P1 | Opérations | Test « tout vert » car tout mocké | 00 (gates) + gate REAL-ZOOM | `docs/RELEASE_GATES.md` : gates REAL-* NOT VERIFIED | PARTIEL (B00–B02) — gates REAL-* NOT VERIFIED ; MOCK_MODE interdit en prod ; aucun « mock auth » (test d'en-têtes d'identité forgés) |
+| ID | Risque | Prévention / détection | Résultat attendu | Bloc | État |
+|---|---|---|---|---|---|
+| R01 | OAuth Zoom expiré | refresh sûr, reauth | état `ZOOM_REAUTH_REQUIRED` | 03 | NON COUVERT |
+| R02 | Hôte refuse RTMS | statuts officiels, aucune relance abusive | `HOST_DENIED`, pas de contournement | 05 + 06 | NON COUVERT |
+| R03 | Compte Zoom Basic/inéligible | capability check + diagnostic | mode local si autorisé, sinon indisponible | 05 | NON COUVERT |
+| R04 | Client Zoom trop ancien | contrôle version / feature detection | proposer mise à jour, mode disponible | 05 | NON COUVERT |
+| R05 | Participe via lien partagé, API REST non éligible | chemins démarrage séparés | Zoom App SDK si disponible, sinon local permis | 05 | NON COUVERT |
+| R06 | RTMS commencé mais aucune donnée | watchdog sur vrais paquets | ne jamais afficher LIVE | 06 | NON COUVERT |
+| R07 | Reconnexion WS et doublons | epoch, idempotency, jitter | ni double résumé ni double push | 06 | NON COUVERT |
+| R08 | Transcript final révisé | provisional/final + version | une seule affirmation canonique | 10 | NON COUVERT |
+| R09 | Capture locale prend audio d’une autre app | sélection filtre + test concret | marquer audio contaminé, alerte utilisateur | 07 | NON COUVERT |
+| R10 | Casque/Bluetooth désynchronise audio | loopback test plusieurs sorties | gap, diagnostic, bascule contrôlée | 07 | NON COUVERT |
+| R11 | Mac en veille / lid fermé | notifications sleep/wake, time gaps | état dégradé, couverture manquante | 04 + 07 | NON COUVERT |
+| R12 | Fenêtre Zoom minimisée | contrôle présence frame + hash | pas de « vision OK » fictive | 08 | NON COUVERT |
+| R13 | Slides dans fenêtre séparée | sélection multiple et changement de source | demande de choisir nouvelle fenêtre | 08 | NON COUVERT |
+| R14 | Débit visuel massif | sampling + budget + queue | aucune saturation / crash | 08 + 17 | NON COUVERT |
+| R15 | Zoom RTMS transcript absent | STT audio RTMS si autorisé | transcription de secours / état clair | 10 | NON COUVERT |
+| R16 | Absence speaker ID local | speaker null, jamais inventé | « intervenant non identifié » | 10 | NON COUVERT |
+| R17 | Faux prénom prononcé | classif + règles + labels | fausse alerte mesurée, feedback | 11 | NON COUVERT |
+| R18 | Question sans prénom | coréférence avec preuve de contexte | ambiguë sinon | 11 | NON COUVERT |
+| R19 | Double alerte Mac + iPhone | idempotence event, canaux séparés | un événement / canaux multiples | 12 | NON COUVERT |
+| R20 | Push accepté mais jamais vu | ack app distinct | « non confirmé » | 12 | NON COUVERT |
+| R21 | Push abonnement expiré | 410/404 purge, tests | avertissement reconfiguration | 12 | NON COUVERT |
+| R22 | Date de devoir ambiguë | parse avec fuseau+contradictions | « date à confirmer » | 15 | NON COUVERT |
+| R23 | Tâche annulée plus tard | extraction contradictoire + consolidation | tâche barrée/annulée avec preuve | 15 | NON COUVERT |
+| R24 | Slide OCR floue | quality score, no extraction if poor | « visuel illisible » | 08 | NON COUVERT |
+| R25 | Prompt injection dans chat/slide | modèle extraction sans outils | aucune action système non voulue | 14 + 16 | NON COUVERT |
+| R26 | Cours mélangés | meeting UUID + session scope | isolation stricte | 02 + 09 | NON COUVERT |
+| R27 | Stop n’arrête qu’une source | stop-all sources, ack & watchdog | état STOPPED vérifié | 01 + 04 | NON COUVERT |
+| R28 | Panne serveur pendant cours | local spool chiffré borné+replay | segments manquants marqués | 09 + 17 | NON COUVERT |
+| R29 | Espace disque plein | ring buffer limit + backpressure | alerte + pas de crash | 07 + 17 | NON COUVERT |
+| R30 | Coût API/quotas dépassés | budgets, kill switches | partie concernée stoppée + visible | 17 | NON COUVERT |
+| R31 | Changement heure été/hiver | UTC+timezone+occurrence id | échéances exactes si univoques | 15 | NON COUVERT |
+| R32 | Delete / retrait consentement | cascade+job+audit | purge sans réingestion | 16 | NON COUVERT |
+| R33 | Réunion Zoom en deux fenêtres | sélection explicite, tracked window IDs | sources documentées | 08 | NON COUVERT |
+| R34 | Organisateur interdit tout traitement | consent gate | aucune capture | 16 | NON COUVERT |
+| R35 | Résumé complet malgré coupure | coverage gating | `PARTIAL` obligatoire | 14 | NON COUVERT |
+| R36 | Notification d’un autre compte | ACL+ownership tests | erreur 403, aucune fuite | 02 | PARTIEL (hérité B02-v0.0) — `services/api/test/auth.integration.test.ts` : IDOR sessions/préférences ; reste : séances, alertes, notifications |
+| R37 | Temps RTMS et Mac divergent | aligner monotonic/UTC et dérive | événements corrects / erreur marquée | 09 | NON COUVERT |
+| R38 | Cas simultanés 2 Zoom | interdire ou demander choix | pas de fusion fortuite | 09 | NON COUVERT |
+| R39 | Zoom mise à jour change compatibilité | pin SDK+smoke tests | fail safe et alerte | 06 | NON COUVERT |
+| R40 | Rapports contiennent PII sensible | redaction/logs, secret scans | pas de fuite dans télémétrie | 16 | PARTIEL (hérité B01-v0.0) — `packages/core/test/logger.test.ts`, `scripts/secrets-scan.mjs` ; reste : télémétrie et rapports |
 
-Total P0/P1 : 64 lignes.
+## Garde-fous globaux K2/K3 (transverses)
+
+| Critère | Bloc | Preuve actuelle |
+|---|---|---|
+| 0 bot / participant supplémentaire | 00 (+19 audit final) | `pnpm check:no-bot` (AST + dépendances + Swift + hôtes) ; `packages/core/test/features.test.ts` ; `scripts/__tests__/forbid-bot-join.test.ts` — **PASS** |
+| 0 secret dans logs / dépôt | 16 | partiel : `pnpm secrets:scan`, logger expurgé |
+| 0 lecture inter-utilisateurs | 02 | partiel : IDOR sessions/préférences (v0.0 B02) |
+| 0 résumé COMPLET avec gap | 14 | non couvert |
+| 1 événement / question, 0 urgence sur mention | 11 | non couvert |
+| p95 ≤10 s RTMS / ≤15 s local (fin de phrase → outbox) | 11–12, 17 | non couvert |
+| 100 % des claims avec evidence_ids | 14 | non couvert |
+| coupure/reprise sans perte silencieuse | 09, 17 | primitive jobs/outbox + kill -9 Postgres (v0.0 B01) ; reste : flux média |
+| V0 livrée seulement avec cours Zoom réel + interpellation détectée + push iPhone physique + compte rendu sourcé | 18–19 | **NON ATTEINT** |
+
+## Reprises utiles de la matrice v0.0 (architecture bot, archivée)
+
+| Ancien ID | Sujet | Statut dans v0.2 |
+|---|---|---|
+| E01/E02/E03/E05 | webhook falsifié / rejoué / géant / doublon | **toujours applicable** aux webhooks Zoom `meeting.rtms_started/stopped` → bloc 06 |
+| E04 | event perdu après 2xx (outbox) | toujours applicable → blocs 02/06 (primitive outbox existante) |
+| Q01/Q02/Q03 | IDOR, secrets client, PII dans logs | toujours applicables → blocs 02/16 |
+| Z01–Z10, Recall/bot, `MeetingProvider` | planification/bot Recall | **caducs** (interdits par l'invariant « aucun participant ») |

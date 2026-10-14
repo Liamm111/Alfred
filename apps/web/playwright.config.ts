@@ -23,7 +23,7 @@ export default defineConfig({
   ],
   webServer: [
     {
-      command: 'node ../api/dist/server.js',
+      command: 'node ../../services/api/dist/server.js',
       url: `${API}/health/live`,
       reuseExistingServer: false,
       timeout: 30_000,
@@ -37,7 +37,7 @@ export default defineConfig({
         EMAIL_TRANSPORT: 'file',
         EMAIL_OUTBOX_DIR: OUTBOX,
         AUTH_MAGIC_LINK_MAX_PER_MIN: '100',
-        MIGRATIONS_DIR: '../../packages/db/drizzle',
+        MIGRATIONS_DIR: '../../db/drizzle',
       },
     },
     {

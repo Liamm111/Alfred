@@ -18,7 +18,8 @@
     "migrate:down": "pnpm --filter @alfred/db migrate:down",
     "db:generate": "pnpm --filter @alfred/db generate",
     "secrets:scan": "node scripts/secrets-scan.mjs",
-    "check:prod-bundle": "node scripts/check-prod-bundle.mjs"
+    "check:prod-bundle": "node scripts/check-prod-bundle.mjs",
+    "check:no-bot": "node scripts/forbid-bot-join.mjs"
   },
   "devDependencies": {
     "@eslint/js": "9.39.5",

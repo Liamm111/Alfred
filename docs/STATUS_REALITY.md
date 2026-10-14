@@ -1,64 +1,32 @@
-# État réel du dépôt
+# État réel du dépôt (après réajustement V0.2)
 
-Audit du 14 octobre 2026, refait après réception du PRD (`docs/PRD_V0_SOURCE_OF_TRUTH.md`,
-converti depuis `PRD_V0_COMPLET.docx`). Cette page ne décrit que des éléments observés.
+Audit du 14 octobre 2026. Ne décrit que des éléments observés. Aucun prototype antérieur n'existait (`main` = commit vide `b3efa7e`).
 
-## Entrées observées
+## Preuve du code existant vs mock vs non construit
 
-- Remote `origin` : `Liamm111/Alfred`. Branches : `main` (commit vide `b3efa7e`, « preserve empty initial
-  repository state ») et `codex/block-00-audit` (tentative BLOC 00 antérieure, bloquée faute de PRD).
-- **État initial conservé** : `main` @ `b3efa7e` (arbre vide) — aucune suppression possible, rien à migrer.
-- **Prototype : inexistant.** Aucun `src/`, `tests/`, manifeste, démo, README historique ou migration avant
-  la tentative `codex/block-00-audit`, qui n'a ajouté que docs + un garde-fou shell.
-- PRD : maintenant présent et lu en entier (20 sections, 17 tables, 67 lignes de matrice de risques).
-
-## Preuve du code existant vs mock
-
-| Portion | Preuve recherchée | Connectée | Simulée | Non construite | Verdict |
-|---|---|---|---|---|---|
-| Application web / API / worker | manifeste, entrée | non | non | **oui** | NON CONSTRUIT |
-| Démo déterministe | entrée de démo | non | non | **oui** | NON CONSTRUIT (voir BLOC 01) |
-| Recall.ai | client, token, appel | non | non | oui | NOT VERIFIED |
-| Zoom (réunion autorisée) | réunion, consentement hôte | non | non | oui | NOT VERIFIED |
-| Web Push (VAPID/PWA iOS) | clés VAPID, appareil | non | non | oui | NOT VERIFIED |
-| LLM / STT Deepgram | clé, appels | non | non | oui | NOT VERIFIED |
-| Persistance / migrations | schéma | non | non | oui | NON CONSTRUIT |
-| Authentification / autorisation | code, tests | non | non | oui | NON CONSTRUIT |
-| Mode mock | `scripts/validate-runtime-mode.sh` + 7 tests shell | — | garde-fou seul | non raccordé à une app | PASS local (voir BLOC 01 pour le port TS) |
-
-« Non » ne signifie pas échec : aucun artefact n'existe à inspecter. Aucune preuve fournisseur n'est fabriquée.
-
-## Divergences avec le PRD V0
-
-Tout le PRD §0.1 (10 critères de sortie) est **non satisfait**, faute de code. Le logiciel n'est pas livré.
-Divergence avec la demande : le « prototype existant » annoncé n'existe pas ; le BLOC 00 devient un audit
-d'absence + installation des garde-fous (docs, gates, matrice de risques, MOCK_MODE).
-
-## Frontières de confiance (PRD §6, §10-34)
-
-Transcriptions, chats, titres de réunion et liens sont des données non fiables : jamais d'instructions
-système, d'outils, de secrets ni d'actions externes déclenchés par leur contenu.
-
-## Mise à jour BLOC 01 — ce qui existe désormais (code écrit dans ce dépôt, pas un prototype antérieur)
-
-| Portion | Preuve | Statut |
+| Portion (PRD V0.2) | Preuve | Statut |
 |---|---|---|
-| Monorepo pnpm TS strict | `pnpm-workspace.yaml`, `tsconfig.base.json` | CONSTRUIT |
-| API Fastify (health, erreurs standard, request-id) | `apps/api`, tests unitaires + intégration | CONSTRUIT (aucune route métier) |
-| Postgres + migrations up/down | `packages/db`, tests d'intégration | CONSTRUIT (tables `job_queue`, `audit_events` seulement) |
-| Jobs/outbox durables | `packages/db/src/jobs.ts`, tests + `scripts/crash-recovery.sh` | CONSTRUIT |
-| Worker | `apps/worker` (aucun handler métier) | SQUELETTE |
-| Web | `apps/web` (page statique) | SQUELETTE |
-| Provider Recall réel | — | NON CONSTRUIT (`ProviderNotConfiguredError`) |
-| Démo déterministe | `/dev/demo/transcript`, `MockMeetingProvider` (MOCK_MODE) | SIMULÉ |
+| Invariant « aucun participant » (flag + garde AST + CI) | `packages/core/src/{features,env}.ts`, `scripts/forbid-bot-join.mjs` | **CONSTRUIT, testé** |
+| Monorepo pnpm, TS strict, CI | `.github/workflows/ci.yml` | CONSTRUIT |
+| PostgreSQL, migrations up/down, jobs/outbox durables, kill -9 | `db/`, `scripts/crash-recovery.sh` | CONSTRUIT (pas de RLS, tables v0.2 absentes) |
+| Auth produit web (lien magique), sessions, guard, IDOR/CSRF | `services/api`, `apps/web` | CONSTRUIT (SMTP réel NON VÉRIFIÉ ; PKCE Mac absent) |
+| Préférences/alias/rétention | `/api/me/preferences`, UI | CONSTRUIT (modèle à étendre, voir `audit.md` §4) |
+| Démo déterministe | `/dev/demo/transcript` (MOCK_MODE) | **SIMULÉ**, étiquetée simulation |
+| Contrats/machine d'états (`packages/contracts`) | — | NON CONSTRUIT (bloc 01) |
+| Compagnon Mac (`apps/mac`) | — | NON CONSTRUIT, **aucun Mac disponible** |
+| Zoom App in-client (`apps/zoom-surface`) | — | NON CONSTRUIT |
+| RTMS Gateway (`services/rtms-gateway`) | — | NON CONSTRUIT |
+| Capture audio/vision macOS, OCR | — | NON CONSTRUIT |
+| STT, moteur d'interpellation, synthèse, devoirs | — | NON CONSTRUIT (`packages/ai` = format de corpus seulement) |
+| Push iPhone / alertes Mac | — | NON CONSTRUIT |
+| Suppression/rétention/consentement par séance | — | NON CONSTRUIT |
+| Zoom réel, Mac réel, iPhone réel | — | **NOT VERIFIED** (gates `REAL-*`) |
 
-## Mise à jour BLOC 02 — identité
+« Non construit » ne signifie pas échec : aucun artefact n'existe encore. Aucun mock n'est présenté comme preuve.
 
-| Portion | Preuve | Statut |
-|---|---|---|
-| Connexion e-mail (lien magique), sessions, logout, révocation | `apps/api/src/auth.ts`, tests d'intégration | CONSTRUIT |
-| Transport e-mail **réel** (SMTP) | `apps/api/src/email.ts` (nodemailer) | CODÉ, **NON VÉRIFIÉ** (aucun serveur SMTP) — gate `REAL-EMAIL` |
-| Préférences, alias, fuseau IANA, rétention, confidentialité notifs | `/api/me/preferences`, UI onboarding/paramètres | CONSTRUIT |
-| Push (abonnement, test, envoi) | — | NON CONSTRUIT : l'UI l'indique, l'onboarding exige l'acceptation « in-app seulement » |
-| Suppression de compte / purge | — | NON CONSTRUIT (affiché comme tel dans Paramètres) |
-| Cours, alertes, devoirs | — | NON CONSTRUIT |
+## Correspondance anciens blocs (v0.0) → nouveaux blocs (v0.2)
+| Ancien travail | Réutilisé pour |
+|---|---|
+| v0.0 B01 (fondation, jobs/outbox) | socle des blocs 02, 06, 12, 17 (le nouveau bloc 01 = contrats/machine d'états reste à faire) |
+| v0.0 B02 (auth web, préférences) | partiel bloc 03 ; modèle de données à compléter au bloc 02 ; **le nouveau bloc 02 (RLS, schéma D2) reste à faire** |
+| Rapports | `reports/legacy/BLOCK_0{0,1,2}_REPORT_v0.0.md` (historique) |

@@ -1,33 +1,27 @@
-# Dépendances externes et documentation officielle
+# Dépendances externes et documentation officielle (V0.2)
 
-Lecture réelle le 14 octobre 2026 (WebFetch). Une page lisible **n'établit aucune autorisation** : aucun compte,
-credential, région, consentement ou appel réel n'existe. Les formes de payload sont à revalider avec des événements
-réellement capturés (PRD §20) ; rien ci-dessous n'est codé comme supposition.
+Lecture réelle le 14 octobre 2026 (WebFetch des pages listées au PRD §L). Une page lisible **n'établit aucune autorisation** : aucun compte Zoom RTMS, credential, Mac ou iPhone n'est disponible. Les formes de payload ci-dessous sont à revalider avec des événements réellement capturés ; rien n'est codé sur supposition.
 
-## Recall.ai
-| Sujet | Champs relevés (source) | État |
+## Zoom RTMS (source principale quand autorisée)
+| Sujet (page) | Faits relevés | À retenir / écart |
 |---|---|---|
-| Signature webhooks (`/docs/authenticating-requests-from-recallai`) | en-têtes `webhook-id`, `webhook-timestamp`, `webhook-signature` ; hérités Svix `svix-*` (comptes créés avant 15/12/2025 pour les webhooks async) ; chaîne signée `{id}.{timestamp}.{raw body}` ; HMAC-SHA256 base64 ; entrées `v1,<b64>` séparées par espace ; secret préfixé `whsec_` (partie après préfixe = base64 → clé) ; **aucune tolérance temporelle documentée** (à imposer côté serveur, PRD §10-29) ; rotation : ancien secret valide 24 h, max 9 secrets ; temps réel et WebSocket utilisent toujours le secret d'espace de travail | NOT VERIFIED (aucun secret) |
-| Bot temps réel (`/docs/bot-real-time-transcription`) | `meeting_url` ; `recording_config.transcript.provider` (`deepgram_streaming`, `recallai_streaming`, …) ; `recording_config.realtime_endpoints[] {type:"webhook", url, events[]}` ; événements `transcript.data`, `transcript.partial_data`, `participant_events.speech_on/off` ; diarisation `use_separate_streams_when_available` (coût ≈1,8× si chevauchement) ; payload `transcript.data` : `data.data.words[]{text,start_timestamp.relative,end_timestamp.relative}`, `data.data.participant{id,name,is_host,…}`, `data.data.language_code`, `data.bot.id/metadata`, `data.transcript.id` | NOT VERIFIED |
-| Retries temps réel (`/docs/real-time-webhook-endpoints`) | non-2xx/erreur réseau ⇒ retry fixe 1 s, 60 max, puis endpoint `failed` sans reprise manuelle ; aucun événement après `done` ⇒ besoin de DLQ/état dégradé (E07) | NOT VERIFIED |
-| Lifecycle (`/docs/bot-status-change-events`) | `bot.joining_call`, `bot.in_waiting_room`, `bot.in_call_not_recording`, `bot.recording_permission_allowed/denied` (+`sub_code`), `bot.in_call_recording`, `bot.call_ended`, `bot.done`, `bot.fatal` ; payload `data.data{code,sub_code,updated_at}`, `data.bot.id` ; codes non figés : gérer l'inconnu | NOT VERIFIED |
-| Consentement Zoom (`/v1.10/docs/zoom-recording-consent`) | l'hôte doit autoriser (« Record to computer files ») ; consentement manuel ou OAuth Zoom/Join Token ; `recording_permission_denied` sous-codes `zoom_local_recording_disabled`, `…_request_disabled`, `…_request_disabled_by_host` ; hôte absent ⇒ pas d'événement, reste `in_call_not_recording` | NOT VERIFIED |
-| Création de bot / `join_at`, Deepgram multi (`/docs/deepgram`, `/docs/agent-quickstarts`) | **non relus dans ce bloc** | À RELIRE (BLOC bot) |
+| Flux (`work-with-streams`) | webhooks `meeting.rtms_started` / `meeting.rtms_stopped` (idem `webinar.*`) ; démarrage : auto-start (compte/groupe/utilisateur), `startRTMS()` du JS SDK, ou REST « Update participant RTMS app status » ; signalisation puis média en WebSocket ; signature HMAC-SHA256 sur `client_id,meeting_uuid,rtms_stream_id` clé = client secret ; keep-alive serveur toutes les 10 s, **3 sans réponse ⇒ coupure** ; états INACTIVE/INITIALIZE/STARTED/PAUSED/RESUMED/STOPPED ; 80 req/s/compte (429) | Chaque stream = 1 concurrent ; pas de règles de reconnexion sur cette page (renvoi à « Failover and reconnection ») |
+| Médias (`media`) | audio PCM L16 16 kHz mono, paquets 20 ms (jusqu'à 1000 ms), **par participant** (`user_id`) + flux fusionné `user_id` 0 ; **aucun paquet quand le participant est muet** ; 60 s d'audio bufferisées après `rtms_started` ; vidéo JPG/PNG ≤5 fps ou H.264 ≤30 fps (active speaker) ; **partage d'écran** msg_type 16 (JPG/PNG ≤1 fps, H.264 ≤30 fps) ; transcript texte avec `user_id`, `user_name`, `start_time`, `end_time`, `language` (code numérique), diarisation par participant ; détection de langue 10–30 s | La page `work-with-streams` ne mentionne ni partage ni chat, la page `media` décrit le partage : **chat non confirmé** → ne pas le promettre |
+| Contrôles hôte/admin (`ux-host-admin-tools-ctrls`) | admins activent « Share realtime meeting content with apps » (compte/groupe/utilisateur) ; hôte active le partage dans *Host tools* et décide si les participants doivent demander l'approbation | La page **ne décrit pas** les indicateurs visibles par les participants ni comment l'hôte refuse une demande individuelle |
+| Démarrage (`add-features`) | `startRTMS`/`stopRTMS` : Zoom App « in-meeting surface », Zoom Desktop **≥ 6.5.5** ; REST `PATCH /live_meetings/{meetingId}/rtms_app/status`, scope `meeting:update:participant_rtms_app_status` ; préconditions : participant **invité nommément** (pas lien partagé) **et déjà dans la réunion** ; scopes média ex. `meeting:read:meeting_audio`, `meeting:read:meeting_transcript` (non optionnels, scopes granulaires, app « user-managed ») | **Écart** : cette page nomme les événements `postmeeting.rtms_started/stopped` alors que `work-with-streams` dit `meeting.rtms_started/stopped` → à trancher par un événement réel (bloc 06) |
+| SDK (`sdk`) | paquet `@zoom/rtms` ; variables `ZM_RTMS_CLIENT`, `ZM_RTMS_SECRET` ; `rtms.onWebhookEvent`, `client.join({meeting_uuid, rtms_stream_id, server_urls})`, `onAudioData` | Versions Node supportées, validation de signature de webhook, gestion transcript/vidéo en Node : **non documentées sur cette page** |
+| Dépannage (`troubleshooting`) | erreur **2308** (non hôte / invité anonyme), **2310** (pas de Developer Pack / compte Basic), limite de streams (essai 5, Pack 2 000), `stop_reason` 10–19 et 24 = coupure à reconnecter, transcript perdu après passage en audio téléphone, fermeture « Close current app » sans callback | **RTMS non supporté sur compte Basic ; Developer Pack requis** : prérequis financier du gate `REAL-ZOOM-RTMS` ; démarrage par l'hôte/alternate host (2308) — contraint le cas « cours externe » |
+| Meeting SDK macOS | la page ne mentionne pas les bots ; bandeau : dès le **2 mars 2026**, les apps qui rejoignent des réunions hors de leur compte doivent être autorisées (ZAK, OBF ou RTMS) | Meeting SDK **non utilisé** (invariant I-1) |
 
-## Zoom
-- RTMS (`/docs/rtms/meetings/getting-started/`) : Developer Pack + crédits, 2 000 flux simultanés par défaut, démarrage
-  auto/API/Zoom Apps SDK. **Hors V0** (PRD-ADR-01). Noms de scopes non listés sur cette page.
-- Meeting SDK (`/docs/meeting-sdk/`) : la page **ne mentionne pas** les bots ; bandeau : dès le 2 mars 2026 les apps rejoignant
-  des réunions hors de leur compte doivent être autorisées (ZAK, OBF ou RTMS). Le PRD parle d'un « non prévu pour les bots » :
-  **non confirmé par la page lue**. Gate `REAL-ZOOM` : NOT VERIFIED.
+## Apple
+- **ScreenCaptureKit** : la page développeur n'a **pas été servie** à l'outil ; classes (`SCStream`, `SCContentFilter`, `SCContentSharingPicker` macOS 14+), audio macOS 13+, micro macOS 15+ : connaissance générale **NON VÉRIFIÉE**, à valider sur un Mac (bloc 07). Le PRD vise macOS 15+ « à valider ».
+- **Web Push iOS** (billet WebKit 13878, lu) : iOS/iPadOS **16.4+**, uniquement pour une web app **ajoutée à l'écran d'accueil** (manifest `display: standalone|fullscreen`), permission demandée sur **geste utilisateur**, Push/Notifications/Service Worker standards, livraison via APNs, **Focus respecté** ; le billet ne parle pas de VAPID ni de push silencieux → VAPID à vérifier sur appareil réel.
 
-## Apple Web Push
-- La page développeur Apple (`sending-web-push-notifications-in-web-apps-and-browsers`) n'a **pas pu être lue** (contenu
-  non servi à l'outil). Les exigences iOS (≥16.4, écran d'accueil, geste utilisateur, VAPID, manifest standalone) sont de la
-  connaissance générale **non vérifiée** ici. À revalider sur un iPhone physique. `REAL-PUSH` : NOT VERIFIED.
+## Non évalués (blocs ultérieurs)
+STT (fournisseur FR/EN, région, sous-traitance), LLM (modèle/région/coût), hébergeur, SMTP (lien magique). Contrats et régions non vérifiés (PRD v0.0 §10-33 toujours applicable).
 
-## Autres (non évalués)
-Deepgram (région/sous-traitance), LLM (modèle/région), hébergeur, fournisseur d'email : choix et contrats non faits (PRD §10-33).
+## Retiré
+Recall.ai (bot participant) : section supprimée de la liste active ; notes conservées dans `docs/archive/`.
 
 ## Secrets
-Aucun secret n'est présent dans le dépôt ni dans l'environnement de session. Les clés ne doivent jamais être fournies via prompt.
+Aucun secret dans le dépôt ni l'environnement de session. Les clés ne se fournissent jamais par prompt.

@@ -25,8 +25,8 @@ for (const f of walk('apps/web/.next/static')) {
 check(true, 'web client bundle (.next/static) contains no secret names, sentinel or demo route');
 
 // 2) Production API refuses MOCK_MODE=true.
-const baseEnv = { PATH: process.env.PATH, APP_ENV: 'production', DATABASE_URL: DB, HEALTH_TOKEN: SENTINEL, AUTH_SECRET: SENTINEL + 'AUTH', EMAIL_TRANSPORT: 'smtp', SMTP_URL: 'smtp://user:pw@127.0.0.1:2525', EMAIL_FROM: 'Assistant IA <no-reply@example.test>', PUBLIC_WEB_ORIGIN: 'https://app.example.test', API_PORT: '4555', MIGRATIONS_DIR: 'packages/db/drizzle', LOG_LEVEL: 'silent' };
-const run = (env) => spawn('node', ['apps/api/dist/server.js'], { env, stdio: ['ignore', 'pipe', 'pipe'] });
+const baseEnv = { PATH: process.env.PATH, APP_ENV: 'production', DATABASE_URL: DB, HEALTH_TOKEN: SENTINEL, AUTH_SECRET: SENTINEL + 'AUTH', EMAIL_TRANSPORT: 'smtp', SMTP_URL: 'smtp://user:pw@127.0.0.1:2525', EMAIL_FROM: 'Assistant IA <no-reply@example.test>', PUBLIC_WEB_ORIGIN: 'https://app.example.test', API_PORT: '4555', MIGRATIONS_DIR: 'db/drizzle', LOG_LEVEL: 'silent' };
+const run = (env) => spawn('node', ['services/api/dist/server.js'], { env, stdio: ['ignore', 'pipe', 'pipe'] });
 
 const bad = run({ ...baseEnv, MOCK_MODE: 'true' });
 let badErr = '';

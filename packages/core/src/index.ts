@@ -5,3 +5,5 @@ export * from './logger';
 export * from './contracts/v1';
 export * from './alias';
 export * from './contracts/preferences';
+export * from './demo-fixture';
+export * from './features';

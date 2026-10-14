@@ -13,8 +13,8 @@ export function resolveMigrationsDir(explicit?: string): string {
     explicit,
     process.env.MIGRATIONS_DIR,
     join(dirname(fileURLToPath(import.meta.url)), '..', 'drizzle'),
-    resolve(process.cwd(), 'packages/db/drizzle'),
-    resolve(process.cwd(), '../../packages/db/drizzle'),
+    resolve(process.cwd(), 'db/drizzle'),
+    resolve(process.cwd(), '../../db/drizzle'),
   ].filter((c): c is string => !!c);
   const found = candidates.find((c) => existsSync(join(c, 'meta', '_journal.json')));
   if (!found) throw new Error('Migrations folder not found (set MIGRATIONS_DIR)');

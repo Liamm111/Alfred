@@ -1,4 +1,4 @@
-import { claim, createDb } from '../packages/db/src/index';
+import { claim, createDb } from '../db/src/index';
 
 const h = createDb(process.env.DATABASE_URL ?? '');
 const j = await claim(h.db, { workerId: 'post-crash', leaseMs: 1000 });
