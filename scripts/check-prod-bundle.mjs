@@ -25,7 +25,7 @@ for (const f of walk('apps/web/.next/static')) {
 check(true, 'web client bundle (.next/static) contains no secret names, sentinel or demo route');
 
 // 2) Production API refuses MOCK_MODE=true.
-const baseEnv = { PATH: process.env.PATH, APP_ENV: 'production', DATABASE_URL: DB, HEALTH_TOKEN: SENTINEL, PUBLIC_WEB_ORIGIN: 'https://app.example.test', API_PORT: '4555', MIGRATIONS_DIR: 'packages/db/drizzle', LOG_LEVEL: 'silent' };
+const baseEnv = { PATH: process.env.PATH, APP_ENV: 'production', DATABASE_URL: DB, HEALTH_TOKEN: SENTINEL, AUTH_SECRET: SENTINEL + 'AUTH', EMAIL_TRANSPORT: 'smtp', SMTP_URL: 'smtp://user:pw@127.0.0.1:2525', EMAIL_FROM: 'Assistant IA <no-reply@example.test>', PUBLIC_WEB_ORIGIN: 'https://app.example.test', API_PORT: '4555', MIGRATIONS_DIR: 'packages/db/drizzle', LOG_LEVEL: 'silent' };
 const run = (env) => spawn('node', ['apps/api/dist/server.js'], { env, stdio: ['ignore', 'pipe', 'pipe'] });
 
 const bad = run({ ...baseEnv, MOCK_MODE: 'true' });
@@ -47,6 +47,7 @@ for (let i = 0; i < 50 && !up; i++) {
 check(up, `built API (production) starts on migrated DB${up ? '' : ': ' + out}`);
 if (up) {
   check((await fetch(`${base}/dev/demo/transcript`)).status === 404, 'production API: /dev/demo/transcript => 404');
+  check((await fetch(`${base}/api/me`)).status === 401, 'production API: /api/me without session => 401');
   check((await fetch(`${base}/health/ready`)).status === 401, 'production API: /health/ready without token => 401');
   const r = await fetch(`${base}/health/ready`, { headers: { authorization: `Bearer ${SENTINEL}` } });
   const j = await r.json();
@@ -54,6 +55,11 @@ if (up) {
   const t = JSON.stringify(j);
   check(!t.includes(SENTINEL) && !t.includes('postgres://'), 'ready payload leaks no secret/DSN');
 }
+// File mail transport (writes magic links to disk) must be impossible in production.
+const fileMail = run({ ...baseEnv, MOCK_MODE: 'false', EMAIL_TRANSPORT: 'file', EMAIL_OUTBOX_DIR: '/tmp/x', API_PORT: '4556' });
+let fileErr = '';
+fileMail.stderr.on('data', (d) => (fileErr += d));
+check((await waitExit(fileMail)) !== 0 && /EMAIL_TRANSPORT/.test(fileErr), 'production API refuses EMAIL_TRANSPORT=file');
 good.kill('SIGTERM');
 await waitExit(good);
 

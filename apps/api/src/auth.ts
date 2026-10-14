@@ -55,6 +55,7 @@ export function createAuth({ env, db, mailer = createEmailSender(env), throttle 
       useSecureCookies: secure,
       defaultCookieAttributes: { httpOnly: true, sameSite: 'lax', secure, path: '/' },
       database: { generateId: 'uuid' },
+      ipAddress: { ipAddressHeaders: ['x-client-ip'] },
       // Explicit: the library silently disables both checks when NODE_ENV=test; tests must exercise production behaviour.
       disableOriginCheck: false,
       disableCSRFCheck: false,

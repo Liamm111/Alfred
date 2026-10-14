@@ -55,18 +55,18 @@ Source : PRD §13 (copié verbatim pour ID/gravité/scénario). Les blocs ≥03 
 | S08 | P1 | Rapport/devoirs | Synthèse 2h tronquée par tokens | ≥03 (Rapport/devoirs) | map-reduce + coverage checks | NON COUVERT |
 | S09 | P1 | Rapport/devoirs | Rapport « complet » sur flux partiel | ≥03 (Rapport/devoirs) | coverage state + gate completed_partial | NON COUVERT |
 | S10 | P1 | Rapport/devoirs | Résumé provisoire remplace rapport final | ≥03 (Rapport/devoirs) | immutabilité par version, CAS | NON COUVERT |
-| Q01 | P0 | Sécurité/vie privée | Accès aux cours d'un autre compte via UUID | 02 | tests IDOR/401 `apps/api/test/*.integration.test.ts` | NON COUVERT |
+| Q01 | P0 | Sécurité/vie privée | Accès aux cours d'un autre compte via UUID | 02 (+ chaque bloc métier) | tests IDOR/401 `apps/api/test/*.integration.test.ts` | PARTIEL (B02) — `apps/api/test/auth.integration.test.ts` (401 sur toutes les routes privées, IDOR sessions, isolation préférences) ; reste : cours/alertes/devoirs quand ils existeront |
 | Q02 | P0 | Sécurité/vie privée | Clés Recall/LLM exposées au client | 01 | `pnpm secrets:scan` + test bundle web | PARTIEL (B01) — `scripts/secrets-scan.mjs`, `scripts/check-prod-bundle.mjs` ; reste : clés réelles Recall/LLM |
 | Q03 | P0 | Sécurité/vie privée | Transcription personnelle dans logs/erreurs | 01 | test logger expurgé `packages/core` | PARTIEL (B01) — `packages/core/test/logger.test.ts` ; reste : inspection des logs des blocs métier |
 | Q04 | P1 | Sécurité/vie privée | Suppression de cours mais jobs ressuscitent données | ≥03 (Sécurité/vie privée) | tombstones/version + purge test | NON COUVERT |
 | Q05 | P1 | Sécurité/vie privée | Webhook provider reconstruit données supprimées | ≥03 (Sécurité/vie privée) | tombstone denylist/expiry, delete replay test | NON COUVERT |
 | Q06 | P1 | Sécurité/vie privée | Texte du cours commande au LLM d'exfiltrer | ≥03 (Sécurité/vie privée) | untrusted boundary, pas de tools, injection eval | NON COUVERT |
-| Q07 | P1 | Sécurité/vie privée | Prompt export HTML/XSS via nom d'intervenant | ≥03 (Sécurité/vie privée) | escaping côté UI, CSP, tests XSS | NON COUVERT |
+| Q07 | P1 | Sécurité/vie privée | Prompt export HTML/XSS via nom d'intervenant | ≥03 (Sécurité/vie privée) | escaping côté UI, CSP, tests XSS | PARTIEL (B02) — alias restreints (pas de balisage/bidi, `packages/core/test/alias.test.ts`) + React échappe ; reste : CSP + noms d'intervenants |
 | Q08 | P1 | Sécurité/vie privée | Incohérence rétention app/Recall | ≥03 (Sécurité/vie privée) | purge contract, fournisseurs audités et limitation explicitée | NON COUVERT |
 | O01 | P1 | Opérations | Déploiement sans migration | 01 | test readiness schéma `apps/api` | COUVERT (B01) — `apps/api/test/ready.integration.test.ts`, démarrage API/worker via `assertSchemaUpToDate` |
 | O02 | P1 | Opérations | Worker redémarre au milieu du cours | 01 (primitive jobs) + worker métier ultérieur | test lease/crash `packages/db` | PARTIEL (B01) — `packages/db/test/jobs.integration.test.ts`, `apps/worker/test/runner.integration.test.ts`, `scripts/crash-recovery.sh` ; reste : chaos sur worker métier |
 | O03 | P1 | Opérations | LLM en surcharge bloque l'ingestion | ≥03 (Opérations) | queue séparation et circuit breaker | NON COUVERT |
 | O04 | P1 | Opérations | Bogue de production invisible jusqu'au prochain cours | 01 (healthchecks) + observabilité ultérieure | test `/health/*` `apps/api` | PARTIEL (B01) — `/health/live`, `/health/ready` ; reste : métriques/Sentry |
-| O05 | P1 | Opérations | Test « tout vert » car tout mocké | 00 (gates) + gate REAL-ZOOM | `docs/RELEASE_GATES.md` : gates REAL-* NOT VERIFIED | PARTIEL (B00/B01) — gates REAL-* NOT VERIFIED ; MOCK_MODE interdit en prod (`packages/core/test/env.test.ts`, `scripts/check-prod-bundle.mjs`) |
+| O05 | P1 | Opérations | Test « tout vert » car tout mocké | 00 (gates) + gate REAL-ZOOM | `docs/RELEASE_GATES.md` : gates REAL-* NOT VERIFIED | PARTIEL (B00–B02) — gates REAL-* NOT VERIFIED ; MOCK_MODE interdit en prod ; aucun « mock auth » (test d'en-têtes d'identité forgés) |
 
 Total P0/P1 : 64 lignes.

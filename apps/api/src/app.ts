@@ -40,7 +40,7 @@ export async function buildApp(deps: AppDeps): Promise<FastifyInstance> {
     genReqId: (req) => resolveRequestId(req.headers['x-request-id']),
     logController: new LogController({ requestIdLogLabel: 'requestId', disableRequestLogging: true }),
     bodyLimit: 1024 * 1024,
-    trustProxy: deps.env.APP_ENV === 'production',
+    trustProxy: deps.env.TRUST_PROXY_HOPS > 0 ? (_addr: string, hop: number) => hop < deps.env.TRUST_PROXY_HOPS : false,
   });
   app.decorate('deps', deps);
   // Route inventory (used by tests to prove every private /api route is guarded).

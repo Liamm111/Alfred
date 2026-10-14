@@ -21,6 +21,8 @@ const baseSchema = z.object({
   EMAIL_FROM: z.string().min(3).default('Assistant IA <no-reply@localhost>'),
   EMAIL_OUTBOX_DIR: z.string().optional(),
   SMTP_URL: z.string().optional(),
+  /** Number of trusted reverse-proxy hops in front of the API (0 = ignore X-Forwarded-For). Needed for per-client rate limits. */
+  TRUST_PROXY_HOPS: z.coerce.number().int().min(0).max(5).default(0),
   AUTH_MAGIC_LINK_MAX_PER_MIN: z.coerce.number().int().min(1).default(5),
   WORKER_POLL_MS: z.coerce.number().int().min(10).default(1000),
   WORKER_LEASE_MS: z.coerce.number().int().min(1000).default(60_000),

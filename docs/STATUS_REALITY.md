@@ -51,3 +51,14 @@ système, d'outils, de secrets ni d'actions externes déclenchés par leur conte
 | Web | `apps/web` (page statique) | SQUELETTE |
 | Provider Recall réel | — | NON CONSTRUIT (`ProviderNotConfiguredError`) |
 | Démo déterministe | `/dev/demo/transcript`, `MockMeetingProvider` (MOCK_MODE) | SIMULÉ |
+
+## Mise à jour BLOC 02 — identité
+
+| Portion | Preuve | Statut |
+|---|---|---|
+| Connexion e-mail (lien magique), sessions, logout, révocation | `apps/api/src/auth.ts`, tests d'intégration | CONSTRUIT |
+| Transport e-mail **réel** (SMTP) | `apps/api/src/email.ts` (nodemailer) | CODÉ, **NON VÉRIFIÉ** (aucun serveur SMTP) — gate `REAL-EMAIL` |
+| Préférences, alias, fuseau IANA, rétention, confidentialité notifs | `/api/me/preferences`, UI onboarding/paramètres | CONSTRUIT |
+| Push (abonnement, test, envoi) | — | NON CONSTRUIT : l'UI l'indique, l'onboarding exige l'acceptation « in-app seulement » |
+| Suppression de compte / purge | — | NON CONSTRUIT (affiché comme tel dans Paramètres) |
+| Cours, alertes, devoirs | — | NON CONSTRUIT |

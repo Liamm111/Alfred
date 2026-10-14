@@ -10,9 +10,12 @@ export const authRoutes: FastifyPluginAsync = async (app) => {
     handler: async (req, reply) => {
       const url = new URL(req.url, app.deps.env.PUBLIC_WEB_ORIGIN);
       const hasBody = req.method !== 'GET' && req.body !== undefined && req.body !== null;
+      // Client IP for the auth library's rate limiter: always OUR resolved value (Fastify trustProxy), never a client-sent header.
+      const headers = toHeaders(req.headers);
+      headers.set('x-client-ip', req.ip);
       const request = new Request(url, {
         method: req.method,
-        headers: toHeaders(req.headers),
+        headers,
         ...(hasBody ? { body: JSON.stringify(req.body) } : {}),
       });
       let res: Response;

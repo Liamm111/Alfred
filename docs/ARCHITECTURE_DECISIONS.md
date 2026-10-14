@@ -35,3 +35,20 @@ Les ADR-01…07 du PRD §18 sont **figées** ; elles sont reprises ci-dessous et
   backoff exponentiel ; `dead` après `max_attempts` (y compris crashs répétés). Seul un **code d'erreur** est stocké, jamais un message.
 - **ADR-009 — Démo déterministe = simulation, jamais en prod.** Routes `/dev/demo/*` et `MockMeetingProvider` n'existent que si `MOCK_MODE=true`
   (impossible avec `APP_ENV=production`) ; la factory de provider échoue bruyamment sinon. Aucun prototype antérieur n'existait à « porter ».
+
+## ADR du BLOC 02
+- **ADR-010 — Auth : Better Auth (plugin magic-link) sur Fastify, Drizzle/Postgres.** Bibliothèque éprouvée, sessions serveur en base
+  (`auth_sessions`), cookie `alfred.session_token` HttpOnly + SameSite=Lax (+ Secure en https). Pas de mot de passe. Jeton de lien **haché**
+  en base, usage unique, 15 min ; session 30 j glissante (le jeton de session est neuf à chaque connexion ; la révocation est immédiate car pas de cache de cookie).
+  Les vérifications Origin/CSRF de la bibliothèque sont **forcées** (`disableOriginCheck/CSRFCheck:false`) car elle les coupe silencieusement
+  quand `NODE_ENV=test` — un test l'a révélé (open-redirect non refusé).
+- **ADR-011 — Autorisation fail-closed.** `makeRequireUser` est le seul producteur d'identité ; les routes privées sont enregistrées dans un plugin
+  dont le hook `preHandler` l'impose ; tout le scope par `userId` de la session (jamais un id client) ; ressources enfants filtrées par propriétaire dans le `WHERE`
+  (404 identique pour inconnu/étranger). Un test énumère `routeLog` et exige 401 sur chaque route `/api/*` privée.
+- **ADR-012 — CSRF de défense en profondeur.** Toute requête non-GET sur `/api/*` doit porter `Origin == PUBLIC_WEB_ORIGIN`.
+- **ADR-013 — Pas d'énumération de comptes ni de mail-bombing.** Réponse identique que l'envoi ait eu lieu ou non ; plafond 3 mails / 10 min / destinataire
+  (mémoire, instance unique) + limite par client IP (IP résolue côté serveur via `TRUST_PROXY_HOPS`, jamais un en-tête client).
+- **ADR-014 — Onboarding honnête sur le Push.** Tant qu'aucun abonnement Push n'est vérifiable (`hasVerifiedPushSubscription` = false), terminer l'onboarding
+  exige le choix explicite « application ouverte seulement » (PRD §2.1, N01). Le serveur le fait respecter, pas seulement l'UI.
+- **ADR-015 — Aliases.** Stockés `{raw, normalized}` ; normalisation NFKD sans accents/ponctuation/casse ; doublons après normalisation refusés explicitement ;
+  alphabet restreint (pas de balisage, caractères de contrôle/bidi refusés). Pas de correspondance phonétique (T08 : listes contrôlées, plus tard).

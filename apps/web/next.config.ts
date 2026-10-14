@@ -11,7 +11,9 @@ const securityHeaders = [
 ];
 
 const config: NextConfig = {
+  distDir: process.env.NEXT_DIST_DIR ?? '.next',
   reactStrictMode: true,
+  transpilePackages: ['@alfred/core'],
   poweredByHeader: false,
   async rewrites() {
     return [{ source: '/api/:path*', destination: `${API_ORIGIN}/api/:path*` }];
