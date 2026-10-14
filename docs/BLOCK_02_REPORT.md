@@ -23,7 +23,7 @@ Date : 14 octobre 2026.
 | `pnpm test:e2e` (Playwright Chromium, desktop **et** mobile iPhone 13) | PASS 2/2 : parcours complet avec captures (états vides, erreurs, lien expiré, reconnexion) — voir `docs/screens/block02/` |
 | `pnpm check:prod-bundle` | PASS 10/10 (dont `/api/me` anonyme 401, `EMAIL_TRANSPORT=file` refusé en prod) |
 
-CI GitHub du dernier commit : voir la section « CI » ajoutée après le push.
+**CI GitHub Actions** ([run 38614869903](https://github.com/Liamm111/Alfred/actions/runs/38614869903), commit `f27bd36`) : **success** (install gelé, scan secrets, lint, typecheck, tests, migrations up/down/up, intégration, build, e2e Playwright, bundle prod).
 
 ## Bugs trouvés et corrigés pendant le bloc
 - **P1 sécurité** : la bibliothèque désactive silencieusement les contrôles Origin/CSRF quand `NODE_ENV=test` ; un test d'open-redirect l'a révélé. Contrôles forcés + test.
