@@ -54,3 +54,6 @@ Aucun ouvert introduit. Matrice R01–R40 : 38 `NON COUVERT`, 2 `PARTIEL` (R36, 
 
 ## GO / NO-GO
 **GO** pour le BLOC 01 (contrats typés et machine d'états) — il est faisable sans Zoom/Mac/iPhone. Commande suivante : coller le BLOC 01 de `docs/prompts/CODEX_PROMPTS_MASTER.md`. Rien n'est lancé automatiquement.
+
+## CI
+**CI GitHub Actions** ([run 38641452937](https://github.com/Liamm111/Alfred/actions/runs/38641452937), commit `19f4b90`) : **success** (install gelé, scan secrets, `check:no-bot`, lint, typecheck, tests, migrations up/down/up, intégration, build, e2e, bundle prod).
