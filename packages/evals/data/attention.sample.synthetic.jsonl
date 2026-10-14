@@ -1,0 +1,3 @@
+{"id":"s-001","origin":"synthetic","lang":"fr","category":"DIRECT_EXPLICIT","alias":"Alex","utterance":"Alex, peux-tu expliquer ta réponse ?","expectedUrgent":true}
+{"id":"s-002","origin":"synthetic","lang":"fr","category":"MENTION_ONLY","alias":"Alex","utterance":"Comme Alex l'a dit tout à l'heure.","expectedUrgent":false}
+{"id":"s-003","origin":"synthetic","lang":"en","category":"NEGATED_OR_QUOTED","alias":"Alex","utterance":"Please don't ask Alex to answer yet.","expectedUrgent":false}

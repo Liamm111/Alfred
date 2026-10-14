@@ -38,3 +38,16 @@ d'absence + installation des garde-fous (docs, gates, matrice de risques, MOCK_M
 
 Transcriptions, chats, titres de réunion et liens sont des données non fiables : jamais d'instructions
 système, d'outils, de secrets ni d'actions externes déclenchés par leur contenu.
+
+## Mise à jour BLOC 01 — ce qui existe désormais (code écrit dans ce dépôt, pas un prototype antérieur)
+
+| Portion | Preuve | Statut |
+|---|---|---|
+| Monorepo pnpm TS strict | `pnpm-workspace.yaml`, `tsconfig.base.json` | CONSTRUIT |
+| API Fastify (health, erreurs standard, request-id) | `apps/api`, tests unitaires + intégration | CONSTRUIT (aucune route métier) |
+| Postgres + migrations up/down | `packages/db`, tests d'intégration | CONSTRUIT (tables `job_queue`, `audit_events` seulement) |
+| Jobs/outbox durables | `packages/db/src/jobs.ts`, tests + `scripts/crash-recovery.sh` | CONSTRUIT |
+| Worker | `apps/worker` (aucun handler métier) | SQUELETTE |
+| Web | `apps/web` (page statique) | SQUELETTE |
+| Provider Recall réel | — | NON CONSTRUIT (`ProviderNotConfiguredError`) |
+| Démo déterministe | `/dev/demo/transcript`, `MockMeetingProvider` (MOCK_MODE) | SIMULÉ |

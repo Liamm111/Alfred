@@ -22,3 +22,16 @@ Les ADR-01…07 du PRD §18 sont **figées** ; elles sont reprises ci-dessous et
 - **ADR-004 — Web Push (VAPID), pas APNs natif.** Le PRD cible une PWA (§1, §8). La tentative antérieure documentait
   APNs token-based ; hors périmètre V0 et retiré de `DEPENDENCIES.md`.
 - **ADR-005 — Pas de suppression/réécriture du prototype.** Il n'existe pas. `main` (arbre vide) reste la baseline.
+
+## ADR du BLOC 01
+- **ADR-006 — Monorepo pnpm, packages TS « source-exportés ».** `@alfred/core|db|providers|evals` exportent leur source ;
+  `tsx`/`vitest`/Next les consomment directement, `tsup` regroupe les packages `@alfred/*` dans `apps/api|worker/dist`
+  (dépendances tierces externes, donc déclarées dans l'app). Ajout de `@alfred/db` (non listé au PRD §4) pour isoler schéma/migrations/jobs.
+- **ADR-007 — Migrations : Drizzle (up) + `drizzle/down/<tag>.sql` écrits à la main (down).** drizzle-kit ne génère pas de rollback ;
+  `migrateDown` n'exécute que des fichiers down existants et échoue sinon. Aucune migration automatique au démarrage : API/worker
+  **refusent de démarrer** si le schéma est en retard (`assertSchemaUpToDate`, PRD O01).
+- **ADR-008 — `job_queue` = file durable ET outbox transactionnel.** `enqueue(tx, …)` dans la transaction métier ; clé `unique(type, unique_key)` ;
+  claim `FOR UPDATE SKIP LOCKED` avec bail ; jeton de fencing `(locked_by, attempts)` pour rejeter l'ack d'un worker zombie ;
+  backoff exponentiel ; `dead` après `max_attempts` (y compris crashs répétés). Seul un **code d'erreur** est stocké, jamais un message.
+- **ADR-009 — Démo déterministe = simulation, jamais en prod.** Routes `/dev/demo/*` et `MockMeetingProvider` n'existent que si `MOCK_MODE=true`
+  (impossible avec `APP_ENV=production`) ; la factory de provider échoue bruyamment sinon. Aucun prototype antérieur n'existait à « porter ».

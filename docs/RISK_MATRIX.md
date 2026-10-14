@@ -17,7 +17,7 @@ Source : PRD §13 (copié verbatim pour ID/gravité/scénario). Les blocs ≥03 
 | E01 | P0 | Webhooks/événements | Webhook falsifié accepté | ≥03 (Webhooks/événements) | HMAC raw body + signature invalide tests | NON COUVERT |
 | E02 | P0 | Webhooks/événements | Webhook ancien rejoué | ≥03 (Webhooks/événements) | fenêtre temporelle + unique ID base, tests replay | NON COUVERT |
 | E03 | P1 | Webhooks/événements | Payload géant épuise la mémoire | ≥03 (Webhooks/événements) | limite de taille à l'entrée, réponse contrôlée | NON COUVERT |
-| E04 | P0 | Webhooks/événements | Event reçu mais perdu après HTTP 2xx | 01 (primitive outbox) + ingestion ultérieure | test outbox transactionnel `packages/db` (primitive seule) | NON COUVERT |
+| E04 | P0 | Webhooks/événements | Event reçu mais perdu après HTTP 2xx | 01 (primitive outbox) + ingestion ultérieure | test outbox transactionnel `packages/db` (primitive seule) | PARTIEL (B01) — outbox transactionnel + kill -9 Postgres ; reste : endpoint webhook réel |
 | E05 | P1 | Webhooks/événements | Webhook en retry redouble transcriptions | ≥03 (Webhooks/événements) | unique(provider,id), idempotence test | NON COUVERT |
 | E06 | P1 | Webhooks/événements | Event out of order fait reculer état | ≥03 (Webhooks/événements) | state machine monotone + timestamps/version, tests | NON COUVERT |
 | E07 | P0 | Webhooks/événements | Événements ne sont plus livrés après trop d'échecs | ≥03 (Webhooks/événements) | métrique lastEventAt, DLQ, dégradation visible, alarme | NON COUVERT |
@@ -37,7 +37,7 @@ Source : PRD §13 (copié verbatim pour ID/gravité/scénario). Les blocs ≥03 
 | A05 | P1 | Attention/alertes | Consigne de groupe confondue avec question personnelle | ≥03 (Attention/alertes) | assign vs addressed, tests | NON COUVERT |
 | A06 | P1 | Attention/alertes | Reformulation crée 5 push | ≥03 (Attention/alertes) | groupe sémantique temporel, dedupe key | NON COUVERT |
 | A07 | P1 | Attention/alertes | Prompt injection dans la transcription | ≥03 (Attention/alertes) | données non fiables, schema outputs, adversarial tests | NON COUVERT |
-| A08 | P0 | Attention/alertes | L'IA répond oralement au nom de l'étudiant | ≥03 (Attention/alertes) | absence totale de canal output audio, test architecture | NON COUVERT |
+| A08 | P0 | Attention/alertes | L'IA répond oralement au nom de l'étudiant | ≥03 (Attention/alertes) | absence totale de canal output audio, test architecture | PARTIEL (B01) — `packages/providers/test/provider.test.ts` (port sans sortie audio/chat) ; reste : adapter réel |
 | N01 | P0 | Push/notifications | App croit Push actif mais abonnement absent | ≥03 (Push/notifications) | onboarding gate, test subscription/ack | NON COUVERT |
 | N02 | P1 | Push/notifications | Safari iOS non installé PWA → push impossible | ≥03 (Push/notifications) | détection + instructions Add to Home Screen | NON COUVERT |
 | N03 | P1 | Push/notifications | Push service accepte mais téléphone ne voit rien | ≥03 (Push/notifications) | état accepted≠delivered, test device réel | NON COUVERT |
@@ -56,17 +56,17 @@ Source : PRD §13 (copié verbatim pour ID/gravité/scénario). Les blocs ≥03 
 | S09 | P1 | Rapport/devoirs | Rapport « complet » sur flux partiel | ≥03 (Rapport/devoirs) | coverage state + gate completed_partial | NON COUVERT |
 | S10 | P1 | Rapport/devoirs | Résumé provisoire remplace rapport final | ≥03 (Rapport/devoirs) | immutabilité par version, CAS | NON COUVERT |
 | Q01 | P0 | Sécurité/vie privée | Accès aux cours d'un autre compte via UUID | 02 | tests IDOR/401 `apps/api/test/*.integration.test.ts` | NON COUVERT |
-| Q02 | P0 | Sécurité/vie privée | Clés Recall/LLM exposées au client | 01 | `pnpm secrets:scan` + test bundle web | NON COUVERT |
-| Q03 | P0 | Sécurité/vie privée | Transcription personnelle dans logs/erreurs | 01 | test logger expurgé `packages/core` | NON COUVERT |
+| Q02 | P0 | Sécurité/vie privée | Clés Recall/LLM exposées au client | 01 | `pnpm secrets:scan` + test bundle web | PARTIEL (B01) — `scripts/secrets-scan.mjs`, `scripts/check-prod-bundle.mjs` ; reste : clés réelles Recall/LLM |
+| Q03 | P0 | Sécurité/vie privée | Transcription personnelle dans logs/erreurs | 01 | test logger expurgé `packages/core` | PARTIEL (B01) — `packages/core/test/logger.test.ts` ; reste : inspection des logs des blocs métier |
 | Q04 | P1 | Sécurité/vie privée | Suppression de cours mais jobs ressuscitent données | ≥03 (Sécurité/vie privée) | tombstones/version + purge test | NON COUVERT |
 | Q05 | P1 | Sécurité/vie privée | Webhook provider reconstruit données supprimées | ≥03 (Sécurité/vie privée) | tombstone denylist/expiry, delete replay test | NON COUVERT |
 | Q06 | P1 | Sécurité/vie privée | Texte du cours commande au LLM d'exfiltrer | ≥03 (Sécurité/vie privée) | untrusted boundary, pas de tools, injection eval | NON COUVERT |
 | Q07 | P1 | Sécurité/vie privée | Prompt export HTML/XSS via nom d'intervenant | ≥03 (Sécurité/vie privée) | escaping côté UI, CSP, tests XSS | NON COUVERT |
 | Q08 | P1 | Sécurité/vie privée | Incohérence rétention app/Recall | ≥03 (Sécurité/vie privée) | purge contract, fournisseurs audités et limitation explicitée | NON COUVERT |
-| O01 | P1 | Opérations | Déploiement sans migration | 01 | test readiness schéma `apps/api` | NON COUVERT |
-| O02 | P1 | Opérations | Worker redémarre au milieu du cours | 01 (primitive jobs) + worker métier ultérieur | test lease/crash `packages/db` | NON COUVERT |
+| O01 | P1 | Opérations | Déploiement sans migration | 01 | test readiness schéma `apps/api` | COUVERT (B01) — `apps/api/test/ready.integration.test.ts`, démarrage API/worker via `assertSchemaUpToDate` |
+| O02 | P1 | Opérations | Worker redémarre au milieu du cours | 01 (primitive jobs) + worker métier ultérieur | test lease/crash `packages/db` | PARTIEL (B01) — `packages/db/test/jobs.integration.test.ts`, `apps/worker/test/runner.integration.test.ts`, `scripts/crash-recovery.sh` ; reste : chaos sur worker métier |
 | O03 | P1 | Opérations | LLM en surcharge bloque l'ingestion | ≥03 (Opérations) | queue séparation et circuit breaker | NON COUVERT |
-| O04 | P1 | Opérations | Bogue de production invisible jusqu'au prochain cours | 01 (healthchecks) + observabilité ultérieure | test `/health/*` `apps/api` | NON COUVERT |
-| O05 | P1 | Opérations | Test « tout vert » car tout mocké | 00 (gates) + gate REAL-ZOOM | `docs/RELEASE_GATES.md` : gates REAL-* NOT VERIFIED | NON COUVERT |
+| O04 | P1 | Opérations | Bogue de production invisible jusqu'au prochain cours | 01 (healthchecks) + observabilité ultérieure | test `/health/*` `apps/api` | PARTIEL (B01) — `/health/live`, `/health/ready` ; reste : métriques/Sentry |
+| O05 | P1 | Opérations | Test « tout vert » car tout mocké | 00 (gates) + gate REAL-ZOOM | `docs/RELEASE_GATES.md` : gates REAL-* NOT VERIFIED | PARTIEL (B00/B01) — gates REAL-* NOT VERIFIED ; MOCK_MODE interdit en prod (`packages/core/test/env.test.ts`, `scripts/check-prod-bundle.mjs`) |
 
 Total P0/P1 : 64 lignes.
