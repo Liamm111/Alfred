@@ -1,87 +1,42 @@
-# Rapport BLOC 00
+# Rapport BLOC 00 — audit, dépendances réelles, garde-fous
 
-Date d'exécution : 14 octobre 2026 (Europe/Paris).
+Date : 14 octobre 2026. Remplace la tentative antérieure `codex/block-00-audit` (bloquée faute de PRD ; ses livrables ont été conservés et corrigés).
 
 ## Verdict
+**BLOC 00: PASS** — critères du bloc remplis ; cela ne signifie PAS que la V0 est livrée (`REAL-ZOOM`, `REAL-PUSH` : NOT VERIFIED).
 
-**BLOC 00: BLOCKED**
+## Constat principal
+Le « prototype existant » **n'existe pas** : `main` = commit vide `b3efa7e`. Aucune démo, aucun test, aucune migration. L'audit
+conclut à un chantier vert-champ ; il n'y a rien à migrer ni à supprimer (ADR-005).
 
-Les critères structurants échouent parce que le dépôt initial est vide et que
-`PRD_V0_SOURCE_OF_TRUTH.md` manque. Il serait trompeur de déclarer le bloc
-terminé ou de passer au suivant.
-
-## Réellement codé
-
-- garde-fou POSIX validant `APP_ENV` et `MOCK_MODE`, avec refus du mock en
-  production ;
-- sept tests de comportement du garde-fou ;
-- `.env.example` sans secret et avec mock désactivé ;
-- documentation d'état réel, ADR, dépendances et gates ;
-- README explicitant le statut non livré.
-
-Aucune application, intégration fournisseur, migration ou fausse démo n'a été
-créée pour masquer l'absence du prototype.
-
-## Fichiers et migrations
-
-Fichiers ajoutés : `.env.example`, `README.md`,
-`scripts/validate-runtime-mode.sh`, `tests/test-runtime-mode.sh` et les cinq
-documents de `docs/`. Migrations : aucune, car aucun stockage ni schéma
-préexistant n'est disponible.
-
-## État initial et audit
-
-- `origin` : `https://github.com/Liamm111/Alfred.git`.
-- API GitHub observée : dépôt public, taille `0`, branche par défaut déclarée
-  `main`, mais aucune référence retournée par `git ls-remote`.
-- dépôt local initial : branche `work` non née, aucun commit, aucun fichier.
-- conservation : commit vide `b3efa7e` et branche locale
-  `initial-state/block-00` avant ajout des livrables.
-- PRD, `src/`, tests, README, docs historiques et changements précédents :
-  absents ; lecture exhaustive impossible.
+## Réellement fait
+- PRD converti et versionné : `docs/PRD_V0_SOURCE_OF_TRUTH.md` (lu en entier).
+- `docs/STATUS_REALITY.md` (table preuve vs mock), `ARCHITECTURE_DECISIONS.md`, `DEPENDENCIES.md`, `RELEASE_GATES.md`, `RISK_MATRIX.md`.
+- `MOCK_MODE` explicite (`true|false`, défaut `false`), interdit en production : `scripts/validate-runtime-mode.sh`.
+- Documentation officielle relue (Recall ×5, Zoom ×2) ; Apple **illisible** par l'outil (consigné, non inventé).
+- Corrections vs tentative antérieure : APNs natif retiré (hors PRD, ADR-004) ; gates `SOURCE-*`/`DEMO-BOOT`/`EXISTING-TESTS` passent par « absence documentée » ; matrice P0/P1 réelle (64 lignes) au lieu de 7 risques provisoires.
 
 ## Commandes et résultats
+| Commande | Résultat |
+|---|---|
+| `./tests/test-runtime-mode.sh` | PASS 7/7 |
+| `sh -n scripts/validate-runtime-mode.sh` | PASS |
+| démo / tests préexistants | non exécutables : n'existent pas (documenté) |
+| lecture docs Recall/Zoom | OK ; Apple : contenu non servi |
 
-| Vérification | Résultat |
-| --- | --- |
-| inventaire fichiers et Git | `PASS` : absence confirmée |
-| `git ls-remote --symref origin HEAD` | `PASS` technique, sortie vide |
-| métadonnées API GitHub | `PASS` : dépôt de taille `0` |
-| démarrage démo | `BLOCKED` : aucun manifeste ou point d'entrée |
-| tests existants | `BLOCKED` : aucune suite existante |
-| `sh -n scripts/validate-runtime-mode.sh tests/test-runtime-mode.sh` | `PASS` (code 0) |
-| `./tests/test-runtime-mode.sh` | `PASS` (7/7, code 0) |
-| `APP_ENV=production MOCK_MODE=true ./scripts/validate-runtime-mode.sh` | refus attendu, code 78 |
-| `git diff --check` | `PASS` (code 0) |
-| lecture docs officielles Recall/Zoom/Apple par HTTPS | `PASS` documentaire uniquement ; aucun appel API authentifié |
-
-## Vérifications sécurité
-
-- aucun secret ni identité fournisseur configuré dans le runtime ;
-- aucun secret ajouté au dépôt ;
-- `MOCK_MODE` strictement booléen et interdit en production par le validateur ;
-- règles de non-usurpation, consentement, admission et entrées non fiables
-  consignées comme exigences ;
-- aucun appel API fournisseur authentifié ou action externe effectué.
+## Sécurité
+Aucun secret, aucun appel fournisseur authentifié, aucune action externe. `.gitignore` exclut `.env*` (sauf `.env.example`).
 
 ## Bugs P0/P1
+Aucun code applicatif ⇒ les 64 lignes P0/P1 sont `NON COUVERT` (voir `RISK_MATRIX.md`) ; assignées aux blocs 01/02 quand couvrables, sinon « ≥03 ».
 
-Corrigé localement : activation accidentelle du mock en production au niveau du
-validateur autonome. Ouverts : tous les risques applicatifs restent non
-évaluables sans PRD ni application ; voir `docs/RELEASE_GATES.md`. Le validateur
-n'est pas encore raccordé à un point d'entrée inexistant.
+## Limites
+- Les blocs ≥03 ne sont pas définis dans mes consignes : leur numérotation dans la matrice est provisoire.
+- Page Apple Web Push non vérifiée ; pages Recall « création de bot/join_at » et « Deepgram multi » non relues.
+- Le PRD affirme que le Meeting SDK est « non prévu pour les bots » ; la page lue ne le dit pas (noté).
 
-## Gates et limites
+## Gates
+`REAL-ZOOM`, `REAL-PUSH`, `REAL-RECALL/STT/LLM` : **NOT VERIFIED**.
 
-- `INITIAL-STATE`, `STATUS-REALITY`, `MOCK-PROD-GUARD` : `PASS`, preuves
-  locales disponibles et tests exécutés.
-- `SOURCE-PRD`, `SOURCE-PROTOTYPE`, `DEMO-BOOT`, `EXISTING-TESTS` : `BLOCKED`.
-- `REAL-ZOOM`, `REAL-PUSH` : `NOT VERIFIED`.
-- Recall : `NOT VERIFIED`.
-
-## Prochaine étape recommandée
-
-Fournir ou pousser le prototype complet et `PRD_V0_SOURCE_OF_TRUTH.md`, puis
-reprendre le BLOC 00 depuis leur lecture intégrale. Ne pas commencer un bloc
-fonctionnel suivant avant réconciliation de la matrice P0/P1 et audit du code
-réel.
+## Prochaine étape
+BLOC 01 (fondation TS strict/DB/CI), où `MOCK_MODE` est porté dans le schéma d'environnement.
