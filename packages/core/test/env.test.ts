@@ -1,7 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import { EnvError, parseEnv } from '../src/env';
 
-const prod = { APP_ENV: 'production', DATABASE_URL: 'postgres://x', HEALTH_TOKEN: 'h'.repeat(24), PUBLIC_WEB_ORIGIN: 'https://app.example.test' };
+const prod = {
+  APP_ENV: 'production',
+  DATABASE_URL: 'postgres://x',
+  HEALTH_TOKEN: 'h'.repeat(24),
+  PUBLIC_WEB_ORIGIN: 'https://app.example.test',
+  AUTH_SECRET: 'a'.repeat(32),
+  EMAIL_TRANSPORT: 'smtp',
+  SMTP_URL: 'smtp://u:p@mail.example.test:587',
+  EMAIL_FROM: 'Assistant <no-reply@example.test>',
+};
 
 describe('env schema / MOCK_MODE guard', () => {
   it('defaults: development, mock off', () => {
@@ -36,5 +45,20 @@ describe('env schema / MOCK_MODE guard', () => {
     } catch (e) {
       expect((e as Error).message).not.toContain('short-secret-value');
     }
+  });
+});
+
+describe('auth / email env rules', () => {
+  const strict = prod;
+  it('production needs AUTH_SECRET and smtp transport', () => {
+    expect(parseEnv(strict).EMAIL_TRANSPORT).toBe('smtp');
+    expect(() => parseEnv({ ...strict, AUTH_SECRET: undefined })).toThrow(/AUTH_SECRET/);
+    expect(() => parseEnv({ ...strict, EMAIL_TRANSPORT: 'file', EMAIL_OUTBOX_DIR: '/tmp/x' })).toThrow(/EMAIL_TRANSPORT must be smtp/);
+    expect(() => parseEnv({ ...strict, EMAIL_TRANSPORT: 'disabled' })).toThrow(/EMAIL_TRANSPORT/);
+  });
+  it('file transport needs an outbox dir; smtp needs SMTP_URL', () => {
+    expect(() => parseEnv({ EMAIL_TRANSPORT: 'file' })).toThrow(/EMAIL_OUTBOX_DIR/);
+    expect(parseEnv({ EMAIL_TRANSPORT: 'file', EMAIL_OUTBOX_DIR: '/tmp/o' }).EMAIL_TRANSPORT).toBe('file');
+    expect(() => parseEnv({ EMAIL_TRANSPORT: 'smtp' })).toThrow(/SMTP_URL/);
   });
 });

@@ -4,17 +4,26 @@ import { AppError, HTTP_STATUS, resolveRequestId, createLogger, type Env, type E
 import type { Db } from '@alfred/db';
 import { healthRoutes } from './routes/health';
 import { demoRoutes } from './routes/demo';
+import { authRoutes } from './routes/auth';
+import { meRoutes } from './routes/me';
+import { createAuth, type Auth } from './auth';
+import type { EmailSender } from './email';
+import { makeRequireUser } from './guard';
 
 export interface AppDeps {
   env: Env;
   db: Db | null;
   logger?: ReturnType<typeof createLogger>;
+  /** Override the mail transport (tests). Defaults to the one selected by EMAIL_TRANSPORT. */
+  mailer?: EmailSender;
   version?: string;
 }
 
 declare module 'fastify' {
   interface FastifyInstance {
     deps: AppDeps;
+    auth: Auth;
+    routeLog: { method: string; url: string }[];
   }
 }
 
@@ -34,6 +43,10 @@ export async function buildApp(deps: AppDeps): Promise<FastifyInstance> {
     trustProxy: deps.env.APP_ENV === 'production',
   });
   app.decorate('deps', deps);
+  // Route inventory (used by tests to prove every private /api route is guarded).
+  const routeLog: { method: string; url: string }[] = [];
+  app.decorate('routeLog', routeLog);
+  app.addHook('onRoute', (r) => { for (const m of [r.method].flat()) routeLog.push({ method: m, url: r.url }); });
 
   app.addHook('onSend', async (req, reply) => {
     reply.header('x-request-id', req.id);
@@ -59,6 +72,23 @@ export async function buildApp(deps: AppDeps): Promise<FastifyInstance> {
   });
 
   await app.register(healthRoutes);
+
+  if (deps.db) {
+    const auth = createAuth({ env: deps.env, db: deps.db, ...(deps.mailer ? { mailer: deps.mailer } : {}) });
+    app.decorate('auth', auth);
+
+    // CSRF defence in depth (cookies are SameSite=Lax): every state-changing /api request must come from our web origin.
+    app.addHook('onRequest', async (req) => {
+      if (['GET', 'HEAD', 'OPTIONS'].includes(req.method) || !req.url.startsWith('/api/')) return;
+      if (req.headers.origin !== deps.env.PUBLIC_WEB_ORIGIN) throw new AppError('forbidden', 'Origine non autorisée');
+    });
+
+    await app.register(authRoutes);
+    await app.register(async (priv) => {
+      priv.addHook('preHandler', makeRequireUser(app));
+      await priv.register(meRoutes);
+    });
+  }
   // Demo routes exist ONLY in simulation mode, and never in production (env validation already forbids that combination).
   if (deps.env.MOCK_MODE && deps.env.APP_ENV !== 'production') await app.register(demoRoutes, { prefix: '/dev/demo' });
 

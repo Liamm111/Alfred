@@ -60,6 +60,6 @@ describe('demo routes are simulation-only', () => {
     expect(r.json().simulated).toBe(true);
   });
   it('a production app cannot even be configured with mock mode', () => {
-    expect(() => parseEnv({ APP_ENV: 'production', MOCK_MODE: 'true', DATABASE_URL: 'postgres://x', HEALTH_TOKEN: 'h'.repeat(24), PUBLIC_WEB_ORIGIN: 'https://a.test' })).toThrow();
+    expect(() => parseEnv({ APP_ENV: 'production', MOCK_MODE: 'true' })).toThrow(/MOCK_MODE/);
   });
 });

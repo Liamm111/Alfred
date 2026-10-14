@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm';
-import { check, index, integer, jsonb, pgTable, text, timestamp, unique, uuid } from 'drizzle-orm/pg-core';
+import { boolean, check, index, integer, jsonb, pgTable, text, timestamp, unique, uuid } from 'drizzle-orm/pg-core';
 
 /**
  * Durable job queue AND transactional outbox: a producer inserts a row in the SAME transaction as its business write
@@ -46,4 +46,98 @@ export const auditEvents = pgTable(
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   },
   (t) => [index('audit_events_user_idx').on(t.userId, t.createdAt)],
+);
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Identity (BLOC 02). `users` follows PRD §5.1; the extra columns (name, emailVerified, image, updatedAt) and the three
+// auth_* tables are required by the auth library (Better Auth). Property names MUST match the library's field names.
+// ---------------------------------------------------------------------------------------------------------------------
+export const users = pgTable('users', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  email: text('email').notNull().unique(),
+  name: text('name').notNull().default(''),
+  emailVerified: boolean('email_verified').notNull().default(false),
+  image: text('image'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  deletedAt: timestamp('deleted_at', { withTimezone: true }),
+});
+
+export const authSessions = pgTable(
+  'auth_sessions',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    userId: uuid('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+    token: text('token').notNull().unique(),
+    expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
+    ipAddress: text('ip_address'),
+    userAgent: text('user_agent'),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [index('auth_sessions_user_idx').on(t.userId)],
+);
+
+export const authAccounts = pgTable(
+  'auth_accounts',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    userId: uuid('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+    accountId: text('account_id').notNull(),
+    providerId: text('provider_id').notNull(),
+    accessToken: text('access_token'),
+    refreshToken: text('refresh_token'),
+    idToken: text('id_token'),
+    accessTokenExpiresAt: timestamp('access_token_expires_at', { withTimezone: true }),
+    refreshTokenExpiresAt: timestamp('refresh_token_expires_at', { withTimezone: true }),
+    scope: text('scope'),
+    password: text('password'),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [index('auth_accounts_user_idx').on(t.userId)],
+);
+
+export const authVerifications = pgTable(
+  'auth_verifications',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    identifier: text('identifier').notNull(),
+    value: text('value').notNull(),
+    expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [index('auth_verifications_identifier_idx').on(t.identifier)],
+);
+
+export interface StoredAlias { raw: string; normalized: string }
+export interface StoredAlertPreferences {
+  /** 'push_and_in_app' needs a verified push subscription (later block); 'in_app_only' is an explicit user acceptance (PRD §2.1). */
+  mode: 'push_and_in_app' | 'in_app_only';
+  /** discreet = no verbatim on lock screen (PRD N06). */
+  notificationPrivacy: 'discreet' | 'detailed';
+  acceptInAppOnly: boolean;
+}
+
+export const userPreferences = pgTable(
+  'user_preferences',
+  {
+    userId: uuid('user_id').primaryKey().references(() => users.id, { onDelete: 'cascade' }),
+    firstName: text('first_name').notNull().default(''),
+    aliases: jsonb('aliases').$type<StoredAlias[]>().notNull().default([]),
+    locale: text('locale').notNull().default('fr'),
+    summaryLanguage: text('summary_language').notNull().default('fr'),
+    timezone: text('timezone').notNull().default('Europe/Paris'),
+    alertPreferences: jsonb('alert_preferences').$type<StoredAlertPreferences>().notNull(),
+    retentionVerbatimDays: integer('retention_verbatim_days').notNull().default(30),
+    retentionSummaryDays: integer('retention_summary_days').notNull().default(90),
+    onboardingCompletedAt: timestamp('onboarding_completed_at', { withTimezone: true }),
+    version: integer('version').notNull().default(1),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    check('user_preferences_retention_chk', sql`${t.retentionVerbatimDays} between 1 and 365 and ${t.retentionSummaryDays} between 1 and 1095`),
+    check('user_preferences_locale_chk', sql`${t.locale} in ('fr','en')`),
+  ],
 );

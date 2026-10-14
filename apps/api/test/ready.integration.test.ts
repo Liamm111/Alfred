@@ -14,7 +14,7 @@ describe('/health/ready against real Postgres', () => {
     const app = await buildApp({ env: parseEnv({ LOG_LEVEL: 'silent' }), db: h.db });
     const ok = await app.inject('/health/ready');
     expect(ok.statusCode).toBe(200);
-    expect(ok.json()).toMatchObject({ status: 'ok', checks: { database: 'ok', schema: 'ok' }, schemaVersion: '0000_foundation' });
+    expect(ok.json()).toMatchObject({ status: 'ok', checks: { database: 'ok', schema: 'ok' }, schemaVersion: '0001_auth_identity' });
     await h.db.execute(sql`select 1`);
     await migrateDown(h.db, 1);
     const behind = await app.inject('/health/ready');
