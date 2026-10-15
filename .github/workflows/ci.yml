@@ -1,0 +1,28 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  node:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npm ci
+        working-directory: gateway
+      - run: npm test
+        working-directory: gateway
+      - run: npm install
+        working-directory: zoom-app
+      - run: npm test
+        working-directory: zoom-app
+  mac:
+    # This job is what turns BLOC_04 / BLOC_07 from BLOCKED into PASS/FAIL: it compiles the SwiftUI/AppKit/ScreenCaptureKit app.
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - run: swift build -c release
+        working-directory: mac
+      - run: swift test
+        working-directory: mac
+      - run: ./scripts/build_app.sh
+        working-directory: mac

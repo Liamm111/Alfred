@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="alfred-backend" content="https://REPLACE-WITH-YOUR-BACKEND">
+<title>Alfred RTMS</title>
+<style>body{font:14px system-ui;margin:16px}button{padding:6px 12px;margin-right:8px}#status{margin:12px 0;font-weight:600}</style>
+</head><body>
+<h1>Alfred — accès RTMS</h1>
+<p>Démarre le flux média Zoom de <em>cette</em> réunion, sans ajouter de participant. L’hôte doit approuver.</p>
+<label>Code d’association (affiché par l’app Mac) <input id="nonce" maxlength="8" autocomplete="off"></label>
+<div id="status" role="status">Initialisation…</div>
+<button id="start" disabled>Démarrer RTMS</button><button id="stop" disabled>Arrêter</button>
+<script src="https://appssdk.zoom.us/sdk.js"></script>
+<script type="module" src="../src/app.js"></script>
+</body></html>
