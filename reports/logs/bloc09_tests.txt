@@ -1,0 +1,26 @@
+✔ similarité tolère petites divergences STT mais pas des phrases différentes (2.820956ms)
+✔ RTMS préféré : le même énoncé vu par RTMS et Mac n’apparaît qu’une fois, le fallback est tracé (2.467469ms)
+✔ doublons : speakers vérifiés différents ou répétition tardive ne sont PAS fusionnés (0.302307ms)
+✔ doublons audio similaires : fort recouvrement fusionné, faible recouvrement conservé (0.553989ms)
+✔ dérive +1 min, horloge Mac jamais synchronisée : quarantaine, aucun doublon, puis rebase après sync (0.86006ms)
+✔ dérive +1 min avec horloge « synchronisée » à tort : détectée car en avance sur la tête RTMS attestée (0.340146ms)
+✔ dérive −1 min (non détectable par l’horloge) : détectée par appariement de texte puis corrigée (1.108049ms)
+✔ source reconnectée : seq repart, ids restent uniques, le trou est tracé (pas masqué) (0.357135ms)
+✔ fallback local qui comble partiellement un trou RTMS : reste du trou toujours ouvert (0.4707ms)
+✔ changement de source au milieu d’une question : fenêtre continue, bascule signalée, trou signalé, aucun doublon (0.914779ms)
+✔ deux réunions : jamais fusionnées (meeting_id, source liée, merger séparé) (1.488904ms)
+✔ interdiction explicite : pas de bascule fallback ; trou « policy_blocked » jamais présenté comme comblé (0.255551ms)
+✔ provisoire recouvert par le final de la même source : un seul texte (0.167048ms)
+✔ ordre canonique déterministe : mêmes données, ordre d’arrivée mélangé → même timeline (5.375042ms)
+✔ cache/replay borné : débordement tracé, isolation par réunion, reprise partielle idempotente (2.724268ms)
+✔ borne en octets (3.75504ms)
+✔ perf 3 h : 2 sources × ~3 600 énoncés fusionnés < 5 s (423.185006ms)
+✔ timebase média : offsets UTC et temps média cohérents, horloge source corrigée (0.315343ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 641.776016

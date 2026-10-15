@@ -35,3 +35,11 @@ export function clockSkewSuspect(utcEndMs: number, receivedUtcMs: number, tolera
   const lag = receivedUtcMs - utcEndMs; // événement très ancien (hors rattrapage connu)
   return lead > toleranceMs || lag > maxLatencyMs;
 }
+
+/** Timebase média : ms depuis le début de la réunion, ancrée sur un instant UTC de référence (début RTMS attesté). */
+export class MediaTimebase {
+  readonly anchorUtcMs: number;
+  constructor(anchorUtcMs: number) { this.anchorUtcMs = anchorUtcMs; }
+  toMedia(utcMs: number): number { return utcMs - this.anchorUtcMs; }
+  toUtc(mediaMs: number): number { return mediaMs + this.anchorUtcMs; }
+}
