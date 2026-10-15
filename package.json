@@ -1,0 +1,14 @@
+{
+  "name": "alfred",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "node --disable-warning=ExperimentalWarning --test \"tests/*.test.ts\"",
+    "check": "npm run typecheck && npm test"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "typescript": "^7.0.2"
+  }
+}
