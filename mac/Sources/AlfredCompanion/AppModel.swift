@@ -82,9 +82,9 @@ final class AppModel: ObservableObject {
     }
 
     private func startObservers() {
-        controller.onChange = { [weak self] in Task { @MainActor in self?.refresh() } }
-        lifecycle = LifecycleObserver { [weak self] e in Task { @MainActor in self?.controller.handle(e) } }
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in Task { @MainActor in self?.refresh() } }
+        controller.onChange = { [weak self] in Task { @MainActor [weak self] in self?.refresh() } }
+        lifecycle = LifecycleObserver { [weak self] e in Task { @MainActor [weak self] in self?.controller.handle(e) } }
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in Task { @MainActor [weak self] in self?.refresh() } }
         Task { await reloadChoices() }
     }
 
@@ -122,7 +122,7 @@ final class AppModel: ObservableObject {
     func stop(from src: String) { controller.stop(by: UserAction(source: src)) }
     func stopAll(from src: String) { controller.stopAll(by: UserAction(source: src)) }
     func openZoom(from src: String) { focus.focusZoom(UserAction(source: src)) }
-    func request(_ k: PermissionKind) { permissions.request(k) { [weak self] _ in Task { @MainActor in self?.refresh(); await self?.reloadChoices() } } }
+    func request(_ k: PermissionKind) { permissions.request(k) { [weak self] _ in Task { @MainActor [weak self] in self?.refresh(); await self?.reloadChoices() } } }
     func openSettings(_ k: PermissionKind) {
         let pane = k == .screenRecording ? "Privacy_ScreenCapture" : "Privacy_Microphone"
         NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.preference.security?\(pane)")!)
