@@ -1,6 +1,8 @@
 # BLOC 07 — Capture audio native macOS autorisée
 
-**Verdict : BLOCKED (adaptateur ScreenCaptureKit non compilé ni exécuté ; aucune validation manuelle) · pipeline Core : PASS sur fixtures** · **GO/NO-GO : NO-GO.**
+**Verdict : PARTIAL — pipeline Core PASS (Linux et macOS), adaptateur ScreenCaptureKit COMPILE (CI macOS) mais jamais exécuté ; validation matérielle BLOCKED** · **GO/NO-GO : NO-GO.**
+
+**Mise à jour (PR Liamm111/Alfred#3) :** le job CI `mac` est vert (commit `d70ad81`) : `AudioSources.swift` compile sur macOS et les 45 tests Swift passent sur macOS. Aucune capture réelle n'a été exécutée (CI sans Zoom, sans audio, sans permission Screen Recording) ; isolation, AirPods, changement de sortie et STOP réel restent à mesurer (`mac/MANUAL_MAC_ZOOM.md` §C).
 
 ## Livrables
 | Exigence | Statut | Preuve |

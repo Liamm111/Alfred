@@ -1,6 +1,8 @@
 # BLOC 04 — Compagnon Mac natif SwiftUI
 
-**Verdict global : BLOCKED** (build Mac impossible ici → règle du bloc) · **GO/NO-GO : NO-GO tant que le job CI `mac` n'est pas vert et que MANUAL_MAC_ZOOM §B n'est pas rempli.**
+**Verdict global : PARTIAL — build Mac PASS (CI macos-14), tests UI réels et vérifications manuelles non faites** · **GO/NO-GO : GO conditionnel** (NO-GO produit tant que MANUAL_MAC_ZOOM §B et des XCUITest ne sont pas faits).
+
+**Mise à jour (PR Liamm111/Alfred#3) :** le job CI `mac` (macOS, Swift) est **vert** sur le commit `d70ad81` : `swift build -c release` (cible `AlfredCompanion` comprise), `swift test` (**45 tests, 0 échec sur macOS**) et `scripts/build_app.sh` (bundle `.app` signé ad hoc, hardened runtime, vérification `codesign`). Les deux premiers runs avaient échoué sur de vraies erreurs de compilation (`StateStore` struct, capture de `self`, plist d'entitlements invalide), corrigées. Ni signature Developer ID ni notarisation n'ont été exécutées. Le texte ci‑dessous « BLOCKED / non compilé » décrit l'état avant ce run.
 
 Environnement : Linux x86_64, Swift 6.0.3 (toolchain Linux installée pour l'occasion). Pas de macOS, Xcode, SwiftUI, AppKit ni ScreenCaptureKit.
 
@@ -19,7 +21,7 @@ Environnement : Linux x86_64, Swift 6.0.3 (toolchain Linux installée pour l'occ
 ## Vérifications obligatoires
 | Vérification | Statut | Détail |
 |---|---|---|
-| Build Mac | **BLOCKED** | Aucun macOS. `.github/workflows/ci.yml` job `mac` (macos-14) à exécuter. `Package.swift` exclut la cible app hors macOS. |
+| Build Mac | **PASS (CI)** | Voir mise à jour ci‑dessus. (Avant : aucun macOS local.) `.github/workflows/ci.yml` job `mac` (macos-14) à exécuter. `Package.swift` exclut la cible app hors macOS. |
 | UI : permission refusée | **PARTIEL** | Testé au niveau *état de présentation* (`UIStateTests.testPermissionDeniedShowsSettingsButtonAndDisablesStart`, `testEachPermissionStateHasDistinctMessage`) + `--uitest-permission=denied` prévu pour XCUITest. **Aucun XCUITest écrit ni exécuté** (dette). |
 | UI : stop‑all | **PARTIEL** | `testStopAllAvailableWheneverSomethingRuns` (bouton dispo même si permission révoquée), `testStopAllStopsEverySource…` (audio + micro stoppés, buffer purgé, callbacks tardifs ignorés, idempotent). |
 | UI : redémarrage app | **PARTIEL** | `testRestartNeverResumesCapture` (relance sur même store → Inactif, bannière « interrompue », 0 source créée), `testOnboardingFlagSurvivesRestart`. Pas de test de relance de processus réel. |
