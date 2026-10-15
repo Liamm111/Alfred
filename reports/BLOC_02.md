@@ -40,6 +40,10 @@ Réserves : voir « Dettes » (GUC `app.user_id` modifiable par du SQL arbitrair
 - **Outbox transactionnel** : crash avant commit et violation de contrainte dans la même transaction ⇒ ni changement ni événement.
 - **Tests de mutation** : retirer la RLS de `sessions` fait échouer 3 tests ; retirer l'index « une session active » fait échouer le test de course ; migrations restaurées.
 
+## Addendum (BLOC 03)
+
+La migration `0002_auth` ajoute 9 tables d'authentification et **redéfinit `erase_user` en `SECURITY DEFINER`** (le rôle API n'a, volontairement, aucun droit sur les tables d'auth, il ne pouvait donc plus les recompter). Règle d'autorisation : `p_user = app.user_id` (SQLSTATE 42501 sinon). La suite DB (39 tests) a été rejouée avec les deux migrations : up/down/up sur 0001+0002, tables attendues mises à jour, toujours verts.
+
 ## Dettes / risques
 
 1. **`app.user_id` est une variable de session** : tout SQL arbitraire exécuté par `alfred_app` pourrait la changer. Acceptable tant que l'API n'expose pas de SQL brut ; durcissement possible : un rôle/connexion par requête ou `SECURITY LABEL`/fonction signée.

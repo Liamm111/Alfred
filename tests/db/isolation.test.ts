@@ -19,23 +19,26 @@ describe("DB role hardening", () => {
     const owned = await db.query("select count(*)::int c from pg_tables where schemaname='public' and tableowner='alfred_app'");
     expect(owned.rows[0].c).toBe(0);
   });
-  it("every table carrying owner_id has RLS enabled and an owner policy", async () => {
+  it("every table carrying owner_id has RLS enabled; every table alfred_app can touch has an owner policy", async () => {
     const r = await db.query(`
       select c.relname, c.relrowsecurity,
+        has_table_privilege('alfred_app', c.oid, 'select') app_sel,
         (select count(*)::int from pg_policies p where p.tablename = c.relname and p.roles @> array['alfred_app']::name[]) pol
       from pg_class c join pg_namespace n on n.oid=c.relnamespace
       join pg_attribute a on a.attrelid=c.oid and a.attname='owner_id' and not a.attisdropped
       where n.nspname='public' and c.relkind='r'`);
-    expect(r.rowCount).toBeGreaterThanOrEqual(12);
+    expect(r.rowCount).toBeGreaterThanOrEqual(20);
     for (const row of r.rows) {
       expect(row.relrowsecurity, row.relname).toBe(true);
-      expect(row.pol, row.relname).toBeGreaterThanOrEqual(1);
+      if (row.app_sel) expect(row.pol, row.relname).toBeGreaterThanOrEqual(1);
     }
   });
-  it("no raw media column exists: the only bytea column is the encrypted secret envelope", async () => {
+  it("no raw media column exists: the only bytea columns are encrypted envelopes (secrets, PKCE verifier)", async () => {
     const r = await db.query(`select table_name, column_name from information_schema.columns
       where table_schema='public' and data_type='bytea' order by 1,2`);
     expect(r.rows).toEqual([
+      { table_name: "oauth_states", column_name: "verifier_ct" },
+      { table_name: "oauth_states", column_name: "verifier_nonce" },
       { table_name: "secret_refs", column_name: "ciphertext" },
       { table_name: "secret_refs", column_name: "nonce" },
     ]);

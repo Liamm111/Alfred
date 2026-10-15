@@ -26,6 +26,14 @@ export async function withUser<T>(db: Db, userId: string, fn: (tx: Tx) => Promis
   });
 }
 
+/** The authentication service: sees auth tables, users and secrets - never sessions / packets / evidence. */
+export async function withAuth<T>(db: Db, fn: (tx: Tx) => Promise<T>): Promise<T> {
+  return inTx(db, async (tx) => {
+    await tx.query("set local role alfred_auth");
+    return fn(tx);
+  });
+}
+
 /** Privileged maintenance (retention, outbox relay, erasure on behalf of the system). */
 export async function withMaintenance<T>(db: Db, fn: (tx: Tx) => Promise<T>): Promise<T> {
   return inTx(db, async (tx) => {
