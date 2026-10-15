@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Alfred</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icons/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>
+  :root { color-scheme: light dark; --bg: #f6f7fb; --fg: #182640; --card: #fff; --accent: #2b59ff; --warn: #b45309; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #0f1627; --fg: #e8ecf6; --card: #182640; --accent: #7aa2ff; --warn: #fbbf24; } }
+  body { margin: 0; padding: max(16px, env(safe-area-inset-top)) 16px 24px; background: var(--bg); color: var(--fg); font: 16px/1.5 system-ui, sans-serif; }
+  main { max-width: 32rem; margin: 0 auto; }
+  section { background: var(--card); border-radius: 14px; padding: 16px; margin: 14px 0; }
+  button, a.btn { display: inline-block; font: inherit; padding: 12px 18px; border-radius: 10px; border: 0; background: var(--accent); color: #fff; text-decoration: none; }
+  button:disabled { opacity: .45; }
+  ol { padding-left: 1.2rem; } .warn { color: var(--warn); } [hidden] { display: none !important; }
+  .status dt { font-weight: 600; } .status dd { margin: 0 0 8px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Alfred</h1>
+
+  <section id="ios-install" hidden>
+    <h2>1. Ajouter à l'écran d'accueil</h2>
+    <p>Sur iPhone, les notifications ne fonctionnent que si cette page est installée :</p>
+    <ol>
+      <li>Touchez le bouton Partager <strong>⬆︎</strong> dans Safari.</li>
+      <li>Choisissez <strong>Sur l'écran d'accueil</strong>, puis <strong>Ajouter</strong>.</li>
+      <li>Fermez Safari et ouvrez <strong>Alfred</strong> depuis l'écran d'accueil.</li>
+    </ol>
+  </section>
+
+  <section id="enable">
+    <h2>Notifications</h2>
+    <p id="enable-help">Touchez le bouton pour que votre téléphone vous demande l'autorisation. Rien n'est demandé avant.</p>
+    <button id="enable-btn" type="button" disabled>Activer les notifications</button>
+    <p id="enable-msg" role="status" aria-live="polite"></p>
+  </section>
+
+  <section id="alert" hidden>
+    <h2 id="alert-title"></h2>
+    <p id="alert-body"></p>
+    <!-- Zoom ne s'ouvre QUE sur un toucher de ce lien : jamais automatiquement. -->
+    <a id="open-zoom" class="btn" href="#" rel="noopener" hidden>Ouvrir Zoom</a>
+  </section>
+
+  <section class="status">
+    <h2>État</h2>
+    <dl>
+      <dt>Appareil</dt><dd id="st-device">—</dd>
+      <dt>Autorisation</dt><dd id="st-perm">—</dd>
+      <dt>Souscription</dt><dd id="st-sub">—</dd>
+    </dl>
+    <p class="warn">Mode Concentration (Focus) ou écran verrouillé : iOS peut retenir ou masquer la notification. Autorisez Alfred dans le Focus concerné.</p>
+  </section>
+</main>
+<script src="/app.js" defer></script>
+</body>
+</html>
