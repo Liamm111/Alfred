@@ -1,0 +1,27 @@
+✔ OCR net : texte lisible, qualité élevée (56.817346ms)
+✔ texte minuscule (≈7 px de haut) : écarté comme trop petit, jamais inventé (18.93206ms)
+✔ flou fort : qualité chute et lecture déclarée illisible/partielle (pas de texte confiant faux) (170.914952ms)
+✔ faible contraste : pas de texte retourné (2.596538ms)
+✔ slides avec changements : détecte chaque changement, ignore les frames identiques (73.323137ms)
+✔ Zoom minimisé → « indisponible », jamais l’ancienne diapo ; retour visible → recapture forcée (35.304627ms)
+✔ Zoom caché / autre Space → indisponible (12.592609ms)
+✔ fenêtre disparue puis réapparue : événements + indisponible entre-temps (12.458079ms)
+✔ deuxième écran : déplacement détecté, capture continue après recapture forcée (26.424487ms)
+✔ multi-fenêtre : la fenêtre de partage fait foi ; si elle disparaît, on retombe sur la fenêtre de réunion (23.821826ms)
+✔ contenu non-Zoom exclu : sélection refusée avant capture (0.745104ms)
+✔ partage plein écran : seuls les pixels Zoom sont OCRisés, le non-Zoom qui recouvre est noirci (51.860955ms)
+✔ plein écran : Zoom presque entièrement recouvert → occluded, indisponible (17.80725ms)
+✔ permission retirée : arrêt immédiat, images purgées, trou tracé, frames natives ignorées, reprise = nouvelle époque (34.240365ms)
+✔ texte illisible après une diapo lisible : on ne ressert pas l’ancien contenu (28.015677ms)
+✔ fraîcheur : sans confirmation récente → stale ; heartbeat sur frame inchangée maintient disponible (61.548254ms)
+✔ pas de vidéo continue : cadence plafonnée et aucune image conservée par défaut (34.582198ms)
+✔ persistance facultative : TTL court appliqué, plafond refusé, fichiers réellement supprimés (27.465603ms)
+✔ pont natif : messages valides parsés, entrées malformées rejetées (0.804508ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 668.292895

@@ -1,0 +1,30 @@
+✔ corpus ≥ 100 cas FR/EN, toutes catégories exigées présentes (1.017756ms)
+✔ corpus (final) : classe, alertes nettes et urgence conformes sur tous les cas non « limite connue » (22.867537ms)
+✔ corpus (prov+final) : classe, alertes nettes et urgence conformes sur tous les cas non « limite connue » (14.672496ms)
+✔ une unique alerte directe par question ; aucune urgence pour une mention (tout le corpus) (31.12723ms)
+✔ limites connues : documentées, étiquetées avec la vérité terrain, et effectivement non détectées (pas de faux « succès ») (0.384112ms)
+✔ traces d’incertitude et version du moteur sur chaque décision ; garantie explicite (0.576972ms)
+✔ jeux de contrôle 1 et 2 (après réglage : désormais des tests de régression, plus des mesures indépendantes) (13.84801ms)
+✔ déclenchement rapide : l’alerte part de façon synchrone, avant toute réponse LLM (6.628185ms)
+✔ LLM : abaisser un appel CERTAIN exige ≥ 0,95 ; 0,9 ne retire rien (0.550591ms)
+✔ LLM en timeout : l’alerte reste, l’incertitude est tracée (21.578795ms)
+✔ LLM : sortie invalide, champs en trop ou extrait halluciné → ignorée et tracée (2.367136ms)
+✔ LLM seul peut proposer une sollicitation sans prénom — jamais urgente, extraits vérifiés (4.212925ms)
+✔ LLM ne peut pas contourner une annulation détectée par les règles (1.150117ms)
+✔ LLM peut promouvoir PROBABLE → CERTAIN (mise à jour, pas une 2e alerte) (0.506104ms)
+✔ provisoire : appel explicite alerté tout de suite ; le final confirme sans doubler (0.611855ms)
+✔ provisoire : si le final annule ou diverge, l’alerte est retirée (0.90236ms)
+✔ provisoire : un appel seulement PROBABLE n’alerte pas avant le final (0.910818ms)
+✔ relance après réponse de l’utilisateur : nouvelle question ; réponse ferme la précédente (0.498151ms)
+✔ prompt LLM versionné ; fenêtre de contexte bornée à 15–60 s (0.851406ms)
+✔ retour utilisateur : faux positif / raté tracés par version, export, candidats d’alias (0.615039ms)
+✔ parseVerdict : cas limites (0.288825ms)
+✔ débit : 20 000 segments traités par les règles en < 5 s (1092.990632ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1371.075466

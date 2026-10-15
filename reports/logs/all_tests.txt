@@ -1,0 +1,676 @@
+
+> check
+> npm run typecheck && npm test
+
+
+> typecheck
+> tsc -p tsconfig.json
+
+
+> test
+> node --disable-warning=ExperimentalWarning --test "tests/*.test.ts"
+
+TAP version 13
+# Subtest: corpus ≥ 100 cas FR/EN, toutes catégories exigées présentes
+ok 1 - corpus ≥ 100 cas FR/EN, toutes catégories exigées présentes
+  ---
+  duration_ms: 1.084015
+  type: 'test'
+  ...
+# Subtest: corpus (final) : classe, alertes nettes et urgence conformes sur tous les cas non « limite connue »
+ok 2 - corpus (final) : classe, alertes nettes et urgence conformes sur tous les cas non « limite connue »
+  ---
+  duration_ms: 24.339152
+  type: 'test'
+  ...
+# Subtest: corpus (prov+final) : classe, alertes nettes et urgence conformes sur tous les cas non « limite connue »
+ok 3 - corpus (prov+final) : classe, alertes nettes et urgence conformes sur tous les cas non « limite connue »
+  ---
+  duration_ms: 14.267748
+  type: 'test'
+  ...
+# Subtest: une unique alerte directe par question ; aucune urgence pour une mention (tout le corpus)
+ok 4 - une unique alerte directe par question ; aucune urgence pour une mention (tout le corpus)
+  ---
+  duration_ms: 43.052328
+  type: 'test'
+  ...
+# Subtest: limites connues : documentées, étiquetées avec la vérité terrain, et effectivement non détectées (pas de faux « succès »)
+ok 5 - limites connues : documentées, étiquetées avec la vérité terrain, et effectivement non détectées (pas de faux « succès »)
+  ---
+  duration_ms: 0.439362
+  type: 'test'
+  ...
+# Subtest: traces d’incertitude et version du moteur sur chaque décision ; garantie explicite
+ok 6 - traces d’incertitude et version du moteur sur chaque décision ; garantie explicite
+  ---
+  duration_ms: 0.533942
+  type: 'test'
+  ...
+# Subtest: jeux de contrôle 1 et 2 (après réglage : désormais des tests de régression, plus des mesures indépendantes)
+ok 7 - jeux de contrôle 1 et 2 (après réglage : désormais des tests de régression, plus des mesures indépendantes)
+  ---
+  duration_ms: 23.681147
+  type: 'test'
+  ...
+# Subtest: déclenchement rapide : l’alerte part de façon synchrone, avant toute réponse LLM
+ok 8 - déclenchement rapide : l’alerte part de façon synchrone, avant toute réponse LLM
+  ---
+  duration_ms: 13.851955
+  type: 'test'
+  ...
+# Subtest: LLM : abaisser un appel CERTAIN exige ≥ 0,95 ; 0,9 ne retire rien
+ok 9 - LLM : abaisser un appel CERTAIN exige ≥ 0,95 ; 0,9 ne retire rien
+  ---
+  duration_ms: 0.674788
+  type: 'test'
+  ...
+# Subtest: LLM en timeout : l’alerte reste, l’incertitude est tracée
+ok 10 - LLM en timeout : l’alerte reste, l’incertitude est tracée
+  ---
+  duration_ms: 20.871372
+  type: 'test'
+  ...
+# Subtest: LLM : sortie invalide, champs en trop ou extrait halluciné → ignorée et tracée
+ok 11 - LLM : sortie invalide, champs en trop ou extrait halluciné → ignorée et tracée
+  ---
+  duration_ms: 2.661177
+  type: 'test'
+  ...
+# Subtest: LLM seul peut proposer une sollicitation sans prénom — jamais urgente, extraits vérifiés
+ok 12 - LLM seul peut proposer une sollicitation sans prénom — jamais urgente, extraits vérifiés
+  ---
+  duration_ms: 6.910448
+  type: 'test'
+  ...
+# Subtest: LLM ne peut pas contourner une annulation détectée par les règles
+ok 13 - LLM ne peut pas contourner une annulation détectée par les règles
+  ---
+  duration_ms: 2.036439
+  type: 'test'
+  ...
+# Subtest: LLM peut promouvoir PROBABLE → CERTAIN (mise à jour, pas une 2e alerte)
+ok 14 - LLM peut promouvoir PROBABLE → CERTAIN (mise à jour, pas une 2e alerte)
+  ---
+  duration_ms: 0.848632
+  type: 'test'
+  ...
+# Subtest: provisoire : appel explicite alerté tout de suite ; le final confirme sans doubler
+ok 15 - provisoire : appel explicite alerté tout de suite ; le final confirme sans doubler
+  ---
+  duration_ms: 0.795992
+  type: 'test'
+  ...
+# Subtest: provisoire : si le final annule ou diverge, l’alerte est retirée
+ok 16 - provisoire : si le final annule ou diverge, l’alerte est retirée
+  ---
+  duration_ms: 1.333955
+  type: 'test'
+  ...
+# Subtest: provisoire : un appel seulement PROBABLE n’alerte pas avant le final
+ok 17 - provisoire : un appel seulement PROBABLE n’alerte pas avant le final
+  ---
+  duration_ms: 0.926472
+  type: 'test'
+  ...
+# Subtest: relance après réponse de l’utilisateur : nouvelle question ; réponse ferme la précédente
+ok 18 - relance après réponse de l’utilisateur : nouvelle question ; réponse ferme la précédente
+  ---
+  duration_ms: 0.676207
+  type: 'test'
+  ...
+# Subtest: prompt LLM versionné ; fenêtre de contexte bornée à 15–60 s
+ok 19 - prompt LLM versionné ; fenêtre de contexte bornée à 15–60 s
+  ---
+  duration_ms: 1.453226
+  type: 'test'
+  ...
+# Subtest: retour utilisateur : faux positif / raté tracés par version, export, candidats d’alias
+ok 20 - retour utilisateur : faux positif / raté tracés par version, export, candidats d’alias
+  ---
+  duration_ms: 0.787491
+  type: 'test'
+  ...
+# Subtest: parseVerdict : cas limites
+ok 21 - parseVerdict : cas limites
+  ---
+  duration_ms: 0.428813
+  type: 'test'
+  ...
+# Subtest: débit : 20 000 segments traités par les règles en < 5 s
+ok 22 - débit : 20 000 segments traités par les règles en < 5 s
+  ---
+  duration_ms: 1215.514707
+  type: 'test'
+  ...
+# Subtest: bout en bout : transcription finale → moteur d’interpellation → outbox → push ; mention = rien ; annulation = rétractation visible
+ok 23 - bout en bout : transcription finale → moteur d’interpellation → outbox → push ; mention = rien ; annulation = rétractation visible
+  ---
+  duration_ms: 18.886524
+  type: 'test'
+  ...
+# Subtest: similarité tolère petites divergences STT mais pas des phrases différentes
+ok 24 - similarité tolère petites divergences STT mais pas des phrases différentes
+  ---
+  duration_ms: 3.804849
+  type: 'test'
+  ...
+# Subtest: RTMS préféré : le même énoncé vu par RTMS et Mac n’apparaît qu’une fois, le fallback est tracé
+ok 25 - RTMS préféré : le même énoncé vu par RTMS et Mac n’apparaît qu’une fois, le fallback est tracé
+  ---
+  duration_ms: 2.638893
+  type: 'test'
+  ...
+# Subtest: doublons : speakers vérifiés différents ou répétition tardive ne sont PAS fusionnés
+ok 26 - doublons : speakers vérifiés différents ou répétition tardive ne sont PAS fusionnés
+  ---
+  duration_ms: 0.309204
+  type: 'test'
+  ...
+# Subtest: doublons audio similaires : fort recouvrement fusionné, faible recouvrement conservé
+ok 27 - doublons audio similaires : fort recouvrement fusionné, faible recouvrement conservé
+  ---
+  duration_ms: 0.510894
+  type: 'test'
+  ...
+# Subtest: dérive +1 min, horloge Mac jamais synchronisée : quarantaine, aucun doublon, puis rebase après sync
+ok 28 - dérive +1 min, horloge Mac jamais synchronisée : quarantaine, aucun doublon, puis rebase après sync
+  ---
+  duration_ms: 0.850812
+  type: 'test'
+  ...
+# Subtest: dérive +1 min avec horloge « synchronisée » à tort : détectée car en avance sur la tête RTMS attestée
+ok 29 - dérive +1 min avec horloge « synchronisée » à tort : détectée car en avance sur la tête RTMS attestée
+  ---
+  duration_ms: 0.330036
+  type: 'test'
+  ...
+# Subtest: dérive −1 min (non détectable par l’horloge) : détectée par appariement de texte puis corrigée
+ok 30 - dérive −1 min (non détectable par l’horloge) : détectée par appariement de texte puis corrigée
+  ---
+  duration_ms: 1.086061
+  type: 'test'
+  ...
+# Subtest: source reconnectée : seq repart, ids restent uniques, le trou est tracé (pas masqué)
+ok 31 - source reconnectée : seq repart, ids restent uniques, le trou est tracé (pas masqué)
+  ---
+  duration_ms: 0.308649
+  type: 'test'
+  ...
+# Subtest: fallback local qui comble partiellement un trou RTMS : reste du trou toujours ouvert
+ok 32 - fallback local qui comble partiellement un trou RTMS : reste du trou toujours ouvert
+  ---
+  duration_ms: 0.643386
+  type: 'test'
+  ...
+# Subtest: changement de source au milieu d’une question : fenêtre continue, bascule signalée, trou signalé, aucun doublon
+ok 33 - changement de source au milieu d’une question : fenêtre continue, bascule signalée, trou signalé, aucun doublon
+  ---
+  duration_ms: 0.893014
+  type: 'test'
+  ...
+# Subtest: deux réunions : jamais fusionnées (meeting_id, source liée, merger séparé)
+ok 34 - deux réunions : jamais fusionnées (meeting_id, source liée, merger séparé)
+  ---
+  duration_ms: 0.525865
+  type: 'test'
+  ...
+# Subtest: interdiction explicite : pas de bascule fallback ; trou « policy_blocked » jamais présenté comme comblé
+ok 35 - interdiction explicite : pas de bascule fallback ; trou « policy_blocked » jamais présenté comme comblé
+  ---
+  duration_ms: 1.07151
+  type: 'test'
+  ...
+# Subtest: provisoire recouvert par le final de la même source : un seul texte
+ok 36 - provisoire recouvert par le final de la même source : un seul texte
+  ---
+  duration_ms: 0.171284
+  type: 'test'
+  ...
+# Subtest: ordre canonique déterministe : mêmes données, ordre d’arrivée mélangé → même timeline
+ok 37 - ordre canonique déterministe : mêmes données, ordre d’arrivée mélangé → même timeline
+  ---
+  duration_ms: 8.432633
+  type: 'test'
+  ...
+# Subtest: cache/replay borné : débordement tracé, isolation par réunion, reprise partielle idempotente
+ok 38 - cache/replay borné : débordement tracé, isolation par réunion, reprise partielle idempotente
+  ---
+  duration_ms: 2.301684
+  type: 'test'
+  ...
+# Subtest: borne en octets
+ok 39 - borne en octets
+  ---
+  duration_ms: 2.819215
+  type: 'test'
+  ...
+# Subtest: perf 3 h : 2 sources × ~3 600 énoncés fusionnés < 5 s
+ok 40 - perf 3 h : 2 sources × ~3 600 énoncés fusionnés < 5 s
+  ---
+  duration_ms: 577.821386
+  type: 'test'
+  ...
+# Subtest: timebase média : offsets UTC et temps média cohérents, horloge source corrigée
+ok 41 - timebase média : offsets UTC et temps média cohérents, horloge source corrigée
+  ---
+  duration_ms: 0.302742
+  type: 'test'
+  ...
+# Subtest: écriture atomique : si une ligne d’outbox échoue, l’événement n’existe pas non plus
+ok 42 - écriture atomique : si une ligne d’outbox échoue, l’événement n’existe pas non plus
+  ---
+  duration_ms: 4.509395
+  type: 'test'
+  ...
+# Subtest: idempotence par (address_event_id, canal) : un second enqueue ne crée rien
+ok 43 - idempotence par (address_event_id, canal) : un second enqueue ne crée rien
+  ---
+  duration_ms: 3.344556
+  type: 'test'
+  ...
+# Subtest: email absent en V0 : tout canal hors mac/webpush est refusé
+ok 44 - email absent en V0 : tout canal hors mac/webpush est refusé
+  ---
+  duration_ms: 1.049646
+  type: 'test'
+  ...
+# Subtest: les événements sans notification (trace, relance, confirmed) ne créent rien
+ok 45 - les événements sans notification (trace, relance, confirmed) ne créent rien
+  ---
+  duration_ms: 0.760685
+  type: 'test'
+  ...
+# Subtest: créé / envoyé / accepté / ack appareil / vu : cinq états distincts, HTTP 201 ne prouve que « accepté »
+ok 46 - créé / envoyé / accepté / ack appareil / vu : cinq états distincts, HTTP 201 ne prouve que « accepté »
+  ---
+  duration_ms: 11.61435
+  type: 'test'
+  ...
+# Subtest: course : deux workers sur la même base — chaque ligne est envoyée exactement une fois
+ok 47 - course : deux workers sur la même base — chaque ligne est envoyée exactement une fois
+  ---
+  duration_ms: 57.339906
+  type: 'test'
+  ...
+# Subtest: crash après envoi mais avant règlement : le bail expire, un autre worker réessaie avec le MÊME Topic (pas de doublon côté service push)
+ok 48 - crash après envoi mais avant règlement : le bail expire, un autre worker réessaie avec le MÊME Topic (pas de doublon côté service push)
+  ---
+  duration_ms: 3.894778
+  type: 'test'
+  ...
+# Subtest: worker lent : son règlement tardif ne peut pas écraser celui du worker qui a repris la ligne
+ok 49 - worker lent : son règlement tardif ne peut pas écraser celui du worker qui a repris la ligne
+  ---
+  duration_ms: 2.016469
+  type: 'test'
+  ...
+# Subtest: 429 : Retry-After respecté, pas de réessai avant, succès ensuite
+ok 50 - 429 : Retry-After respecté, pas de réessai avant, succès ensuite
+  ---
+  duration_ms: 6.087512
+  type: 'test'
+  ...
+# Subtest: 429 avec Retry-After au-delà de l’expiration : l’alerte est abandonnée, jamais livrée en retard
+ok 51 - 429 avec Retry-After au-delà de l’expiration : l’alerte est abandonnée, jamais livrée en retard
+  ---
+  duration_ms: 4.251077
+  type: 'test'
+  ...
+# Subtest: 5xx / réseau : backoff exponentiel borné, puis mort après max_attempts
+ok 52 - 5xx / réseau : backoff exponentiel borné, puis mort après max_attempts
+  ---
+  duration_ms: 8.596326
+  type: 'test'
+  ...
+# Subtest: 410 et 404 : souscription expirée et purgée, ligne morte, les autres appareils et le Mac sont servis
+ok 53 - 410 et 404 : souscription expirée et purgée, ligne morte, les autres appareils et le Mac sont servis
+  ---
+  duration_ms: 8.602865
+  type: 'test'
+  ...
+# Subtest: souscription à expirationTime dépassé : écartée avant envoi (aucun appel réseau)
+ok 54 - souscription à expirationTime dépassé : écartée avant envoi (aucun appel réseau)
+  ---
+  duration_ms: 2.280909
+  type: 'test'
+  ...
+# Subtest: 401/403 : pas de réessai ; à 3 échecs la souscription est rejetée
+ok 55 - 401/403 : pas de réessai ; à 3 échecs la souscription est rejetée
+  ---
+  duration_ms: 6.44373
+  type: 'test'
+  ...
+# Subtest: TTL : une alerte périmée n’est jamais envoyée
+ok 56 - TTL : une alerte périmée n’est jamais envoyée
+  ---
+  duration_ms: 1.753677
+  type: 'test'
+  ...
+# Subtest: rétractation : annule les envois en attente ; après livraison, part comme notification VISIBLE de même tag
+ok 57 - rétractation : annule les envois en attente ; après livraison, part comme notification VISIBLE de même tag
+  ---
+  duration_ms: 11.101899
+  type: 'test'
+  ...
+# Subtest: écran verrouillé / Focus iOS (SIMULATION) : 201 sans ack → « non confirmé », jamais « délivré » ; ack tardif lève le doute
+ok 58 - écran verrouillé / Focus iOS (SIMULATION) : 201 sans ack → « non confirmé », jamais « délivré » ; ack tardif lève le doute
+  ---
+  duration_ms: 2.955912
+  type: 'test'
+  ...
+# Subtest: canal Mac : accepté ≠ vu ; permission refusée → mort sans réessai ; app injoignable → réessai
+ok 59 - canal Mac : accepté ≠ vu ; permission refusée → mort sans réessai ; app injoignable → réessai
+  ---
+  duration_ms: 5.322561
+  type: 'test'
+  ...
+# Subtest: confidentialité de l’aperçu : par défaut ni texte ni extrait dans la notification ; « full » seulement sur demande
+ok 60 - confidentialité de l’aperçu : par défaut ni texte ni extrait dans la notification ; « full » seulement sur demande
+  ---
+  duration_ms: 1.133912
+  type: 'test'
+  ...
+# Subtest: validation des souscriptions : http, hôtes hors liste (SSRF), clés invalides refusés
+ok 61 - validation des souscriptions : http, hôtes hors liste (SSRF), clés invalides refusés
+  ---
+  duration_ms: 1.955552
+  type: 'test'
+  ...
+# Subtest: API PWA : appairage requis pour s’abonner ; ack/seen par jeton de livraison ; corps trop gros refusé
+ok 62 - API PWA : appairage requis pour s’abonner ; ack/seen par jeton de livraison ; corps trop gros refusé
+  ---
+  duration_ms: 131.500123
+  type: 'test'
+  ...
+# Subtest: « Ouvrir Zoom » (Mac) : NSWorkspace / activate() n’existent que dans didReceive, derrière le test de l’identifiant d’action
+ok 63 - « Ouvrir Zoom » (Mac) : NSWorkspace / activate() n’existent que dans didReceive, derrière le test de l’identifiant d’action
+  ---
+  duration_ms: 1.627463
+  type: 'test'
+  ...
+# Subtest: service worker : n’ouvre que des pages de même origine ; aucune URL Zoom ouverte par le SW
+ok 64 - service worker : n’ouvre que des pages de même origine ; aucune URL Zoom ouverte par le SW
+  ---
+  duration_ms: 0.764776
+  type: 'test'
+  ...
+# Subtest: PWA : les URL Zoom passent par une liste blanche stricte (serveur et client)
+ok 65 - PWA : les URL Zoom passent par une liste blanche stricte (serveur et client)
+  ---
+  duration_ms: 0.697789
+  type: 'test'
+  ...
+# Subtest: pont Mac (NDJSON) : added → accepté ; denied → MacPermissionDenied ; silence → timeout ; delivered/clicked relayés
+ok 66 - pont Mac (NDJSON) : added → accepté ; denied → MacPermissionDenied ; silence → timeout ; delivered/clicked relayés
+  ---
+  duration_ms: 97.67681
+  type: 'test'
+  ...
+# Subtest: onboarding iPhone (Chromium, UA iPhone) : non installé → instructions + bouton désactivé, aucune permission demandée
+ok 67 - onboarding iPhone (Chromium, UA iPhone) : non installé → instructions + bouton désactivé, aucune permission demandée
+  ---
+  duration_ms: 786.382382
+  type: 'test'
+  ...
+# Subtest: onboarding (Chromium, app « installée ») : 0 demande au chargement ; permission + abonnement seulement après le clic
+ok 68 - onboarding (Chromium, app « installée ») : 0 demande au chargement ; permission + abonnement seulement après le clic
+  ---
+  duration_ms: 549.071815
+  type: 'test'
+  ...
+# Subtest: page ouverte depuis une notification : « Ouvrir Zoom » est un lien à toucher (aucune navigation automatique), URL non-Zoom ignorée
+ok 69 - page ouverte depuis une notification : « Ouvrir Zoom » est un lien à toucher (aucune navigation automatique), URL non-Zoom ignorée
+  ---
+  duration_ms: 547.63564
+  type: 'test'
+  ...
+# Subtest: segmentation FR/EN : décimales, abréviations, ?, ! préservées
+ok 70 - segmentation FR/EN : décimales, abréviations, ?, ! préservées
+  ---
+  duration_ms: 4.635491
+  type: 'test'
+  ...
+# Subtest: longue pause (3 s) → coupure même sans ponctuation ; pause courte → pas de coupure
+ok 71 - longue pause (3 s) → coupure même sans ponctuation ; pause courte → pas de coupure
+  ---
+  duration_ms: 1.494152
+  type: 'test'
+  ...
+# Subtest: code switching FR/EN détecté
+ok 72 - code switching FR/EN détecté
+  ---
+  duration_ms: 1.099167
+  type: 'test'
+  ...
+# Subtest: glossaire : noms propres / termes corrigés, mots courants intacts, correction tracée
+ok 73 - glossaire : noms propres / termes corrigés, mots courants intacts, correction tracée
+  ---
+  duration_ms: 2.324528
+  type: 'test'
+  ...
+# Subtest: homophones courants non réécrits sans glossaire (pas de devinette)
+ok 74 - homophones courants non réécrits sans glossaire (pas de devinette)
+  ---
+  duration_ms: 0.426384
+  type: 'test'
+  ...
+# Subtest: WER : le glossaire réduit l’erreur sur noms propres bruités (mécanisme, pas qualité STT réelle)
+ok 75 - WER : le glossaire réduit l’erreur sur noms propres bruités (mécanisme, pas qualité STT réelle)
+  ---
+  duration_ms: 0.923044
+  type: 'test'
+  ...
+# Subtest: provisoire → corrections → final : un seul final, aucune révision tardive ne le rouvre
+ok 76 - provisoire → corrections → final : un seul final, aucune révision tardive ne le rouvre
+  ---
+  duration_ms: 1.179143
+  type: 'test'
+  ...
+# Subtest: flux coupé : provisoire orphelin abandonné, jamais promu
+ok 77 - flux coupé : provisoire orphelin abandonné, jamais promu
+  ---
+  duration_ms: 0.368129
+  type: 'test'
+  ...
+# Subtest: speakers : RTMS+roster seulement ; id inconnu ou source locale → UNKNOWN
+ok 78 - speakers : RTMS+roster seulement ; id inconnu ou source locale → UNKNOWN
+  ---
+  duration_ms: 1.406783
+  type: 'test'
+  ...
+# Subtest: quote() : provisoire / peu fiable jamais « certain »
+ok 79 - quote() : provisoire / peu fiable jamais « certain »
+  ---
+  duration_ms: 1.316085
+  type: 'test'
+  ...
+# Subtest: budgets de latence : dépassements signalés et comptés
+ok 80 - budgets de latence : dépassements signalés et comptés
+  ---
+  duration_ms: 0.581144
+  type: 'test'
+  ...
+# Subtest: choix du moteur : RTMS natif si suffisant, sinon STT audio, hystérésis, interdiction immédiate
+ok 81 - choix du moteur : RTMS natif si suffisant, sinon STT audio, hystérésis, interdiction immédiate
+  ---
+  duration_ms: 0.63116
+  type: 'test'
+  ...
+# Subtest: corpus synthétique 30 min : invariants final/provisoire/speakers
+ok 82 - corpus synthétique 30 min : invariants final/provisoire/speakers
+  ---
+  duration_ms: 14.099703
+  type: 'test'
+  ...
+# Subtest: corpus synthétique 30 min : source locale → aucun speaker inventé
+ok 83 - corpus synthétique 30 min : source locale → aucun speaker inventé
+  ---
+  duration_ms: 12.143306
+  type: 'test'
+  ...
+# Subtest: corpus synthétique 3 h : invariants final/provisoire/speakers
+ok 84 - corpus synthétique 3 h : invariants final/provisoire/speakers
+  ---
+  duration_ms: 72.687886
+  type: 'test'
+  ...
+# Subtest: corpus synthétique 3 h : source locale → aucun speaker inventé
+ok 85 - corpus synthétique 3 h : source locale → aucun speaker inventé
+  ---
+  duration_ms: 56.260123
+  type: 'test'
+  ...
+# Subtest: OCR net : texte lisible, qualité élevée
+ok 86 - OCR net : texte lisible, qualité élevée
+  ---
+  duration_ms: 131.508958
+  type: 'test'
+  ...
+# Subtest: texte minuscule (≈7 px de haut) : écarté comme trop petit, jamais inventé
+ok 87 - texte minuscule (≈7 px de haut) : écarté comme trop petit, jamais inventé
+  ---
+  duration_ms: 15.860212
+  type: 'test'
+  ...
+# Subtest: flou fort : qualité chute et lecture déclarée illisible/partielle (pas de texte confiant faux)
+ok 88 - flou fort : qualité chute et lecture déclarée illisible/partielle (pas de texte confiant faux)
+  ---
+  duration_ms: 180.572217
+  type: 'test'
+  ...
+# Subtest: faible contraste : pas de texte retourné
+ok 89 - faible contraste : pas de texte retourné
+  ---
+  duration_ms: 12.102445
+  type: 'test'
+  ...
+# Subtest: slides avec changements : détecte chaque changement, ignore les frames identiques
+ok 90 - slides avec changements : détecte chaque changement, ignore les frames identiques
+  ---
+  duration_ms: 185.64865
+  type: 'test'
+  ...
+# Subtest: Zoom minimisé → « indisponible », jamais l’ancienne diapo ; retour visible → recapture forcée
+ok 91 - Zoom minimisé → « indisponible », jamais l’ancienne diapo ; retour visible → recapture forcée
+  ---
+  duration_ms: 88.540266
+  type: 'test'
+  ...
+# Subtest: Zoom caché / autre Space → indisponible
+ok 92 - Zoom caché / autre Space → indisponible
+  ---
+  duration_ms: 21.019111
+  type: 'test'
+  ...
+# Subtest: fenêtre disparue puis réapparue : événements + indisponible entre-temps
+ok 93 - fenêtre disparue puis réapparue : événements + indisponible entre-temps
+  ---
+  duration_ms: 16.465521
+  type: 'test'
+  ...
+# Subtest: deuxième écran : déplacement détecté, capture continue après recapture forcée
+ok 94 - deuxième écran : déplacement détecté, capture continue après recapture forcée
+  ---
+  duration_ms: 24.312691
+  type: 'test'
+  ...
+# Subtest: multi-fenêtre : la fenêtre de partage fait foi ; si elle disparaît, on retombe sur la fenêtre de réunion
+ok 95 - multi-fenêtre : la fenêtre de partage fait foi ; si elle disparaît, on retombe sur la fenêtre de réunion
+  ---
+  duration_ms: 23.534758
+  type: 'test'
+  ...
+# Subtest: contenu non-Zoom exclu : sélection refusée avant capture
+ok 96 - contenu non-Zoom exclu : sélection refusée avant capture
+  ---
+  duration_ms: 2.10679
+  type: 'test'
+  ...
+# Subtest: partage plein écran : seuls les pixels Zoom sont OCRisés, le non-Zoom qui recouvre est noirci
+ok 97 - partage plein écran : seuls les pixels Zoom sont OCRisés, le non-Zoom qui recouvre est noirci
+  ---
+  duration_ms: 75.317891
+  type: 'test'
+  ...
+# Subtest: plein écran : Zoom presque entièrement recouvert → occluded, indisponible
+ok 98 - plein écran : Zoom presque entièrement recouvert → occluded, indisponible
+  ---
+  duration_ms: 45.360575
+  type: 'test'
+  ...
+# Subtest: permission retirée : arrêt immédiat, images purgées, trou tracé, frames natives ignorées, reprise = nouvelle époque
+ok 99 - permission retirée : arrêt immédiat, images purgées, trou tracé, frames natives ignorées, reprise = nouvelle époque
+  ---
+  duration_ms: 41.988788
+  type: 'test'
+  ...
+# Subtest: texte illisible après une diapo lisible : on ne ressert pas l’ancien contenu
+ok 100 - texte illisible après une diapo lisible : on ne ressert pas l’ancien contenu
+  ---
+  duration_ms: 27.049543
+  type: 'test'
+  ...
+# Subtest: fraîcheur : sans confirmation récente → stale ; heartbeat sur frame inchangée maintient disponible
+ok 101 - fraîcheur : sans confirmation récente → stale ; heartbeat sur frame inchangée maintient disponible
+  ---
+  duration_ms: 52.782811
+  type: 'test'
+  ...
+# Subtest: pas de vidéo continue : cadence plafonnée et aucune image conservée par défaut
+ok 102 - pas de vidéo continue : cadence plafonnée et aucune image conservée par défaut
+  ---
+  duration_ms: 20.59323
+  type: 'test'
+  ...
+# Subtest: persistance facultative : TTL court appliqué, plafond refusé, fichiers réellement supprimés
+ok 103 - persistance facultative : TTL court appliqué, plafond refusé, fichiers réellement supprimés
+  ---
+  duration_ms: 23.812501
+  type: 'test'
+  ...
+# Subtest: pont natif : messages valides parsés, entrées malformées rejetées
+ok 104 - pont natif : messages valides parsés, entrées malformées rejetées
+  ---
+  duration_ms: 0.834555
+  type: 'test'
+  ...
+# Subtest: RFC 8291 §5 / Annexe A : vecteur de test officiel reproduit octet pour octet
+ok 105 - RFC 8291 §5 / Annexe A : vecteur de test officiel reproduit octet pour octet
+  ---
+  duration_ms: 2.579518
+  type: 'test'
+  ...
+# Subtest: aller-retour : un agent utilisateur déchiffre ce que l’émetteur chiffre ; mauvaise clé → échec
+ok 106 - aller-retour : un agent utilisateur déchiffre ce que l’émetteur chiffre ; mauvaise clé → échec
+  ---
+  duration_ms: 3.752406
+  type: 'test'
+  ...
+# Subtest: VAPID : JWT ES256 vérifiable avec la clé publique, aud/exp/sub corrects, exp ≤ 24 h, régénéré avant expiration
+ok 107 - VAPID : JWT ES256 vérifiable avec la clé publique, aud/exp/sub corrects, exp ≤ 24 h, régénéré avant expiration
+  ---
+  duration_ms: 4.537536
+  type: 'test'
+  ...
+# Subtest: requête push : TTL, Urgency, Topic ≤ 32 car. stable par événement, corps chiffré
+ok 108 - requête push : TTL, Urgency, Topic ≤ 32 car. stable par événement, corps chiffré
+  ---
+  duration_ms: 1.52177
+  type: 'test'
+  ...
+# Subtest: classification des réponses du service push : 201 = accepté (pas lu), 404/410 gone, 429 + Retry-After, 401/403, 5xx
+ok 109 - classification des réponses du service push : 201 = accepté (pas lu), 404/410 gone, 429 + Retry-After, 401/403, 5xx
+  ---
+  duration_ms: 0.646018
+  type: 'test'
+  ...
+1..109
+# tests 109
+# suites 0
+# pass 109
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3485.22776

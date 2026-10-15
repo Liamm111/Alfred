@@ -1,0 +1,24 @@
+✔ segmentation FR/EN : décimales, abréviations, ?, ! préservées (4.385994ms)
+✔ longue pause (3 s) → coupure même sans ponctuation ; pause courte → pas de coupure (1.436833ms)
+✔ code switching FR/EN détecté (0.983651ms)
+✔ glossaire : noms propres / termes corrigés, mots courants intacts, correction tracée (2.377123ms)
+✔ homophones courants non réécrits sans glossaire (pas de devinette) (0.482415ms)
+✔ WER : le glossaire réduit l’erreur sur noms propres bruités (mécanisme, pas qualité STT réelle) (0.813924ms)
+✔ provisoire → corrections → final : un seul final, aucune révision tardive ne le rouvre (1.319214ms)
+✔ flux coupé : provisoire orphelin abandonné, jamais promu (0.356225ms)
+✔ speakers : RTMS+roster seulement ; id inconnu ou source locale → UNKNOWN (1.38554ms)
+✔ quote() : provisoire / peu fiable jamais « certain » (1.233853ms)
+✔ budgets de latence : dépassements signalés et comptés (0.653856ms)
+✔ choix du moteur : RTMS natif si suffisant, sinon STT audio, hystérésis, interdiction immédiate (0.607826ms)
+✔ corpus synthétique 30 min : invariants final/provisoire/speakers (18.948665ms)
+✔ corpus synthétique 30 min : source locale → aucun speaker inventé (13.196041ms)
+✔ corpus synthétique 3 h : invariants final/provisoire/speakers (59.727612ms)
+✔ corpus synthétique 3 h : source locale → aucun speaker inventé (40.773531ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 400.208999
