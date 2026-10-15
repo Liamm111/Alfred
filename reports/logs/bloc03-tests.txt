@@ -1,0 +1,94 @@
+
+ RUN  v5.0.4 /home/user/Alfred
+
+ ✓ tests/auth/streams.test.ts > Zoom webhook authenticity > accepts a correct signature 3ms
+ ✓ tests/auth/streams.test.ts > Zoom webhook authenticity > rejects tampered body, wrong secret, missing headers, stale and future timestamps 1ms
+ ✓ tests/auth/streams.test.ts > Zoom webhook authenticity > answers the url_validation challenge with HMAC(plainToken) 1ms
+ ✓ tests/auth/streams.test.ts > Zoom webhook authenticity > events are idempotent: the same event_id is recorded once (replay of a signed webhook) 4ms
+ ✓ tests/auth/streams.test.ts > Zoom webhook authenticity > unknown or malformed event shapes are not normalised (and so can never grant anything) 3ms
+ ✓ tests/auth/streams.test.ts > ephemeral signed association meeting_uuid/stream_id > owner claims its own stream, redeems the token once, and gets exactly meeting/stream back 50ms
+ ✓ tests/auth/streams.test.ts > ephemeral signed association meeting_uuid/stream_id > a stolen token is useless to another authenticated user 43ms
+ ✓ tests/auth/streams.test.ts > ephemeral signed association meeting_uuid/stream_id > expires after 5 minutes 20ms
+ ✓ tests/auth/streams.test.ts > ephemeral signed association meeting_uuid/stream_id > tampered, truncated, re-signed-with-another-key and structurally odd tokens are refused 41ms
+ ✓ tests/auth/streams.test.ts > ephemeral signed association meeting_uuid/stream_id > revocation (or unlinking Zoom) invalidates outstanding associations 43ms
+ ✓ tests/auth/streams.test.ts > attempts to take over somebody else's meeting/stream > user B can not claim A's (meeting, stream): Zoom's verified event names A's Zoom user 34ms
+ ✓ tests/auth/streams.test.ts > attempts to take over somebody else's meeting/stream > B swapping only the stream id or only the meeting id of A's stream is refused 54ms
+ ✓ tests/auth/streams.test.ts > attempts to take over somebody else's meeting/stream > no proof from Zoom, no claim: unknown stream, stale event, stopped stream 18ms
+ ✓ tests/auth/streams.test.ts > attempts to take over somebody else's meeting/stream > a stream can be associated only once (second claim conflicts) 18ms
+ ✓ tests/auth/streams.test.ts > attempts to take over somebody else's meeting/stream > 10 simultaneous claims of the same stream: exactly one token is issued 46ms
+ ✓ tests/auth/streams.test.ts > attempts to take over somebody else's meeting/stream > a user whose Zoom link was revoked can no longer claim, even for a genuine stream 22ms
+ ✓ tests/auth/streams.test.ts > attempts to take over somebody else's meeting/stream > the service API has no parameter for window/participant names (nothing to spoof) 0ms
+ ✓ tests/auth/streams.test.ts > never start RTMS for somebody else, never leak the Zoom token > the host starts RTMS: the starter gets the server-side token; the result contains none 14ms
+ ✓ tests/auth/streams.test.ts > never start RTMS for somebody else, never leak the Zoom token > someone who is not the host is refused and the starter is never called 28ms
+ ✓ tests/auth/streams.test.ts > never start RTMS for somebody else, never leak the Zoom token > an unlinked, revoked or re-auth-needed user is refused before any Zoom call 22ms
+ ✓ tests/auth/streams.test.ts > never start RTMS for somebody else, never leak the Zoom token > if Zoom answers with a different identity than the linked one, nothing starts 17ms
+ ✓ tests/auth/http.test.ts > transport and hygiene > refuses anything that is not HTTPS (426) before looking at the request 32ms
+ ✓ tests/auth/http.test.ts > transport and hygiene > every response is no-store with HSTS and nosniff; errors carry a code only 8ms
+ ✓ tests/auth/http.test.ts > transport and hygiene > unknown route 404, malformed JSON 400, oversized body 400 9ms
+ ✓ tests/auth/http.test.ts > transport and hygiene > authorize needs the first factor; PKCE plain is refused over HTTP too 10ms
+ ✓ tests/auth/http.test.ts > transport and hygiene > protected routes need a valid bearer 41ms
+ ✓ tests/auth/http.test.ts > end to end over HTTP > login -> link Zoom -> Zoom webhook -> associate -> attach -> start RTMS -> logout; no Zoom secret ever on the wire 80ms
+ ✓ tests/auth/http.test.ts > end to end over HTTP > window/participant names are not accepted anywhere: strict bodies reject them with 400 36ms
+ ✓ tests/auth/http.test.ts > end to end over HTTP > another user's meeting: B gets 403 on associate and on rtms/start; nothing started 57ms
+ ✓ tests/auth/http.test.ts > end to end over HTTP > access token expiry is enforced over HTTP; refresh works; the old access token stays dead 24ms
+ ✓ tests/auth/http.test.ts > end to end over HTTP > url_validation challenge is answered (needs a valid signature) 2ms
+ ✓ tests/auth/http.test.ts > end to end over HTTP > deauthorization webhook unlinks the user 30ms
+ ✓ tests/auth/http.test.ts > end to end over HTTP > no response of this whole file ever contained a Zoom token, a token hash, or a stack trace 1ms
+ ✓ tests/auth/http.test.ts > HttpZoomClient request shapes (against a local mock Zoom) > sends Basic auth + form body for code exchange and refresh, token for revoke, Bearer for profile; double-encodes odd meeting uuids 15ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: linking > links, stores tokens ONLY encrypted, and the authorize URL carries state + PKCE S256 37ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: linking > the stored ciphertext is bound to its owner and purpose (AAD): copying it elsewhere fails 37ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: linking > state replay: the same callback twice is refused 14ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: linking > unknown / forged / expired state is refused and never reaches Zoom 12ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: linking > login-CSRF: a state started by user A can not be completed by user B (nor by A from another session) 17ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: linking > state is bound to the product session, not just the user 10ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: linking > a code that Zoom rejects (wrong PKCE verifier / replayed code) yields an error and no link 12ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: linking > least privilege: extra OR missing scopes are rejected and the freshly issued tokens are revoked at Zoom 31ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: linking > account mismatch: a product user already linked to Zoom account Z1 can not silently switch to Z2 21ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: linking > account takeover: a Zoom account already linked to product user A can not be linked to product user B 24ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: linking > re-linking the SAME Zoom account refreshes the link instead of failing 18ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: linking > the DB itself forbids two product users on one Zoom account 22ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: refresh > valid access token: no call to Zoom 37ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: refresh > expired access token is refreshed and the ROTATED refresh token is what gets stored 30ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: refresh > 8 concurrent callers trigger exactly ONE refresh and all receive the same token 119ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: refresh > two different users refresh in parallel without blocking each other's results 41ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: refresh > expiry of the Zoom grant (invalid_grant): link goes to needs_reauth, secrets are wiped, state COMMITS 20ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: refresh > a transient Zoom failure changes nothing (old tokens kept, retry works) 24ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: refresh > key rotation: data sealed with an old key still opens; new writes use the new key 1ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: revocation and logout > unlink revokes both tokens at Zoom, erases them locally, and getAccessToken refuses afterwards 26ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: revocation and logout > unlink still wipes locally when Zoom is down, and says so 20ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: revocation and logout > after unlink the user can link a different Zoom account 26ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: revocation and logout > app_deauthorized from Zoom wipes tokens and revokes the link 20ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: revocation and logout > product logout ends the product session; Zoom identity is separate and stays linked but unreachable without a session 20ms
+ ✓ tests/auth/zoom-link.test.ts > OAuth Zoom: revocation and logout > user erasure removes the whole auth footprint (sessions, tokens, links, secrets, associations) 30ms
+ ✓ tests/auth/product-auth.test.ts > PKCE primitives > matches the RFC 7636 appendix B vector 2ms
+ ✓ tests/auth/product-auth.test.ts > PKCE primitives > generates valid, unique verifiers; rejects short/odd ones 1ms
+ ✓ tests/auth/product-auth.test.ts > PKCE primitives > redirect URI policy: https, loopback IP, reverse-DNS scheme only 1ms
+ ✓ tests/auth/product-auth.test.ts > authorization code + PKCE > happy path: code -> tokens -> authenticate 19ms
+ ✓ tests/auth/product-auth.test.ts > authorization code + PKCE > refuses PKCE `plain`, bad challenge, unknown client, unregistered redirect 4ms
+ ✓ tests/auth/product-auth.test.ts > authorization code + PKCE > an intercepted code is useless without the verifier, and a wrong guess burns it 9ms
+ ✓ tests/auth/product-auth.test.ts > authorization code + PKCE > code replay fails AND revokes the session created by the first exchange 15ms
+ ✓ tests/auth/product-auth.test.ts > authorization code + PKCE > concurrent exchanges of one code: exactly one wins 32ms
+ ✓ tests/auth/product-auth.test.ts > authorization code + PKCE > expired code, wrong redirect, wrong client are refused 15ms
+ ✓ tests/auth/product-auth.test.ts > authorization code + PKCE > a user is created once per IdP subject, even under a creation race 25ms
+ ✓ tests/auth/product-auth.test.ts > storage hygiene > no token, code or verifier is stored in clear 14ms
+ ✓ tests/auth/product-auth.test.ts > renewable session > access token expires; refresh rotates; old refresh token is dead 18ms
+ ✓ tests/auth/product-auth.test.ts > renewable session > refresh token reuse (theft) revokes the whole session, including the legitimate new tokens 19ms
+ ✓ tests/auth/product-auth.test.ts > renewable session > concurrent refresh with the same token: one success, the others detect reuse and kill the session 21ms
+ ✓ tests/auth/product-auth.test.ts > renewable session > serial refresh chain works for many rotations 30ms
+ ✓ tests/auth/product-auth.test.ts > renewable session > refresh token expires after 30 days; the login session after 90 days regardless of activity 22ms
+ ✓ tests/auth/product-auth.test.ts > renewable session > refresh is bound to its client 8ms
+ ✓ tests/auth/product-auth.test.ts > logout > logout kills access and refresh immediately; other sessions of the user survive; logoutAll kills all 21ms
+ ✓ tests/auth/product-auth.test.ts > logout > garbage / missing bearer is unauthorized 2ms
+ ✓ tests/auth/privileges.test.ts > privilege separation between the API role and the auth service role > alfred_app (data API) can not read ANY auth/Zoom table, even for its own user id 44ms
+ ✓ tests/auth/privileges.test.ts > privilege separation between the API role and the auth service role > alfred_app can read secret_refs rows of its own user only through RLS (never other users') 37ms
+ ✓ tests/auth/privileges.test.ts > privilege separation between the API role and the auth service role > the auth service can not touch sessions, packets, evidence or assignments 11ms
+ ✓ tests/auth/privileges.test.ts > privilege separation between the API role and the auth service role > the auth service can not delete users (no erasure power) nor read outbox 5ms
+
+ Test Files  5 passed (5)
+      Tests  82 passed (82)
+   Start at  07:17:49
+   Duration  4.34s (tests 80%, import 18%, transform 2%, worker 1%)
+
+    Isolate  5 workers spawned · ~136ms startup each (spawn + environment, per file)
+             at least ~545ms faster with isolate: false — reuses workers across files instead of one per file
+

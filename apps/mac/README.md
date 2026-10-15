@@ -1,0 +1,2 @@
+# apps/mac — compagnon macOS (SwiftUI + AppKit)
+Swift package : `CompanionCore` (logique testée Linux + macOS) et `AlfredCompanion` (app, macOS seulement). `swift build && swift test`, `scripts/build_app.sh`. Validation réelle (permissions, ScreenCaptureKit, isolation audio) : `MANUAL_MAC_ZOOM.md` — **NON EXÉCUTÉ**. Rapports : `reports/BLOC_04.md`, `BLOC_07.md`. Invariants : `docs/ARCHITECTURE_ADR.md`.

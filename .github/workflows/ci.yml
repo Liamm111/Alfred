@@ -1,28 +1,62 @@
-name: ci
-on: [push, pull_request]
+name: CI
+on:
+  push:
+    branches: [main, "claude/**", "codex/**"]
+  pull_request:
+
 jobs:
-  node:
+  verify:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: alfred_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 3s --health-timeout 3s --health-retries 20
+    env:
+      DATABASE_URL_TEST: postgres://postgres:postgres@127.0.0.1:5432/alfred_test
+      DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/alfred_test
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
-        with: { node-version: 22 }
-      - run: npm ci
-        working-directory: gateway
-      - run: npm test
-        working-directory: gateway
-      - run: npm install
-        working-directory: zoom-app
-      - run: npm test
-        working-directory: zoom-app
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm secrets:scan
+      - run: pnpm check:no-bot
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - name: RTMS gateway + Zoom surface tests (node:test)
+        run: pnpm --filter @alfred/rtms-gateway --filter @alfred/zoom-surface test
+      - name: Migrations up / down / up
+        run: |
+          pnpm migrate:up
+          pnpm migrate:down
+          pnpm migrate:up
+      - run: pnpm test:integration
+      - run: pnpm build
+      - run: pnpm --filter @alfred/web exec playwright install --with-deps chromium
+      - run: pnpm test:e2e
+      - name: Production bundle checks
+        run: pnpm check:prod-bundle
+
   mac:
-    # This job is what turns BLOC_04 / BLOC_07 from BLOCKED into PASS/FAIL: it compiles the SwiftUI/AppKit/ScreenCaptureKit app.
+    # Compiles the SwiftUI/AppKit/ScreenCaptureKit companion and runs CompanionCore tests on macOS (blocs 04 / 07).
     runs-on: macos-14
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - run: swift build -c release
-        working-directory: mac
+        working-directory: apps/mac
       - run: swift test
-        working-directory: mac
+        working-directory: apps/mac
       - run: ./scripts/build_app.sh
-        working-directory: mac
+        working-directory: apps/mac

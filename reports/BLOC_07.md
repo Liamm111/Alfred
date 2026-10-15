@@ -2,7 +2,7 @@
 
 **Verdict : PARTIAL — pipeline Core PASS (Linux et macOS), adaptateur ScreenCaptureKit COMPILE (CI macOS) mais jamais exécuté ; validation matérielle BLOCKED** · **GO/NO-GO : NO-GO.**
 
-**Mise à jour (PR Liamm111/Alfred#3) :** le job CI `mac` est vert (commit `d70ad81`) : `AudioSources.swift` compile sur macOS et les 45 tests Swift passent sur macOS. Aucune capture réelle n'a été exécutée (CI sans Zoom, sans audio, sans permission Screen Recording) ; isolation, AirPods, changement de sortie et STOP réel restent à mesurer (`mac/MANUAL_MAC_ZOOM.md` §C).
+**Mise à jour (PR Liamm111/Alfred#3) :** le job CI `mac` est vert (commit `d70ad81`) : `AudioSources.swift` compile sur macOS et les 45 tests Swift passent sur macOS. Aucune capture réelle n'a été exécutée (CI sans Zoom, sans audio, sans permission Screen Recording) ; isolation, AirPods, changement de sortie et STOP réel restent à mesurer (`apps/mac/MANUAL_MAC_ZOOM.md` §C).
 
 ## Livrables
 | Exigence | Statut | Preuve |
@@ -12,7 +12,7 @@
 | Conversion PCM stable | PASS (Core) | `PCMConverter` : Float32 planaire stéréo 48 kHz → s16 mono 16 kHz, état conservé entre buffers (test : conversion en flux ≈ conversion d'un bloc, écart < 400 LSB), écrêtage, entrées invalides. |
 | Ring buffer chiffré borné | PASS | `EncryptedRingBuffer` AES‑256‑GCM (CryptoKit / swift‑crypto sous Linux), AAD = (source, ts), borné en octets (plus ancien supprimé, compteur), pas de clair dans les blobs, altération détectée, `purge()` vide **et change la clé**. |
 | Santé bitrate / silence | PASS | `AudioHealthMonitor` : bitrate ≈ 256 kb/s mesuré, `silent`, `absent` (jamais reçu / plus de données), `gap` (trou 500 ms mesuré). |
-| Sélection explicite fenêtre/app/écran ; casque/Bluetooth/HP ; détection de pollution | Sélection : écrit. **Tests matériel : BLOCKED** | `IsolationProbe` (phases A/B) testée sur fixtures ; protocole matériel dans `mac/MANUAL_MAC_ZOOM.md` §C. |
+| Sélection explicite fenêtre/app/écran ; casque/Bluetooth/HP ; détection de pollution | Sélection : écrit. **Tests matériel : BLOCKED** | `IsolationProbe` (phases A/B) testée sur fixtures ; protocole matériel dans `apps/mac/MANUAL_MAC_ZOOM.md` §C. |
 | Interrupteur global Stop : audio + micro + purge | PASS (Core) | `testStopAllStopsEverySourceImmediatelyPurgesAndDropsLateCallbacks` : barrière d'entrée fermée **avant** l'arrêt des sources, callbacks tardifs ignorés, purge, idempotent. Arrêt effectif de `SCStream`/`AVAudioEngine` non vérifié sur Mac. |
 
 ## Vérifications obligatoires

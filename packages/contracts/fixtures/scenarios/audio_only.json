@@ -1,0 +1,83 @@
+{
+  "name": "audio_only",
+  "description": "Only audio flows.",
+  "session_id": "11111111-1111-4111-8111-111111111111",
+  "owner_id": "22222222-2222-4222-8222-222222222222",
+  "steps": [
+    {
+      "advance_ms": 0,
+      "do": {
+        "type": "DETECT",
+        "meeting_uuid": "synthetic-meeting-001"
+      },
+      "accepted": true,
+      "expect_state": "DETECTED"
+    },
+    {
+      "advance_ms": 100,
+      "do": {
+        "type": "REQUEST_PERMISSION"
+      },
+      "accepted": true,
+      "expect_state": "PERMISSION"
+    },
+    {
+      "advance_ms": 100,
+      "do": {
+        "type": "PERMISSION_GRANTED",
+        "source_epoch": 1,
+        "stream_id": "synthetic-stream-001"
+      },
+      "accepted": true,
+      "expect_state": "CONNECTING"
+    },
+    {
+      "advance_ms": 300,
+      "do": {
+        "type": "PACKET",
+        "modality": "audio",
+        "seq": 0,
+        "source_epoch": 1,
+        "payload_bytes": 320,
+        "queued_ms": 0,
+        "source_lag_ms": 40
+      },
+      "accepted": true,
+      "expect_state": "LIVE_AUDIO"
+    },
+    {
+      "advance_ms": 1000,
+      "do": {
+        "type": "PACKET",
+        "modality": "audio",
+        "seq": 1,
+        "source_epoch": 1,
+        "payload_bytes": 320,
+        "queued_ms": 0,
+        "source_lag_ms": 40
+      },
+      "accepted": true,
+      "expect_state": "LIVE_AUDIO"
+    },
+    {
+      "advance_ms": 100,
+      "do": {
+        "type": "STOP"
+      },
+      "accepted": true,
+      "expect_state": "FINALIZING"
+    },
+    {
+      "advance_ms": 0,
+      "do": {
+        "type": "FINALIZED"
+      },
+      "accepted": true,
+      "expect_state": "COMPLETED"
+    }
+  ],
+  "expect_final": {
+    "state": "COMPLETED",
+    "outcome": "completed"
+  }
+}

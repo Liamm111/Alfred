@@ -1,0 +1,13 @@
+{
+  "name": "@alfred/contracts",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "gen": "tsx scripts/gen-all.ts",
+    "gen:check": "tsx scripts/gen-all.ts --check"
+  },
+  "dependencies": { "zod": "^4.6.7" }
+}

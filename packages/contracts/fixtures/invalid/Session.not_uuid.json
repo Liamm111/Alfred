@@ -1,0 +1,26 @@
+{
+  "entity": "Session",
+  "reason": "id must be a uuid",
+  "value": {
+    "schema_version": "1.0.0",
+    "id": "not-a-uuid",
+    "owner_id": "00000000-0000-4000-8000-000000000002",
+    "state": "LIVE_AV",
+    "source_epoch": 1,
+    "meeting_uuid": "synthetic-meeting-001",
+    "stream_id": "synthetic-stream-001",
+    "version": 7,
+    "verified_packets": 42,
+    "last_packet_wall_ms": {
+      "audio_ms": 1700000005000,
+      "video_ms": 1700000004900,
+      "transcript_ms": null
+    },
+    "outcome": null,
+    "failure_reason": null,
+    "created_at_ms": 1700000000000,
+    "updated_at_ms": 1700000005000,
+    "started_at_ms": 1700000000100,
+    "ended_at_ms": null
+  }
+}

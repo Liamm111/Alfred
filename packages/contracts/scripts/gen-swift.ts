@@ -1,0 +1,119 @@
+/** Emits Swift Codable types from the Zod schemas (via their JSON Schema). */
+import { z } from "zod";
+import { ENTITY_SCHEMAS, SCHEMA_VERSION } from "../src/schemas.js";
+
+type J = Record<string, any>;
+
+const NAME_OVERRIDES: Record<string, string> = {
+  "Session.state": "SessionState",
+  "Session.outcome": "SessionOutcome",
+  "Session.last_packet_wall_ms": "LastPacketAt",
+  "CaptureSource.kind": "CaptureSourceKind",
+  "CaptureSource.status": "CaptureSourceStatus",
+  "Evidence.kind": "EvidenceKind",
+  "Gap.reason": "GapReason",
+  "Alert.severity": "AlertSeverity",
+  "Alert.code": "AlertCode",
+  "Assignment.status": "AssignmentStatus",
+  modality: "Modality",
+};
+const RESERVED = new Set(["default", "case", "in", "is", "as", "true", "false", "nil", "self", "super", "class", "struct", "enum", "protocol", "func", "var", "let", "return", "switch", "where", "for", "while", "if", "else", "init", "import", "operator", "internal", "private", "public", "static", "subscript", "typealias"]);
+
+const pascal = (s: string) => s.split("_").map((p) => p.charAt(0).toUpperCase() + p.slice(1)).join("");
+const camel = (s: string) => {
+  const p = s.toLowerCase().split("_");
+  const c = p[0]! + p.slice(1).map((x) => x.charAt(0).toUpperCase() + x.slice(1)).join("");
+  return RESERVED.has(c) ? `\`${c}\`` : c;
+};
+
+export function generateSwift(): string {
+  const enums = new Map<string, { name: string; values: string[] }>(); // by signature
+  const structs: string[] = [];
+  const emitted = new Set<string>();
+
+  const enumName = (entity: string, prop: string, values: string[]) => {
+    const sig = values.join("|");
+    const hit = enums.get(sig);
+    if (hit) return hit.name;
+    const name = NAME_OVERRIDES[`${entity}.${prop}`] ?? NAME_OVERRIDES[prop] ?? pascal(prop);
+    enums.set(sig, { name, values });
+    return name;
+  };
+
+  const typeOf = (s: J, entity: string, prop: string): { t: string; nullable: boolean } => {
+    if (s.anyOf) {
+      const nonNull = s.anyOf.filter((x: J) => x.type !== "null");
+      if (nonNull.length !== 1 || nonNull.length === s.anyOf.length) throw new Error(`unsupported union at ${entity}.${prop}`);
+      return { t: typeOf(nonNull[0], entity, prop).t, nullable: true };
+    }
+    if (s.enum) return { t: enumName(entity, prop, s.enum), nullable: false };
+    if (s.const !== undefined) return { t: "String", nullable: false };
+    switch (s.type) {
+      case "string":
+        return { t: "String", nullable: false };
+      case "integer":
+        return { t: "Int", nullable: false };
+      case "number":
+        return { t: "Double", nullable: false };
+      case "boolean":
+        return { t: "Bool", nullable: false };
+      case "array":
+        return { t: `[${typeOf(s.items, entity, prop).t}]`, nullable: false };
+      case "object": {
+        const name = NAME_OVERRIDES[`${entity}.${prop}`] ?? pascal(prop);
+        emitStruct(name, s, entity);
+        return { t: name, nullable: false };
+      }
+    }
+    throw new Error(`unsupported schema at ${entity}.${prop}: ${JSON.stringify(s).slice(0, 80)}`);
+  };
+
+  function emitStruct(name: string, s: J, entity: string) {
+    if (emitted.has(name)) return;
+    emitted.add(name);
+    const props = Object.entries<J>(s.properties);
+    const fields = props.map(([k, v]) => ({ key: k, ...typeOf(v, entity, k), swift: camel(k) }));
+    const lines: string[] = [];
+    lines.push(`public struct ${name}: Codable, Equatable, Sendable {`);
+    for (const f of fields) lines.push(`    public var ${f.swift}: ${f.t}${f.nullable ? "?" : ""}`);
+    lines.push("");
+    lines.push("    enum CodingKeys: String, CodingKey {");
+    for (const f of fields) lines.push(`        case ${f.swift} = "${f.key}"`);
+    lines.push("    }");
+    lines.push("");
+    lines.push(`    public init(${fields.map((f) => `${f.swift}: ${f.t}${f.nullable ? "?" : ""}`).join(", ")}) {`);
+    for (const f of fields) lines.push(`        self.${f.swift} = ${f.swift}`);
+    lines.push("    }");
+    lines.push("");
+    lines.push("    public func encode(to encoder: Encoder) throws {");
+    lines.push("        var c = encoder.container(keyedBy: CodingKeys.self)");
+    // Optionals are written as explicit JSON null (the schema requires the key to be present).
+    for (const f of fields) lines.push(`        try c.encode(${f.swift}, forKey: .${f.swift})`);
+    lines.push("    }");
+    lines.push("}");
+    structs.push(lines.join("\n"));
+  }
+
+  for (const [entity, schema] of Object.entries(ENTITY_SCHEMAS)) {
+    const js = z.toJSONSchema(schema, { io: "output" }) as J;
+    emitStruct(entity, js, entity);
+  }
+
+  const enumSrc = [...enums.values()].map(({ name, values }) => {
+    const l = [`public enum ${name}: String, Codable, Equatable, Sendable, CaseIterable {`];
+    for (const v of values) l.push(`    case ${camel(v)} = "${v}"`);
+    l.push("}");
+    return l.join("\n");
+  });
+
+  return [
+    "// GENERATED by scripts/gen-swift.ts from src/contracts/schemas.ts — DO NOT EDIT.",
+    "// Run `npm run gen` after changing the Zod schemas. Raw audio/image bytes are intentionally absent.",
+    "import Foundation",
+    "",
+    `public let alfredSchemaVersion = "${SCHEMA_VERSION}"`,
+    "",
+    ...enumSrc.flatMap((e) => [e, ""]),
+    ...structs.flatMap((e) => [e, ""]),
+  ].join("\n");
+}

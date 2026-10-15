@@ -9,7 +9,7 @@ Environnement : Linux x86_64, Swift 6.0.3 (toolchain Linux installée pour l'occ
 ## Livrables
 | Exigence | Statut | Preuve |
 |---|---|---|
-| App SwiftUI + AppKit, menu bar + fenêtre principale, icône/statuts lisibles | **Écrit, non compilé** | `mac/Sources/AlfredCompanion/*.swift` (MenuBarExtra, Window, NSApplicationDelegateAdaptor). Les 5 fichiers passent `swiftc -parse` (syntaxe seulement ; **pas de typage vérifié**). Icône = SF Symbol piloté par `StatusPresenter`. |
+| App SwiftUI + AppKit, menu bar + fenêtre principale, icône/statuts lisibles | **Écrit, non compilé** | `apps/mac/Sources/AlfredCompanion/*.swift` (MenuBarExtra, Window, NSApplicationDelegateAdaptor). Les 5 fichiers passent `swiftc -parse` (syntaxe seulement ; **pas de typage vérifié**). Icône = SF Symbol piloté par `StatusPresenter`. |
 | Détection Zoom = indice seulement | **PASS (logique)** | `ZoomHint`/`ZoomHintDetector` n'ont aucune API de déclenchement ; tests `testZoomHintLevels`, `testDetectionStartAndLifecycleNeverFocusZoom`. |
 | Boutons explicites Start/Pause/Resume/Stop (+ STOP TOUT), Onboarding, Diagnostics | **PASS (logique) / non compilé (vues)** | `CompanionController` exige un `UserAction` ; `Onboarding.next`, `DiagnosticsReport`. |
 | Permissions en états distincts | **PASS (logique)** | `PermissionStatus` = notDetermined/granted/denied/restricted/unavailable ; `ScreenRecordingResolver` (macOS n'a pas de tri‑état natif : « denied » = refusé après une demande mémorisée). Provider réel `MacPermissionProvider` non compilé. |
@@ -38,4 +38,4 @@ Logs expurgés : `reports/evidence_redacted_log_sample.txt` (gateway) ; côté M
 5. `CGWindowListCopyWindowInfo` : confirmer l'absence de prompt de permission.
 6. Association/nonce côté Mac (appel backend pour obtenir le code court) non implémentée : la Zoom App attend `?n=CODE`.
 
-**GO/NO-GO : NO-GO** (preuve de build absente). Passage à GO : CI `mac` verte + §B de `mac/MANUAL_MAC_ZOOM.md` P1–P9 remplis.
+**GO/NO-GO : NO-GO** (preuve de build absente). Passage à GO : CI `mac` verte + §B de `apps/mac/MANUAL_MAC_ZOOM.md` P1–P9 remplis.
