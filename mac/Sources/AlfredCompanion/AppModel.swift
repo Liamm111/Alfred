@@ -77,10 +77,14 @@ final class AppModel: ObservableObject {
         failure.handler = { [weak self] msg in
             DispatchQueue.main.async { logger.error(msg); self?.controller.stopAll(by: UserAction(source: "stream-failure")) }
         }
+        consentGiven = controller.onboardingDone
+        startObservers()
+    }
+
+    private func startObservers() {
         controller.onChange = { [weak self] in Task { @MainActor in self?.refresh() } }
         lifecycle = LifecycleObserver { [weak self] e in Task { @MainActor in self?.controller.handle(e) } }
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in Task { @MainActor in self?.refresh() } }
-        consentGiven = controller.onboardingDone
         Task { await reloadChoices() }
     }
 

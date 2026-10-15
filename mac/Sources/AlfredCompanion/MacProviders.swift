@@ -93,7 +93,7 @@ final class FileLogSink: LogSink {
     }
 }
 
-struct FileStateStore: StateStore {
+final class FileStateStore: StateStore {
     private let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("AlfredCompanion/state.json")
     func load() -> PersistedState { (try? Data(contentsOf: url)).flatMap { try? JSONDecoder().decode(PersistedState.self, from: $0) } ?? PersistedState() }
     func save(_ s: PersistedState) {
