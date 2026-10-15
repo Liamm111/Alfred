@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "id": "00000000-0000-4000-8000-000000000005",
+  "session_id": "00000000-0000-4000-8000-000000000001",
+  "owner_id": "00000000-0000-4000-8000-000000000002",
+  "kind": "transcript_span",
+  "modality": "transcript",
+  "packet_ids": [
+    "00000000-0000-4000-8000-000000000004"
+  ],
+  "start_ms": 1700000000400,
+  "end_ms": 1700000002400,
+  "text": "Synthetic sentence for fixtures.",
+  "confidence": 0.92,
+  "created_at_ms": 1700000003000
+}
