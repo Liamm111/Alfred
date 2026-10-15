@@ -8,7 +8,7 @@ Aucun LLM, aucune transcription réelle de réunion n'était disponible. Le mote
 
 | Livrable | Statut | Où |
 |---|---|---|
-| Préfiltre alias, vocatifs, impératifs, pronoms | PASS | `src/address/rules.ts`, `patterns.ts` |
+| Préfiltre alias, vocatifs, impératifs, pronoms | PASS | `blocs-08-12/src/address/rules.ts`, `patterns.ts` |
 | Contexte 15–60 s | PASS | `context_ms` borné [15 s, 60 s] (test sur le nombre de lignes envoyées au LLM) |
 | LLM structuré (score, reason codes, evidence) | PARTIAL | `llm.ts` : schéma, prompt versionné, `parseVerdict` (extraits exacts obligatoires). **Aucun appel LLM réel.** |
 | 5 classes + alerte | PASS | `DIRECT_CERTAIN→urgent`, `DIRECT_PROBABLE→normal`, mention/groupe/hors-sujet→aucune |
@@ -19,7 +19,7 @@ Aucun LLM, aucune transcription réelle de réunion n'était disponible. Le mote
 
 ## Corpus et résultats
 
-- `corpus/address_cases.ts` : **140 cas** (FR 76, EN 57, mixte 7), 13 catégories dont nom évoqué (23), homophones (10), questions indirectes (10), prénom absent (10), plusieurs Liam (10), phrases annulées (11), relances (10). 2 cas « limite connue » étiquetés avec la vérité terrain et vérifiés comme **non détectés** (STT « Lien », appel de présence).
+- `blocs-08-12/corpus/address_cases.ts` : **140 cas** (FR 76, EN 57, mixte 7), 13 catégories dont nom évoqué (23), homophones (10), questions indirectes (10), prénom absent (10), plusieurs Liam (10), phrases annulées (11), relances (10). 2 cas « limite connue » étiquetés avec la vérité terrain et vérifiés comme **non détectés** (STT « Lien », appel de présence).
 - Exécution en deux modes (final seul, et provisoire+final) : mêmes classes, mêmes alertes nettes.
 - **Une unique alerte directe par question** : vérifié sur les 140 cas × 2 modes (aucun `question_id` en double, aucune alerte pour une autre classe que DIRECT_*).
 - **Aucune urgence pour une mention** : vérifié, aucune alerte sur les cas `MENTION_SIMPLE` (hors limite connue).

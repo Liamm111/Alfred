@@ -8,12 +8,12 @@ Contexte : dépôt vide au départ (pas de BLOCs 01–07), pas d'accès à Zoom 
 
 | Livrable | Statut | Où |
 |---|---|---|
-| Contrat unique `NormalizedEvidence` (audio/transcript/ocr) | PASS | `src/contracts/evidence.ts` (+ `validateEvidence`) |
-| Ordre canonique, offsets UTC, timebase média | PASS | `src/merge/timebase.ts` (`ClockModel` type NTP, `MediaTimebase`), `canonicalCmp` |
+| Contrat unique `NormalizedEvidence` (audio/transcript/ocr) | PASS | `blocs-08-12/src/contracts/evidence.ts` (+ `validateEvidence`) |
+| Ordre canonique, offsets UTC, timebase média | PASS | `blocs-08-12/src/merge/timebase.ts` (`ClockModel` type NTP, `MediaTimebase`), `canonicalCmp` |
 | Provenance, `source_epoch`, health, freshness, segments de trou | PASS | contrat + `GapSegment` |
 | RTMS préféré si attesté, fallback local pour modalités/intervalles manquants | PASS | `MeetingMerger` (rang 0 attesté / 1 RTMS non attesté / 2 local) |
 | Anti-doublon overlap + texte + speaker | PASS | `#isDuplicate` |
-| Cache/replay local borné | PASS | `src/merge/replay.ts` (SQLite, bornes items+octets, perte tracée) |
+| Cache/replay local borné | PASS | `blocs-08-12/src/merge/replay.ts` (SQLite, bornes items+octets, perte tracée) |
 | Interdiction de fusion de deux réunions | PASS | `MergeHub`, `wrong_meeting`, `source_bound_elsewhere` |
 
 ## Propriété clé

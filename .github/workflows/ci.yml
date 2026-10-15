@@ -60,3 +60,19 @@ jobs:
         working-directory: apps/mac
       - run: ./scripts/build_app.sh
         working-directory: apps/mac
+
+  blocs-08-12:
+    # Blocs 08–12 (vision, fusion, STT, interpellations, outbox/push) : paquet autonome, node:test, hors workspace pnpm.
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: blocs-08-12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test

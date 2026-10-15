@@ -8,10 +8,10 @@ Contexte d'exécution : conteneur Linux, sans macOS, sans Zoom, sans Xcode/`swif
 
 | Livrable | Statut | Preuve |
 |---|---|---|
-| SCContentSharingPicker (fenêtre Zoom + fenêtre de partage) | **BLOCKED** (écrit, non compilé) | `mac/Sources/AlfredMac/SharePicker.swift` |
-| Détection apparition/disparition/état de fenêtre | PASS (logique) | `src/vision/windows.ts`, tests `fenêtre disparue…`, `minimisé`, `autre Space` |
+| SCContentSharingPicker (fenêtre Zoom + fenêtre de partage) | **BLOCKED** (écrit, non compilé) | `blocs-08-12/mac/Sources/AlfredMac/SharePicker.swift` |
+| Détection apparition/disparition/état de fenêtre | PASS (logique) | `blocs-08-12/src/vision/windows.ts`, tests `fenêtre disparue…`, `minimisé`, `autre Space` |
 | Filtrage « Zoom seulement » | PASS (logique) | `evaluatePick`, `cropMasked` ; tests `contenu non-Zoom exclu`, `plein écran…` |
-| Échantillonnage limité + change-detection | PASS | `src/vision/sampler.ts` (dHash 64 bits, plafond dur 500 ms, heartbeat) |
+| Échantillonnage limité + change-detection | PASS | `blocs-08-12/src/vision/sampler.ts` (dHash 64 bits, plafond dur 500 ms, heartbeat) |
 | Frame hash + quality score + preuves horodatées | PASS | `NormalizedEvidence` modality `ocr` avec `frame_hash`, `quality_score`, `utc_*`, `clock_offset_ms` |
 | OCR Vision local | **BLOCKED** (écrit, non exécuté) | `VisionOCR.swift` (fr-FR, en-US, `.accurate`) |
 | Fenêtre réduite / autre Space / 2ᵉ écran / minuscule / flou / multi-fenêtre | PASS (logique) | voir tests |
@@ -19,7 +19,7 @@ Contexte d'exécution : conteneur Linux, sans macOS, sans Zoom, sans Xcode/`swif
 
 ## Tests exécutés (Linux, Node 22) — 19/19 PASS
 
-Log : `reports/logs/bloc08_tests.txt` (`npm test`). Couverture des vérifications demandées :
+Log : `reports/logs/bloc08_tests.txt` (`npm test` dans `blocs-08-12/`). Couverture des vérifications demandées :
 
 - **Slides avec changements** : 2 diapos → `slide-1`/`slide-2` ; frame identique → `unchanged`, 1 seul appel OCR.
 - **Zoom minimisé / caché / autre Space** : réponse `unavailable` (jamais l'ancienne diapo), trou `not_visible` de 4000 ms tracé, recapture forcée au retour.
@@ -33,7 +33,7 @@ Défaut trouvé *par* les tests puis corrigé : après un blocage (minimisé, pe
 
 ## Limites de la preuve (à lire)
 
-- L'OCR utilisé en test est un **OCR jouet** (`tests/support/font.ts`, police 5×7 majuscules). Il réagit à de vrais pixels (flou, taille, contraste) mais **ne prouve rien sur la précision d'Apple Vision** (accents, casse, polices réelles, slides denses).
+- L'OCR utilisé en test est un **OCR jouet** (`blocs-08-12/tests/support/font.ts`, police 5×7 majuscules). Il réagit à de vrais pixels (flou, taille, contraste) mais **ne prouve rien sur la précision d'Apple Vision** (accents, casse, polices réelles, slides denses).
 - Seuils (`MIN_LINE_HEIGHT_PX = 9`, confiance 0.5, dHash ≥ 4, stale 30 s) : **heuristiques non calibrées** sur de vraies captures Zoom.
 - Aucune capture ScreenCaptureKit réelle ; comportement de `SCWindow.isOnScreen` (Spaces, plein écran natif macOS, 2ᵉ écran) supposé d'après la documentation, **non vérifié**.
 
@@ -43,7 +43,7 @@ Les logs de test ne contiennent que des textes synthétiques (« PLAN DU COURS �
 
 ## Dettes
 
-1. Compiler et lancer `mac/` sur macOS 14+ ; tester TCC (Enregistrement d'écran) retiré en cours de réunion (`SCStreamDelegate.didStopWithError`).
+1. Compiler et lancer `blocs-08-12/mac/` sur macOS 14+ ; tester TCC (Enregistrement d'écran) retiré en cours de réunion (`SCStreamDelegate.didStopWithError`).
 2. ScreenCaptureKit n'expose pas « réduit » : `minimized` est toujours `false` côté Swift, la fenêtre apparaît `on_screen=false` → mappée `other_space`. Distinguer exige l'API Accessibilité (permission en plus).
 3. Corpus réel de slides Zoom (flou de compression, texte < 12 px, thèmes sombres) pour calibrer les seuils ; mesurer WER-équivalent de l'OCR.
 4. Capturer en mode `singleDisplay` avec `SCContentFilter(display:including:)` côté natif (défense en profondeur ; le masquage TS existe mais le natif ne doit pas livrer de pixels non-Zoom du tout).

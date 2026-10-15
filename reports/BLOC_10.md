@@ -8,7 +8,7 @@ Aucun moteur STT, aucun fichier audio et aucun flux RTMS n'étaient disponibles.
 
 | Livrable | Statut | Où |
 |---|---|---|
-| Adaptateur STT interchangeable (RTMS natif / STT audio) | PASS (interface) ; moteurs réels BLOCKED | `src/stt/adapter.ts` (`SttAdapter`, `SttEvent`) |
+| Adaptateur STT interchangeable (RTMS natif / STT audio) | PASS (interface) ; moteurs réels BLOCKED | `blocs-08-12/src/stt/adapter.ts` (`SttAdapter`, `SttEvent`) |
 | Choix RTMS-natif vs STT audio, hystérésis | PASS | `ProviderSelector` (FR+EN requis, couverture ≥ 0,95, latence p95 ≤ 4 s, bascule après 3 évaluations, interdiction = immédiat) |
 | FR / EN / code switching | PARTIAL | `detectLang` heuristique ; `lang` du moteur prioritaire |
 | Final vs provisoire, corrections de phrases | PASS | `TranscriptAssembler` (révisions périmées ignorées, final jamais rouvert, orphelins abandonnés) |
@@ -29,7 +29,7 @@ Log : `reports/logs/bloc10_tests.txt`.
 
 ## Limites de la preuve — à ne pas sur-interpréter
 
-- Le « corpus 30 min + 3 h » est **synthétique, textuel, généré par graine** (`tests/support/corpus.ts`) : il prouve des invariants de logique, pas la qualité de transcription. **Aucun WER réel n'a été mesuré.** L'outil `wer()` existe mais n'a été appliqué qu'à des cas fabriqués.
+- Le « corpus 30 min + 3 h » est **synthétique, textuel, généré par graine** (`blocs-08-12/tests/support/corpus.ts`) : il prouve des invariants de logique, pas la qualité de transcription. **Aucun WER réel n'a été mesuré.** L'outil `wer()` existe mais n'a été appliqué qu'à des cas fabriqués.
 - Le test « glossaire réduit le WER » (0,56 → 0) montre le mécanisme sur des erreurs que j'ai moi-même construites ; il ne dit rien du taux de réussite en conditions réelles.
 - Audio bruité, accents, chevauchements de parole, latences réelles : **non testés**.
 - `detectLang` est une heuristique de mots-outils : des termes anglais insérés dans du français sans mots-outils anglais restent classés `fr` (limite documentée dans un test).

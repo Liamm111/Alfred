@@ -8,11 +8,11 @@ Environnement : Linux, sans iPhone, sans macOS, sans accès à APNs/FCM, sans Sa
 
 | Livrable | Statut | Où |
 |---|---|---|
-| Outbox transactionnelle (SQLite) | PASS | `src/outbox/db.ts`, `store.ts` — événement + lignes par canal dans une seule transaction `BEGIN IMMEDIATE` |
+| Outbox transactionnelle (SQLite) | PASS | `blocs-08-12/src/outbox/db.ts`, `store.ts` — événement + lignes par canal dans une seule transaction `BEGIN IMMEDIATE` |
 | Retry borné, idempotence (address_event, canal) | PASS | `worker.ts` (6 essais, 2 s→32 s, gigue), `UNIQUE(address_event_id, channel)` |
 | Web Push VAPID + chiffrement | PASS (crypto) / BLOCKED (service réel) | `webpush.ts` : **vecteur officiel RFC 8291 reproduit octet pour octet**, JWT ES256 vérifié |
-| Mac UserNotifications | BLOCKED (écrit, non compilé) | `mac/Sources/AlfredMac/Notifier.swift`, `main.swift` ; protocole NDJSON testé côté Node |
-| PWA + onboarding Apple écran d'accueil + geste utilisateur | PASS (Chromium) / BLOCKED (Safari iOS) | `web/` ; testé dans Chromium avec UA iPhone |
+| Mac UserNotifications | BLOCKED (écrit, non compilé) | `blocs-08-12/mac/Sources/AlfredMac/Notifier.swift`, `main.swift` ; protocole NDJSON testé côté Node |
+| PWA + onboarding Apple écran d'accueil + geste utilisateur | PASS (Chromium) / BLOCKED (Safari iOS) | `blocs-08-12/web/` ; testé dans Chromium avec UA iPhone |
 | États créé / envoyé / accepté / ack appareil / vu | PASS | `delivery_state`, `report()` — `proof` = dernier état atteint |
 | Purge des souscriptions expirées | PASS | 404/410, `expirationTime`, rejet après 3×401/403, `purgeExpired` |
 | Email absent en V0 | PASS | tout canal ≠ `mac` / `webpush:*` lève `channel_not_supported_v0` |
@@ -44,7 +44,7 @@ Environnement : Linux, sans iPhone, sans macOS, sans accès à APNs/FCM, sans Sa
 
 1. **Capture preuve iPhone réel** (exigence non remplie) : installer la PWA, s'abonner, envoyer une alerte urgente, photographier écran verrouillé / Focus actif / Focus autorisé, relever `device_ack`/`seen`.
 2. Mesurer sur iPhone : `notificationclick → openWindow` vers l'origine, comportement de `renotify`/`tag`, révocation après push sans notification, délai réel du `ack` écran verrouillé.
-3. Compiler et tester `mac/` sur macOS 14+ (permission, `.timeSensitive`, clic sur l'action, remplacement par identifiant de requête).
+3. Compiler et tester `blocs-08-12/mac/` sur macOS 14+ (permission, `.timeSensitive`, clic sur l'action, remplacement par identifiant de requête).
 4. Définir la politique d'escalade quand `unconfirmed` (le Mac sonne déjà en parallèle ; pas de second push).
 5. Le jeton d'appairage est mono-utilisateur V0 sans rotation ni expiration ; le serveur n'est pas exposé (pas de TLS/hébergement défini).
 6. L'éviction du cache et la purge des lignes d'outbox anciennes (`delivery_state`) ne sont pas implémentées (croissance illimitée de l'historique).

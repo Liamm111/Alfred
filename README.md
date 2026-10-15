@@ -40,3 +40,6 @@ pnpm --filter @alfred/web dev   # :3000
 
 ## Modes
 `MOCK_MODE=true|false` (strict, défaut `false`) : interdit si `APP_ENV=production` ; n'active que `/dev/demo/*` (texte synthétique étiqueté simulation). `BOT_JOIN` : seule valeur légale = absent ou `false`.
+
+
+> **Blocs 08–12** (vision Mac, fusion, STT, interpellations, outbox/push) : paquet autonome dans [`blocs-08-12/`](blocs-08-12/README.md), rapports `reports/BLOC_08.md` à `BLOC_12.md`. Il n'est pas encore branché sur `packages/*` (contrats dupliqués : `blocs-08-12/src/contracts/evidence.ts`).
