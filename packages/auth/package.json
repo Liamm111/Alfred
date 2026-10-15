@@ -1,0 +1,21 @@
+{
+  "name": "@alfred/auth",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/http.ts",
+    "./product-auth": "./src/product-auth.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@alfred/contracts": "workspace:*",
+    "@alfred/store": "workspace:*",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.5"
+  }
+}

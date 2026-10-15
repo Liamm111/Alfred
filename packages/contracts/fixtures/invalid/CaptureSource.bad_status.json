@@ -1,0 +1,18 @@
+{
+  "entity": "CaptureSource",
+  "reason": "status enum",
+  "value": {
+    "schema_version": "1.0.0",
+    "id": "00000000-0000-4000-8000-000000000003",
+    "session_id": "00000000-0000-4000-8000-000000000001",
+    "owner_id": "00000000-0000-4000-8000-000000000002",
+    "kind": "zoom_rtms",
+    "source_epoch": 1,
+    "meeting_uuid": "synthetic-meeting-001",
+    "stream_id": "synthetic-stream-001",
+    "status": "connected",
+    "connected_callback_at_ms": 1700000000200,
+    "first_media_at_ms": null,
+    "created_at_ms": 1700000000100
+  }
+}

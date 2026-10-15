@@ -1,0 +1,230 @@
+
+> alfred-rtms-gateway@0.1.0 test
+> node --test "test/*.test.js"
+
+TAP version 13
+# Subtest: backoff: exponential ceiling, full jitter, capped
+ok 1 - backoff: exponential ceiling, full jitter, capped
+  ---
+  duration_ms: 1.384549
+  type: 'test'
+  ...
+# Subtest: redaction: secrets, ids, names, text, urls never logged in clear
+ok 2 - redaction: secrets, ids, names, text, urls never logged in clear
+  ---
+  duration_ms: 1.953378
+  type: 'test'
+  ...
+# Subtest: association: nonce single-use, expiring, receipt verifiable
+ok 3 - association: nonce single-use, expiring, receipt verifiable
+  ---
+  duration_ms: 1.247984
+  type: 'test'
+  ...
+# Subtest: stop-reason classification
+ok 4 - stop-reason classification
+  ---
+  duration_ms: 0.261106
+  type: 'test'
+  ...
+# Subtest: REAL @zoom/rtms SDK: version locked and API surface present
+ok 5 - REAL @zoom/rtms SDK: version locked and API surface present
+  ---
+  duration_ms: 83.013192
+  type: 'test'
+  ...
+# Subtest: start -> join -> normalized per-participant audio with source id, epoch, provenance
+ok 6 - start -> join -> normalized per-participant audio with source id, epoch, provenance
+  ---
+  duration_ms: 5.053742
+  type: 'test'
+  ...
+# Subtest: out-of-order: stopped before started -> started ignored, no connection
+ok 7 - out-of-order: stopped before started -> started ignored, no connection
+  ---
+  duration_ms: 0.432414
+  type: 'test'
+  ...
+# Subtest: duplicate started is idempotent
+ok 8 - duplicate started is idempotent
+  ---
+  duration_ms: 0.323928
+  type: 'test'
+  ...
+# Subtest: started without media: alert + dead-letter, session stays up
+ok 9 - started without media: alert + dead-letter, session stays up
+  ---
+  duration_ms: 1.262135
+  type: 'test'
+  ...
+# Subtest: lost socket: reconnect with backoff, epoch++ , continuity reset (no false gap)
+ok 10 - lost socket: reconnect with backoff, epoch++ , continuity reset (no false gap)
+  ---
+  duration_ms: 0.991624
+  type: 'test'
+  ...
+# Subtest: host STOP / app disabled / meeting ended are terminal: never reconnect
+ok 11 - host STOP / app disabled / meeting ended are terminal: never reconnect
+  ---
+  duration_ms: 1.203193
+  type: 'test'
+  ...
+# Subtest: authentication failure is fatal, not retried
+ok 12 - authentication failure is fatal, not retried
+  ---
+  duration_ms: 0.654661
+  type: 'test'
+  ...
+# Subtest: webhook rtms_stopped leaves and cancels pending reconnect
+ok 13 - webhook rtms_stopped leaves and cancels pending reconnect
+  ---
+  duration_ms: 0.273075
+  type: 'test'
+  ...
+# Subtest: reconnect attempts are bounded -> dead-letter
+ok 14 - reconnect attempts are bounded -> dead-letter
+  ---
+  duration_ms: 0.79738
+  type: 'test'
+  ...
+# Subtest: join refused / join timeout -> retry path
+ok 15 - join refused / join timeout -> retry path
+  ---
+  duration_ms: 0.924663
+  type: 'test'
+  ...
+# Subtest: liveness: silent stream after media triggers reconnect
+ok 16 - liveness: silent stream after media triggers reconnect
+  ---
+  duration_ms: 0.451031
+  type: 'test'
+  ...
+# Subtest: incompatible formats are dead-lettered, never emitted
+ok 17 - incompatible formats are dead-lettered, never emitted
+  ---
+  duration_ms: 0.869857
+  type: 'test'
+  ...
+# Subtest: gap and out-of-order tracing per source
+ok 18 - gap and out-of-order tracing per source
+  ---
+  duration_ms: 1.278138
+  type: 'test'
+  ...
+# Subtest: transcript normalised; share frames refused unless Zoom announced sharing (no private content)
+ok 19 - transcript normalised; share frames refused unless Zoom announced sharing (no private content)
+  ---
+  duration_ms: 0.673124
+  type: 'test'
+  ...
+# Subtest: quota: concurrency limit
+ok 20 - quota: concurrency limit
+  ---
+  duration_ms: 0.253725
+  type: 'test'
+  ...
+# Subtest: unassociated meeting is not joined
+ok 21 - unassociated meeting is not joined
+  ---
+  duration_ms: 0.229783
+  type: 'test'
+  ...
+# Subtest: malformed started payload dead-lettered
+ok 22 - malformed started payload dead-lettered
+  ---
+  duration_ms: 0.135695
+  type: 'test'
+  ...
+# Subtest: stopAll leaves every session and blocks reconnection
+ok 23 - stopAll leaves every session and blocks reconnection
+  ---
+  duration_ms: 0.286373
+  type: 'test'
+  ...
+# Subtest: events from a superseded connection (old epoch) are ignored
+ok 24 - events from a superseded connection (old epoch) are ignored
+  ---
+  duration_ms: 0.411104
+  type: 'test'
+  ...
+# Subtest: sink failure does not kill the stream
+ok 25 - sink failure does not kill the stream
+  ---
+  duration_ms: 0.376095
+  type: 'test'
+  ...
+# Subtest: valid signature accepted
+ok 26 - valid signature accepted
+  ---
+  duration_ms: 1.92067
+  type: 'test'
+  ...
+# Subtest: wrong secret rejected
+ok 27 - wrong secret rejected
+  ---
+  duration_ms: 0.387247
+  type: 'test'
+  ...
+# Subtest: tampered body rejected
+ok 28 - tampered body rejected
+  ---
+  duration_ms: 0.217226
+  type: 'test'
+  ...
+# Subtest: stale timestamp rejected (before signature check result matters)
+ok 29 - stale timestamp rejected (before signature check result matters)
+  ---
+  duration_ms: 0.216295
+  type: 'test'
+  ...
+# Subtest: future timestamp rejected
+ok 30 - future timestamp rejected
+  ---
+  duration_ms: 0.176782
+  type: 'test'
+  ...
+# Subtest: missing / malformed headers rejected
+ok 31 - missing / malformed headers rejected
+  ---
+  duration_ms: 0.211488
+  type: 'test'
+  ...
+# Subtest: replay rejected, but forged request does not poison the cache
+ok 32 - replay rejected, but forged request does not poison the cache
+  ---
+  duration_ms: 0.676257
+  type: 'test'
+  ...
+# Subtest: url validation token
+ok 33 - url validation token
+  ---
+  duration_ms: 0.36499
+  type: 'test'
+  ...
+# Subtest: HTTP: forged webhook never reaches the manager; valid one does; replay is refused
+ok 34 - HTTP: forged webhook never reaches the manager; valid one does; replay is refused
+  ---
+  duration_ms: 51.403735
+  type: 'test'
+  ...
+# Subtest: HTTP: url_validation answered
+ok 35 - HTTP: url_validation answered
+  ---
+  duration_ms: 15.455125
+  type: 'test'
+  ...
+# Subtest: HTTP: association accepts only nonce + meetingUUID (no tokens), single use
+ok 36 - HTTP: association accepts only nonce + meetingUUID (no tokens), single use
+  ---
+  duration_ms: 13.659415
+  type: 'test'
+  ...
+1..36
+# tests 36
+# suites 0
+# pass 36
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 392.142784

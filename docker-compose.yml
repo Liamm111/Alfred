@@ -1,0 +1,17 @@
+# Local PostgreSQL. (Not executed in the authoring sandbox: no Docker daemon. See docs/BLOCK_01_REPORT.md.)
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: alfred
+      POSTGRES_PASSWORD: alfred
+      POSTGRES_DB: alfred
+    ports: ["5432:5432"]
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U alfred -d alfred"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+volumes:
+  pgdata:

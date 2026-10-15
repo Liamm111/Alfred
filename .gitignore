@@ -1,0 +1,16 @@
+
+!.env.example
+*.log
+*.tsbuildinfo
+.build/
+.env
+.env.*
+.next-e2e/
+.next/
+.pgdata/
+.tmp/
+coverage/
+dist/
+node_modules/
+playwright-report/
+test-results/

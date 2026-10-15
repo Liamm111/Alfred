@@ -1,0 +1,14 @@
+{
+  "event_id": "00000000-0000-4000-8000-000000000101",
+  "api_version": "v1",
+  "schema_version": "1.0.0",
+  "type": "session.state_changed",
+  "session_id": "00000000-0000-4000-8000-000000000001",
+  "owner_id": "00000000-0000-4000-8000-000000000002",
+  "occurred_at_ms": 1700000000001,
+  "payload": {
+    "from": "CONNECTING",
+    "to": "LIVE_AUDIO",
+    "reason": "fresh_media_packet"
+  }
+}

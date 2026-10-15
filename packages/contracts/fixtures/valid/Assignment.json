@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "id": "00000000-0000-4000-8000-000000000008",
+  "session_id": "00000000-0000-4000-8000-000000000001",
+  "owner_id": "00000000-0000-4000-8000-000000000002",
+  "title": "Send the synthetic summary",
+  "assignee_label": "Synthetic Person A",
+  "due_at_ms": null,
+  "status": "open",
+  "evidence_ids": [
+    "00000000-0000-4000-8000-000000000005"
+  ],
+  "created_at_ms": 1700000009000
+}
