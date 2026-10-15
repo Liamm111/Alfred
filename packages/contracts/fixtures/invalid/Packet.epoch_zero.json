@@ -1,0 +1,19 @@
+{
+  "entity": "Packet",
+  "reason": "source_epoch starts at 1",
+  "value": {
+    "schema_version": "1.0.0",
+    "id": "00000000-0000-4000-8000-000000000004",
+    "session_id": "00000000-0000-4000-8000-000000000001",
+    "owner_id": "00000000-0000-4000-8000-000000000002",
+    "source_epoch": 0,
+    "modality": "audio",
+    "seq": 0,
+    "source_ts_ms": 1700000000460,
+    "received_wall_ms": 1700000000500,
+    "received_mono_ms": 100500,
+    "payload_bytes": 320,
+    "payload_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "idempotency_key": "00000000-0000-4000-8000-000000000001:1:audio:0"
+  }
+}

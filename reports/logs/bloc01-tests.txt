@@ -1,0 +1,293 @@
+
+ RUN  v5.0.4 /home/user/Alfred
+
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > IDLE x DETECT -> accepted 3ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > IDLE x REQUEST_PERMISSION -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > IDLE x PERMISSION_GRANTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > IDLE x PERMISSION_DENIED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > IDLE x CANCEL -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > IDLE x CONNECTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > IDLE x PACKET -> INVALID_TRANSITION 1ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > IDLE x TICK -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > IDLE x SOURCE_LOST -> INVALID_TRANSITION 1ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > IDLE x PAUSE -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > IDLE x RESUME -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > IDLE x RECOVERY_STARTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > IDLE x RECOVERY_FAILED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > IDLE x STOP -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > IDLE x FATAL -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > IDLE x FINALIZED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DETECTED x DETECT -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DETECTED x REQUEST_PERMISSION -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DETECTED x PERMISSION_GRANTED -> INVALID_TRANSITION 1ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DETECTED x PERMISSION_DENIED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DETECTED x CANCEL -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DETECTED x CONNECTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DETECTED x PACKET -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DETECTED x TICK -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DETECTED x SOURCE_LOST -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DETECTED x PAUSE -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DETECTED x RESUME -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DETECTED x RECOVERY_STARTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DETECTED x RECOVERY_FAILED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DETECTED x STOP -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DETECTED x FATAL -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DETECTED x FINALIZED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PERMISSION x DETECT -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PERMISSION x REQUEST_PERMISSION -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PERMISSION x PERMISSION_GRANTED -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PERMISSION x PERMISSION_DENIED -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PERMISSION x CANCEL -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PERMISSION x CONNECTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PERMISSION x PACKET -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PERMISSION x TICK -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PERMISSION x SOURCE_LOST -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PERMISSION x PAUSE -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PERMISSION x RESUME -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PERMISSION x RECOVERY_STARTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PERMISSION x RECOVERY_FAILED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PERMISSION x STOP -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PERMISSION x FATAL -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PERMISSION x FINALIZED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > CONNECTING x DETECT -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > CONNECTING x REQUEST_PERMISSION -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > CONNECTING x PERMISSION_GRANTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > CONNECTING x PERMISSION_DENIED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > CONNECTING x CANCEL -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > CONNECTING x CONNECTED -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > CONNECTING x PACKET -> accepted 1ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > CONNECTING x TICK -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > CONNECTING x SOURCE_LOST -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > CONNECTING x PAUSE -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > CONNECTING x RESUME -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > CONNECTING x RECOVERY_STARTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > CONNECTING x RECOVERY_FAILED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > CONNECTING x STOP -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > CONNECTING x FATAL -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > CONNECTING x FINALIZED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AUDIO x DETECT -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AUDIO x REQUEST_PERMISSION -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AUDIO x PERMISSION_GRANTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AUDIO x PERMISSION_DENIED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AUDIO x CANCEL -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AUDIO x CONNECTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AUDIO x PACKET -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AUDIO x TICK -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AUDIO x SOURCE_LOST -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AUDIO x PAUSE -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AUDIO x RESUME -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AUDIO x RECOVERY_STARTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AUDIO x RECOVERY_FAILED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AUDIO x STOP -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AUDIO x FATAL -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AUDIO x FINALIZED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_VIDEO x DETECT -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_VIDEO x REQUEST_PERMISSION -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_VIDEO x PERMISSION_GRANTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_VIDEO x PERMISSION_DENIED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_VIDEO x CANCEL -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_VIDEO x CONNECTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_VIDEO x PACKET -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_VIDEO x TICK -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_VIDEO x SOURCE_LOST -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_VIDEO x PAUSE -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_VIDEO x RESUME -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_VIDEO x RECOVERY_STARTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_VIDEO x RECOVERY_FAILED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_VIDEO x STOP -> accepted 2ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_VIDEO x FATAL -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_VIDEO x FINALIZED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AV x DETECT -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AV x REQUEST_PERMISSION -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AV x PERMISSION_GRANTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AV x PERMISSION_DENIED -> INVALID_TRANSITION 1ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AV x CANCEL -> INVALID_TRANSITION 1ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AV x CONNECTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AV x PACKET -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AV x TICK -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AV x SOURCE_LOST -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AV x PAUSE -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AV x RESUME -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AV x RECOVERY_STARTED -> INVALID_TRANSITION 1ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AV x RECOVERY_FAILED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AV x STOP -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AV x FATAL -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > LIVE_AV x FINALIZED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DEGRADED x DETECT -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DEGRADED x REQUEST_PERMISSION -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DEGRADED x PERMISSION_GRANTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DEGRADED x PERMISSION_DENIED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DEGRADED x CANCEL -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DEGRADED x CONNECTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DEGRADED x PACKET -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DEGRADED x TICK -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DEGRADED x SOURCE_LOST -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DEGRADED x PAUSE -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DEGRADED x RESUME -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DEGRADED x RECOVERY_STARTED -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DEGRADED x RECOVERY_FAILED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DEGRADED x STOP -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DEGRADED x FATAL -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > DEGRADED x FINALIZED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PAUSED x DETECT -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PAUSED x REQUEST_PERMISSION -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PAUSED x PERMISSION_GRANTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PAUSED x PERMISSION_DENIED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PAUSED x CANCEL -> INVALID_TRANSITION 1ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PAUSED x CONNECTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PAUSED x PACKET -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PAUSED x TICK -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PAUSED x SOURCE_LOST -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PAUSED x PAUSE -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PAUSED x RESUME -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PAUSED x RECOVERY_STARTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PAUSED x RECOVERY_FAILED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PAUSED x STOP -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PAUSED x FATAL -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PAUSED x FINALIZED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > RECOVERING x DETECT -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > RECOVERING x REQUEST_PERMISSION -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > RECOVERING x PERMISSION_GRANTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > RECOVERING x PERMISSION_DENIED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > RECOVERING x CANCEL -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > RECOVERING x CONNECTED -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > RECOVERING x PACKET -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > RECOVERING x TICK -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > RECOVERING x SOURCE_LOST -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > RECOVERING x PAUSE -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > RECOVERING x RESUME -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > RECOVERING x RECOVERY_STARTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > RECOVERING x RECOVERY_FAILED -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > RECOVERING x STOP -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > RECOVERING x FATAL -> accepted 1ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > RECOVERING x FINALIZED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FINALIZING x DETECT -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FINALIZING x REQUEST_PERMISSION -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FINALIZING x PERMISSION_GRANTED -> INVALID_TRANSITION 1ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FINALIZING x PERMISSION_DENIED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FINALIZING x CANCEL -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FINALIZING x CONNECTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FINALIZING x PACKET -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FINALIZING x TICK -> accepted 1ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FINALIZING x SOURCE_LOST -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FINALIZING x PAUSE -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FINALIZING x RESUME -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FINALIZING x RECOVERY_STARTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FINALIZING x RECOVERY_FAILED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FINALIZING x STOP -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FINALIZING x FATAL -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FINALIZING x FINALIZED -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > COMPLETED x DETECT -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > COMPLETED x REQUEST_PERMISSION -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > COMPLETED x PERMISSION_GRANTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > COMPLETED x PERMISSION_DENIED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > COMPLETED x CANCEL -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > COMPLETED x CONNECTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > COMPLETED x PACKET -> INVALID_TRANSITION 2ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > COMPLETED x TICK -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > COMPLETED x SOURCE_LOST -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > COMPLETED x PAUSE -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > COMPLETED x RESUME -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > COMPLETED x RECOVERY_STARTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > COMPLETED x RECOVERY_FAILED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > COMPLETED x STOP -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > COMPLETED x FATAL -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > COMPLETED x FINALIZED -> INVALID_TRANSITION 1ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PARTIAL x DETECT -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PARTIAL x REQUEST_PERMISSION -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PARTIAL x PERMISSION_GRANTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PARTIAL x PERMISSION_DENIED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PARTIAL x CANCEL -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PARTIAL x CONNECTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PARTIAL x PACKET -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PARTIAL x TICK -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PARTIAL x SOURCE_LOST -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PARTIAL x PAUSE -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PARTIAL x RESUME -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PARTIAL x RECOVERY_STARTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PARTIAL x RECOVERY_FAILED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PARTIAL x STOP -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PARTIAL x FATAL -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > PARTIAL x FINALIZED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FAILED x DETECT -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FAILED x REQUEST_PERMISSION -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FAILED x PERMISSION_GRANTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FAILED x PERMISSION_DENIED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FAILED x CANCEL -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FAILED x CONNECTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FAILED x PACKET -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FAILED x TICK -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FAILED x SOURCE_LOST -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FAILED x PAUSE -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FAILED x RESUME -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FAILED x RECOVERY_STARTED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FAILED x RECOVERY_FAILED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FAILED x STOP -> accepted 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FAILED x FATAL -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > FAILED x FINALIZED -> INVALID_TRANSITION 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > terminal states are absorbing: only TICK/STOP are tolerated, both no-ops 3ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > unknown event types are rejected, not ignored 0ms
+ ✓ tests/contracts/state-machine.test.ts > transition matrix (exhaustive) > stepOrThrow throws on invalid transitions 1ms
+ ✓ tests/contracts/state-machine.test.ts > happy path and outcomes > IDLE→…→LIVE_AV→FINALIZING→COMPLETED 1ms
+ ✓ tests/contracts/state-machine.test.ts > happy path and outcomes > loss of coverage => PARTIAL, never COMPLETED 1ms
+ ✓ tests/contracts/state-machine.test.ts > happy path and outcomes > no media ever => FAILED even if Stop is clean 0ms
+ ✓ tests/contracts/state-machine.test.ts > happy path and outcomes > permission denied => FAILED(permission_denied) 0ms
+ ✓ tests/contracts/state-machine.test.ts > happy path and outcomes > FATAL after media goes through FINALIZING and ends PARTIAL 0ms
+ ✓ tests/contracts/state-machine.test.ts > happy path and outcomes > finalize timeout forces a terminal state (never COMPLETED) 0ms
+ ✓ tests/contracts/state-machine.test.ts > FAIL-SAFE: a started/connected callback never proves media > CONNECTED leaves state CONNECTING, not live, version unaffected by claims 1ms
+ ✓ tests/contracts/state-machine.test.ts > FAIL-SAFE: a started/connected callback never proves media > connected callback + silence: warns at connect_warn_ms, FAILS at connect_timeout_ms 1ms
+ ✓ tests/contracts/state-machine.test.ts > FAIL-SAFE: a started/connected callback never proves media > many CONNECTED callbacks in a row still never produce LIVE 1ms
+ ✓ tests/contracts/state-machine.test.ts > FAIL-SAFE: a started/connected callback never proves media > transcript alone is not media proof 0ms
+ ✓ tests/contracts/state-machine.test.ts > FAIL-SAFE: a started/connected callback never proves media > a zero-byte packet is not media proof 1ms
+ ✓ tests/contracts/state-machine.test.ts > FAIL-SAFE: a started/connected callback never proves media > an expired packet is not media proof 0ms
+ ✓ tests/contracts/state-machine.test.ts > FAIL-SAFE: a started/connected callback never proves media > presentState downgrades a stored LIVE when no tick ran (stalled process) 1ms
+ ✓ tests/contracts/state-machine.test.ts > FAIL-SAFE: a started/connected callback never proves media > presentState fails closed when the monotonic clock goes backwards 0ms
+ ✓ tests/contracts/state-machine.test.ts > modalities: audio only, video only, both > audio only → LIVE_AUDIO and stays so 1ms
+ ✓ tests/contracts/state-machine.test.ts > modalities: audio only, video only, both > video only → LIVE_VIDEO 0ms
+ ✓ tests/contracts/state-machine.test.ts > modalities: audio only, video only, both > audio then video → LIVE_AV; losing one degrades to the other with a gap, not to DEGRADED 1ms
+ ✓ tests/contracts/state-machine.test.ts > silence and recovery > total silence → DEGRADED + gaps + alert; later packets bring LIVE back and close gaps 1ms
+ ✓ tests/contracts/state-machine.test.ts > silence and recovery > DEGRADED long enough requests recovery once 1ms
+ ✓ tests/contracts/state-machine.test.ts > silence and recovery > RECOVERY_STARTED needs a strictly newer source_epoch and media proof on that epoch 1ms
+ ✓ tests/contracts/state-machine.test.ts > silence and recovery > recovery timeout → FINALIZING → PARTIAL 1ms
+ ✓ tests/contracts/state-machine.test.ts > silence and recovery > RECOVERY_FAILED → FINALIZING(fatal) 0ms
+ ✓ tests/contracts/state-machine.test.ts > silence and recovery > SOURCE_LOST while live → DEGRADED with source_lost gaps; before media → FAILED 0ms
+ ✓ tests/contracts/state-machine.test.ts > silence and recovery > pause drops packets, opens paused gaps; resume needs new epoch and fresh proof 1ms
+ ✓ tests/contracts/state-machine.test.ts > packet validation > expired by receiver queueing delay 1ms
+ ✓ tests/contracts/state-machine.test.ts > packet validation > expired by source lag (captured long ago) 0ms
+ ✓ tests/contracts/state-machine.test.ts > packet validation > source clock in the future / receive time in the future 1ms
+ ✓ tests/contracts/state-machine.test.ts > packet validation > stale and unannounced epochs 1ms
+ ✓ tests/contracts/state-machine.test.ts > packet validation > duplicate and out-of-order seq 1ms
+ ✓ tests/contracts/state-machine.test.ts > packet validation > packet for another session / owner is rejected 1ms
+ ✓ tests/contracts/state-machine.test.ts > packet validation > late packet during FINALIZING is stored but cannot change liveness 0ms
+ ✓ tests/contracts/state-machine.test.ts > packet validation > rejections never bump the version 0ms
+ ✓ tests/contracts/state-machine.test.ts > Stop semantics > double Stop is idempotent: one stop_sources, second is a visible no-op 1ms
+ ✓ tests/contracts/state-machine.test.ts > Stop semantics > Stop in IDLE is a no-op; before capture it cancels to IDLE 0ms
+ ✓ tests/contracts/state-machine.test.ts > Stop semantics > Stop from every capture state lands in FINALIZING with stop_sources 2ms
+ ✓ tests/contracts/state-machine.test.ts > fuzz: invariants hold on random event sequences > never LIVE without an accepted packet, never invalid terminal, 3000 runs 1876ms
+ ✓ tests/contracts/state-machine.test.ts > fuzz: invariants hold on random event sequences > newContext is IDLE and invariant-clean 0ms
+ ✓ tests/contracts/schemas-fixtures.test.ts > public fixtures > one valid fixture per entity, all accepted 15ms
+ ✓ tests/contracts/schemas-fixtures.test.ts > public fixtures > every invalid fixture is rejected 2ms
+ ✓ tests/contracts/schemas-fixtures.test.ts > public fixtures > one event fixture per event type, all accepted; refusals carry the right code 9ms
+ ✓ tests/contracts/schemas-fixtures.test.ts > public fixtures > scenarios replay to their expected states 15ms
+ ✓ tests/contracts/schemas-fixtures.test.ts > public fixtures > contain only synthetic, non-sensitive values 4ms
+ ✓ tests/contracts/schemas-fixtures.test.ts > public fixtures > generated artefacts are not out of date (npm run gen:check) 868ms
+ ✓ tests/contracts/schemas-fixtures.test.ts > schema guarantees > no raw media can be smuggled in a packet 1ms
+ ✓ tests/contracts/schemas-fixtures.test.ts > schema guarantees > JSON Schemas on disk are strict objects mirroring the Zod schemas 1ms
+ ✓ tests/contracts/schemas-fixtures.test.ts > schema guarantees > schema_version is pinned 1ms
+ ✓ tests/contracts/schemas-fixtures.test.ts > schema guarantees > zod and generated Swift agree on every enum value and field name 7ms
+ ✓ tests/contracts/registry.test.ts > two sessions > a second active session for the same owner is refused 4ms
+ ✓ tests/contracts/registry.test.ts > two sessions > sessions of different owners are independent: liveness never leaks 3ms
+ ✓ tests/contracts/registry.test.ts > two sessions > an owner can not drive another owner's session 1ms
+ ✓ tests/contracts/registry.test.ts > two sessions > tickAll advances each session independently 1ms
+ ✓ tests/contracts/registry.test.ts > atomic stop-all > stops every active session in one operation and reports stop_sources for each 2ms
+ ✓ tests/contracts/registry.test.ts > atomic stop-all > is all-or-nothing: a corrupt session aborts the whole stop-all and nothing changes 1ms
+ ✓ tests/contracts/registry.test.ts > atomic stop-all > can be restricted to one owner 1ms
+
+ Test Files  3 passed (3)
+      Tests  281 passed (281)
+   Start at  07:17:57
+   Duration  3.72s (tests 90%, import 8%, transform 1%)
+
+    Isolate  3 workers spawned · ~144ms startup each (spawn + environment, per file)
+             at least ~288ms faster with isolate: false — reuses workers across files instead of one per file
+

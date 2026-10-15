@@ -1,0 +1,51 @@
+
+ RUN  v5.0.4 /home/user/Alfred
+
+ ✓ tests/db/migrations.test.ts > migrations > up creates the PRD tables 4ms
+ ✓ tests/db/migrations.test.ts > migrations > down then up is clean and repeatable (rollback) 138ms
+ ✓ tests/db/migrations.test.ts > migrations > detects a migration edited after being applied 5ms
+ ✓ tests/db/migrations.test.ts > migrations > a failing migration rolls back entirely and is not recorded 5ms
+ ✓ tests/db/migrations.test.ts > migrations > two migrators racing apply each migration exactly once 129ms
+ ✓ tests/db/migrations.test.ts > migrations > migration files come in up/down pairs with ordered versions 1ms
+ ✓ tests/db/isolation.test.ts > DB role hardening > alfred_app is neither superuser, BYPASSRLS, nor a table owner 5ms
+ ✓ tests/db/isolation.test.ts > DB role hardening > every table carrying owner_id has RLS enabled; every table alfred_app can touch has an owner policy 4ms
+ ✓ tests/db/isolation.test.ts > DB role hardening > no raw media column exists: the only bytea columns are encrypted envelopes (secrets, PKCE verifier) 6ms
+ ✓ tests/db/isolation.test.ts > cross-user access is impossible > B sees nothing of A, can not update/delete it, can not insert on behalf of A 20ms
+ ✓ tests/db/isolation.test.ts > cross-user access is impossible > composite FKs refuse cross-owner links even for a role that bypasses RLS 5ms
+ ✓ tests/db/isolation.test.ts > cross-user access is impossible > no app.user_id => no rows (fail closed) 4ms
+ ✓ tests/db/isolation.test.ts > cross-user access is impossible > app.user_id does not leak to the next request on a pooled connection 13ms
+ ✓ tests/db/isolation.test.ts > cross-user access is impossible > a user can not read another user's row in users, retention policy, jobs, outbox or secrets 17ms
+ ✓ tests/db/isolation.test.ts > integrity constraints > LIVE_* is impossible without persisted proof of media 11ms
+ ✓ tests/db/isolation.test.ts > integrity constraints > terminal states are final, outcome matches, source_epoch never decreases, identity immutable 19ms
+ ✓ tests/db/isolation.test.ts > integrity constraints > evidence needs packets and assignments need evidence (checked at commit) 29ms
+ ✓ tests/db/isolation.test.ts > integrity constraints > contracts are validated before insert (raw media field refused) 5ms
+ ✓ tests/db/isolation.test.ts > integrity constraints > only one open gap per modality and one open alert per code 11ms
+ ✓ tests/db/isolation.test.ts > integrity constraints > secrets must be encrypted envelopes or external refs, never bare 4ms
+ ✓ tests/db/isolation.test.ts > retention > purges expired packets per user policy, keeps evidence longer, never touches fresh data 45ms
+ ✓ tests/db/isolation.test.ts > retention > alfred_app can not run retention for others 2ms
+ ✓ tests/db/isolation.test.ts > verifiable erasure and cascades > erase_user removes every trace, leaves others intact, and writes an anonymous receipt 23ms
+ ✓ tests/db/isolation.test.ts > verifiable erasure and cascades > a user can not erase someone else; nothing is deleted 6ms
+ ✓ tests/db/isolation.test.ts > verifiable erasure and cascades > deleting a session cascades to its children; FKs block orphan inserts 10ms
+ ✓ tests/db/isolation.test.ts > synthetic seed > refuses to run without explicit opt-in, and loads only synthetic data with it 3ms
+ ✓ tests/db/concurrency.test.ts > idempotency > same idempotency key => one session, one outbox event (sequential and 12-way parallel) 52ms
+ ✓ tests/db/concurrency.test.ts > idempotency > the same idempotency key is scoped per owner 10ms
+ ✓ tests/db/concurrency.test.ts > idempotency > duplicate packets (same key, or same epoch/modality/seq) are stored once; 20-way race too 27ms
+ ✓ tests/db/concurrency.test.ts > idempotency > jobs: idempotent enqueue 7ms
+ ✓ tests/db/concurrency.test.ts > races > optimistic concurrency: of two writers on the same version exactly one wins, and the loser leaves no outbox event 14ms
+ ✓ tests/db/concurrency.test.ts > races > stale version is refused 10ms
+ ✓ tests/db/concurrency.test.ts > races > two sessions of one owner can not both become active, even when started simultaneously 12ms
+ ✓ tests/db/concurrency.test.ts > races > different owners activate concurrently without interference 13ms
+ ✓ tests/db/concurrency.test.ts > races > job claiming: 6 concurrent workers never take the same job (SKIP LOCKED) 31ms
+ ✓ tests/db/concurrency.test.ts > races > job retry and dead-lettering 17ms
+ ✓ tests/db/concurrency.test.ts > transaction + outbox > state change and event commit together or not at all 18ms
+ ✓ tests/db/concurrency.test.ts > transaction + outbox > dedupe key makes event emission idempotent 12ms
+ ✓ tests/db/concurrency.test.ts > transaction + outbox > relay: concurrent relays publish each event exactly once 25ms
+
+ Test Files  3 passed (3)
+      Tests  39 passed (39)
+   Start at  07:17:54
+   Duration  2.26s (tests 78%, import 19%, transform 3%, worker 1%)
+
+    Isolate  3 workers spawned · ~135ms startup each (spawn + environment, per file)
+             at least ~271ms faster with isolate: false — reuses workers across files instead of one per file
+

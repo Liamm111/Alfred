@@ -89,6 +89,28 @@ importers:
         specifier: ^4.6.7
         version: 4.6.7
 
+  packages/auth:
+    dependencies:
+      '@alfred/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+      '@alfred/store':
+        specifier: workspace:*
+        version: link:../store
+      zod:
+        specifier: ^4.6.7
+        version: 4.6.7
+    devDependencies:
+      '@types/node':
+        specifier: 22.20.5
+        version: 22.20.5
+
+  packages/contracts:
+    dependencies:
+      zod:
+        specifier: ^4.6.7
+        version: 4.6.7
+
   packages/core:
     dependencies:
       pino:
@@ -97,6 +119,19 @@ importers:
       zod:
         specifier: ^4.6.7
         version: 4.6.7
+
+  packages/store:
+    dependencies:
+      '@alfred/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+      pg:
+        specifier: ^8.23.1
+        version: 8.23.1
+    devDependencies:
+      '@types/pg':
+        specifier: ^8.15.0
+        version: 8.23.1
 
   services/api:
     dependencies:

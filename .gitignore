@@ -12,3 +12,4 @@ test-results/
 .tmp/
 
 .next-e2e/
+*.log

@@ -17,7 +17,9 @@ Assistant personnel **transparent** pour suivre ton cours Zoom (PRD V0.2 hybride
 | `services/workers` | worker de jobs durables (lease) | squelette |
 | `db` | Drizzle : migrations up/down, jobs/outbox | partiel |
 | `packages/core` | env (MOCK_MODE, bot_join), logger expurgé, erreurs, alias, préférences | construit |
-| `packages/contracts` | contrats + machine d'états | non construit |
+| `packages/contracts` | contrats Zod, machine d'états de session, fixtures publiques, JSON Schemas, types Swift générés (`pnpm --filter @alfred/contracts gen:check`) | construit (BLOC 01) |
+| `packages/store` | persistance PostgreSQL (SQL up/down, RLS, outbox, rétention) — **base séparée** de `db/` (Drizzle), tests sur `<DATABASE_URL_TEST>_store` | construit (BLOC 02) |
+| `packages/auth` | auth produit OAuth2+PKCE, lien d'identité Zoom, association de flux signée | construit (BLOC 03) |
 | `packages/ai` | format de corpus d'évaluation ; futur : classifieurs, STT | squelette |
 | `archive/bot-era` | ancien code « bot » (interdit, hors workspace) | archivé |
 
@@ -30,6 +32,8 @@ pnpm migrate:up
 pnpm --filter @alfred/api dev   # :4000
 pnpm --filter @alfred/web dev   # :3000
 ```
+
+> **À arbitrer (dette d'intégration)** : `db/` (Drizzle : users, auth_sessions, job_queue) et `packages/store` + `packages/auth` (users, auth_sessions, jobs…) modélisent deux fois l'identité/l'auth. Ils ne partagent volontairement aucune base ; la fusion des modèles reste à décider.
 
 ## Commandes de contrôle
 `pnpm lint` · `pnpm typecheck` · `pnpm test` · `pnpm test:integration` (Postgres `DATABASE_URL_TEST`, base `*_test` **détruite**) · `pnpm test:e2e` (Playwright desktop + mobile) · `pnpm build` · `pnpm secrets:scan` · `pnpm check:no-bot` · `pnpm check:prod-bundle` · `pnpm migrate:up|down` · `sh scripts/crash-recovery.sh` (kill -9 Postgres).

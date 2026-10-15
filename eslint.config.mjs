@@ -15,5 +15,7 @@ export default tseslint.config(
       eqeqeq: 'error',
     },
   },
+  // Contracts / store / auth were written against a looser lint profile: `any` at JSON/pg boundaries and `expect(...)` expressions.
+  { files: ['packages/{contracts,store,auth}/**'], rules: { '@typescript-eslint/no-explicit-any': 'off', '@typescript-eslint/no-unused-expressions': 'off' } },
   { files: ['scripts/**', '**/*.mjs', '**/scripts/**', '**/*.config.*', '**/*.test.ts', '**/e2e/**'], rules: { 'no-console': 'off' } },
 );

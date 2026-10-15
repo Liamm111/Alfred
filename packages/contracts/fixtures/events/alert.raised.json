@@ -1,0 +1,22 @@
+{
+  "event_id": "00000000-0000-4000-8000-000000000106",
+  "api_version": "v1",
+  "schema_version": "1.0.0",
+  "type": "alert.raised",
+  "session_id": "00000000-0000-4000-8000-000000000001",
+  "owner_id": "00000000-0000-4000-8000-000000000002",
+  "occurred_at_ms": 1700000000006,
+  "payload": {
+    "alert": {
+      "schema_version": "1.0.0",
+      "id": "00000000-0000-4000-8000-000000000007",
+      "session_id": "00000000-0000-4000-8000-000000000001",
+      "owner_id": "00000000-0000-4000-8000-000000000002",
+      "severity": "warning",
+      "code": "connected_without_media",
+      "message": "Connected callback received but no media after 8s.",
+      "raised_at_ms": 1700000008000,
+      "resolved_at_ms": null
+    }
+  }
+}

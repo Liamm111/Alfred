@@ -1,0 +1,62 @@
+{
+  "name": "invalid_transitions",
+  "description": "Illegal events are refused and leave the state untouched.",
+  "session_id": "11111111-1111-4111-8111-111111111111",
+  "owner_id": "22222222-2222-4222-8222-222222222222",
+  "steps": [
+    {
+      "advance_ms": 0,
+      "do": {
+        "type": "FINALIZED"
+      },
+      "accepted": false,
+      "expect_state": "IDLE"
+    },
+    {
+      "advance_ms": 0,
+      "do": {
+        "type": "CONNECTED"
+      },
+      "accepted": false,
+      "expect_state": "IDLE"
+    },
+    {
+      "advance_ms": 0,
+      "do": {
+        "type": "PAUSE"
+      },
+      "accepted": false,
+      "expect_state": "IDLE"
+    },
+    {
+      "advance_ms": 0,
+      "do": {
+        "type": "DETECT",
+        "meeting_uuid": "synthetic-meeting-002"
+      },
+      "accepted": true,
+      "expect_state": "DETECTED"
+    },
+    {
+      "advance_ms": 0,
+      "do": {
+        "type": "PERMISSION_GRANTED",
+        "source_epoch": 1
+      },
+      "accepted": false,
+      "expect_state": "DETECTED"
+    },
+    {
+      "advance_ms": 0,
+      "do": {
+        "type": "CANCEL"
+      },
+      "accepted": true,
+      "expect_state": "IDLE"
+    }
+  ],
+  "expect_final": {
+    "state": "IDLE",
+    "outcome": null
+  }
+}
