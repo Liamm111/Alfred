@@ -7,7 +7,7 @@ export function phoneticKey(w: string): string {
   return s.replace(/[aeiou]+/g, (m) => (m.length > 1 ? m[0]! : m));
 }
 
-function lev(a: string, b: string): number {
+export function lev(a: string, b: string): number {
   const d = Array.from({ length: a.length + 1 }, (_, i) => [i, ...new Array<number>(b.length).fill(0)]);
   for (let j = 1; j <= b.length; j++) d[0]![j] = j;
   for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++)

@@ -1,0 +1,12 @@
+holdout: 31/41
+  ÉCHEC h04 attendu DIRECT_CERTAIN/alertes 1/urgentes 1 — obtenu DIRECT_PROBABLE/1/0 :: Liam, on t'attend.
+  ÉCHEC h06 attendu DIRECT_PROBABLE/alertes 1/urgentes 0 — obtenu MENTION_SIMPLE/0/0 :: I think Liam should answer this one.
+  ÉCHEC h15 attendu MENTION_SIMPLE/alertes 0/urgentes 0 — obtenu DIRECT_CERTAIN/1/1 :: Where is Liam?
+  ÉCHEC h18 attendu MENTION_SIMPLE/alertes 0/urgentes 0 — obtenu DIRECT_CERTAIN/1/1 :: Liam, merci de nous avoir expliqué cela.
+  ÉCHEC h19 attendu DIRECT_CERTAIN/alertes 1/urgentes 1 — obtenu DIRECT_PROBABLE/1/0 :: Next up, Liam.
+  ÉCHEC h22 attendu MENTION_SIMPLE/alertes 0/urgentes 0 — obtenu DIRECT_CERTAIN/1/1 :: Liam tends to answer quickly.
+  ÉCHEC h23 attendu MENTION_SIMPLE/alertes 0/urgentes 0 — obtenu DIRECT_PROBABLE/1/0 :: Liam always answers first.
+  ÉCHEC h24 attendu MENTION_SIMPLE/alertes 0/urgentes 0 — obtenu DIRECT_PROBABLE/1/0 :: Hey Liam, welcome back.
+  ÉCHEC h31 attendu DIRECT_CERTAIN/alertes 1/urgentes 1 — obtenu DIRECT_PROBABLE/1/0 :: Liam, Alice, Bob: pair up and discuss.
+  ÉCHEC h34 attendu HORS_SUJET/alertes 1/urgentes 1 — obtenu MENTION_SIMPLE/1/1 :: Liam, peux-tu expliquer ? | Oui bien sûr, alors voilà. | Merci Liam. Alice, et toi ?
+(h34 : étiquette corrigée a posteriori — le segment cible contient « Merci Liam » → MENTION_SIMPLE ; erreur de l'auteur, pas du moteur)

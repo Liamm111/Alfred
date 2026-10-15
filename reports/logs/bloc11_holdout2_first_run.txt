@@ -1,0 +1,7 @@
+holdout2: 26/32
+  ÉCHEC r03 attendu DIRECT_CERTAIN/alertes 1/urgentes 1 — obtenu MENTION_SIMPLE/0/0 :: On passe à Liam pour la démonstration.
+  ÉCHEC r17 attendu MENTION_SIMPLE/alertes 0/urgentes 0 — obtenu DIRECT_CERTAIN/1/1 :: Liam will present next week.
+  ÉCHEC r18 attendu MENTION_SIMPLE/alertes 0/urgentes 0 — obtenu DIRECT_CERTAIN/1/1 :: Liam can explain it better than me.
+  ÉCHEC r19 attendu DIRECT_CERTAIN/alertes 1/urgentes 1 — obtenu DIRECT_PROBABLE/1/0 :: Liam could you repeat?
+  ÉCHEC r25 attendu MENTION_SIMPLE/alertes 0/urgentes 0 — obtenu DIRECT_CERTAIN/1/1 :: Alice said: "Liam, can you help?"
+  ÉCHEC r32 attendu DIRECT_CERTAIN/alertes 1/urgentes 1 — obtenu HORS_SUJET/0/0 :: Monsieur Martin, pouvez-vous nous éclairer ?
