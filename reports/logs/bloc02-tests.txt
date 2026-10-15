@@ -1,0 +1,48 @@
+
+ RUN  v5.0.4 /home/user/Alfred
+
+ ✓ tests/db/concurrency.test.ts > idempotency > same idempotency key => one session, one outbox event (sequential and 12-way parallel) 53ms
+ ✓ tests/db/concurrency.test.ts > idempotency > the same idempotency key is scoped per owner 9ms
+ ✓ tests/db/concurrency.test.ts > idempotency > duplicate packets (same key, or same epoch/modality/seq) are stored once; 20-way race too 30ms
+ ✓ tests/db/concurrency.test.ts > idempotency > jobs: idempotent enqueue 6ms
+ ✓ tests/db/concurrency.test.ts > races > optimistic concurrency: of two writers on the same version exactly one wins, and the loser leaves no outbox event 17ms
+ ✓ tests/db/concurrency.test.ts > races > stale version is refused 11ms
+ ✓ tests/db/concurrency.test.ts > races > two sessions of one owner can not both become active, even when started simultaneously 11ms
+ ✓ tests/db/concurrency.test.ts > races > different owners activate concurrently without interference 13ms
+ ✓ tests/db/concurrency.test.ts > races > job claiming: 6 concurrent workers never take the same job (SKIP LOCKED) 29ms
+ ✓ tests/db/concurrency.test.ts > races > job retry and dead-lettering 13ms
+ ✓ tests/db/concurrency.test.ts > transaction + outbox > state change and event commit together or not at all 15ms
+ ✓ tests/db/concurrency.test.ts > transaction + outbox > dedupe key makes event emission idempotent 11ms
+ ✓ tests/db/concurrency.test.ts > transaction + outbox > relay: concurrent relays publish each event exactly once 36ms
+ ✓ tests/db/isolation.test.ts > DB role hardening > alfred_app is neither superuser, BYPASSRLS, nor a table owner 5ms
+ ✓ tests/db/isolation.test.ts > DB role hardening > every table carrying owner_id has RLS enabled and an owner policy 3ms
+ ✓ tests/db/isolation.test.ts > DB role hardening > no raw media column exists: the only bytea column is the encrypted secret envelope 8ms
+ ✓ tests/db/isolation.test.ts > cross-user access is impossible > B sees nothing of A, can not update/delete it, can not insert on behalf of A 21ms
+ ✓ tests/db/isolation.test.ts > cross-user access is impossible > composite FKs refuse cross-owner links even for a role that bypasses RLS 5ms
+ ✓ tests/db/isolation.test.ts > cross-user access is impossible > no app.user_id => no rows (fail closed) 4ms
+ ✓ tests/db/isolation.test.ts > cross-user access is impossible > app.user_id does not leak to the next request on a pooled connection 10ms
+ ✓ tests/db/isolation.test.ts > cross-user access is impossible > a user can not read another user's row in users, retention policy, jobs, outbox or secrets 10ms
+ ✓ tests/db/isolation.test.ts > integrity constraints > LIVE_* is impossible without persisted proof of media 11ms
+ ✓ tests/db/isolation.test.ts > integrity constraints > terminal states are final, outcome matches, source_epoch never decreases, identity immutable 17ms
+ ✓ tests/db/isolation.test.ts > integrity constraints > evidence needs packets and assignments need evidence (checked at commit) 26ms
+ ✓ tests/db/isolation.test.ts > integrity constraints > contracts are validated before insert (raw media field refused) 6ms
+ ✓ tests/db/isolation.test.ts > integrity constraints > only one open gap per modality and one open alert per code 13ms
+ ✓ tests/db/isolation.test.ts > integrity constraints > secrets must be encrypted envelopes or external refs, never bare 4ms
+ ✓ tests/db/isolation.test.ts > retention > purges expired packets per user policy, keeps evidence longer, never touches fresh data 39ms
+ ✓ tests/db/isolation.test.ts > retention > alfred_app can not run retention for others 2ms
+ ✓ tests/db/isolation.test.ts > verifiable erasure and cascades > erase_user removes every trace, leaves others intact, and writes an anonymous receipt 30ms
+ ✓ tests/db/isolation.test.ts > verifiable erasure and cascades > a user can not erase someone else; nothing is deleted 7ms
+ ✓ tests/db/isolation.test.ts > verifiable erasure and cascades > deleting a session cascades to its children; FKs block orphan inserts 12ms
+ ✓ tests/db/isolation.test.ts > synthetic seed > refuses to run without explicit opt-in, and loads only synthetic data with it 3ms
+ ✓ tests/db/migrations.test.ts > migrations > up creates the PRD tables 4ms
+ ✓ tests/db/migrations.test.ts > migrations > down then up is clean and repeatable (rollback) 106ms
+ ✓ tests/db/migrations.test.ts > migrations > detects a migration edited after being applied 6ms
+ ✓ tests/db/migrations.test.ts > migrations > a failing migration rolls back entirely and is not recorded 5ms
+ ✓ tests/db/migrations.test.ts > migrations > two migrators racing apply each migration exactly once 116ms
+ ✓ tests/db/migrations.test.ts > migrations > migration files come in up/down pairs with ordered versions 1ms
+
+ Test Files  3 passed (3)
+      Tests  39 passed (39)
+   Start at  07:07:34
+   Duration  1.95s (tests 74%, import 22%, transform 4%, worker 1%)
+

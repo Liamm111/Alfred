@@ -10,7 +10,9 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "gen": "tsx scripts/gen-all.ts",
-    "gen:check": "tsx scripts/gen-all.ts --check"
+    "gen:check": "tsx scripts/gen-all.ts --check",
+    "db:up": "tsx scripts/migrate.ts up",
+    "db:down": "tsx scripts/migrate.ts down 1"
   },
   "dependencies": {
     "pg": "^8.23.1",
