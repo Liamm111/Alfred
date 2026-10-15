@@ -1,0 +1,115 @@
+[0/1] Planning build
+Building for debugging...
+[0/4] Write swift-version-1604F68E5A422EC0.txt
+Build complete! (4.14s)
+Test Suite 'All tests' started at 2026-10-15 07:38:28.062
+Test Suite 'debug.xctest' started at 2026-10-15 07:38:28.065
+Test Suite 'CaptureTests' started at 2026-10-15 07:38:28.065
+Test Case 'CaptureTests.testAbsentWhenNoData' started at 2026-10-15 07:38:28.065
+Test Case 'CaptureTests.testAbsentWhenNoData' passed (0.002 seconds)
+Test Case 'CaptureTests.testChunkBoundariesAreSeamless' started at 2026-10-15 07:38:28.067
+Test Case 'CaptureTests.testChunkBoundariesAreSeamless' passed (0.006 seconds)
+Test Case 'CaptureTests.testClippingAndInvalidInput' started at 2026-10-15 07:38:28.073
+Test Case 'CaptureTests.testClippingAndInvalidInput' passed (0.0 seconds)
+Test Case 'CaptureTests.testCoordinatorKeepsSourcesSeparateAndTimestampsMonotonic' started at 2026-10-15 07:38:28.074
+Test Case 'CaptureTests.testCoordinatorKeepsSourcesSeparateAndTimestampsMonotonic' passed (0.003 seconds)
+Test Case 'CaptureTests.testDownmixAveragesChannels' started at 2026-10-15 07:38:28.076
+Test Case 'CaptureTests.testDownmixAveragesChannels' passed (0.0 seconds)
+Test Case 'CaptureTests.testFixtureSampleBufferStream_AudioAbsentAndSilenceAndOutputChange' started at 2026-10-15 07:38:28.077
+Test Case 'CaptureTests.testFixtureSampleBufferStream_AudioAbsentAndSilenceAndOutputChange' passed (0.006 seconds)
+Test Case 'CaptureTests.testGapDetected' started at 2026-10-15 07:38:28.083
+Test Case 'CaptureTests.testGapDetected' passed (0.009 seconds)
+Test Case 'CaptureTests.testHealthOkAndBitrate' started at 2026-10-15 07:38:28.092
+Test Case 'CaptureTests.testHealthOkAndBitrate' passed (0.121 seconds)
+Test Case 'CaptureTests.testIsolationVerdicts' started at 2026-10-15 07:38:28.213
+Test Case 'CaptureTests.testIsolationVerdicts' passed (0.04 seconds)
+Test Case 'CaptureTests.testMonotonicClockNeverGoesBack' started at 2026-10-15 07:38:28.253
+Test Case 'CaptureTests.testMonotonicClockNeverGoesBack' passed (0.102 seconds)
+Test Case 'CaptureTests.testPurgeDropsDataAndRotatesKey' started at 2026-10-15 07:38:28.355
+Test Case 'CaptureTests.testPurgeDropsDataAndRotatesKey' passed (0.002 seconds)
+Test Case 'CaptureTests.testRingBufferBoundedAndDropsOldest' started at 2026-10-15 07:38:28.357
+Test Case 'CaptureTests.testRingBufferBoundedAndDropsOldest' passed (0.035 seconds)
+Test Case 'CaptureTests.testRingBufferIsEncryptedAtRestAndRoundTrips' started at 2026-10-15 07:38:28.392
+Test Case 'CaptureTests.testRingBufferIsEncryptedAtRestAndRoundTrips' passed (0.001 seconds)
+Test Case 'CaptureTests.testSilenceDetected' started at 2026-10-15 07:38:28.393
+Test Case 'CaptureTests.testSilenceDetected' passed (0.096 seconds)
+Test Case 'CaptureTests.testStereo48kBecomesMono16kPCM' started at 2026-10-15 07:38:28.489
+Test Case 'CaptureTests.testStereo48kBecomesMono16kPCM' passed (0.003 seconds)
+Test Case 'CaptureTests.testTamperedChunkIsRejected' started at 2026-10-15 07:38:28.492
+Test Case 'CaptureTests.testTamperedChunkIsRejected' passed (0.001 seconds)
+Test Suite 'CaptureTests' passed at 2026-10-15 07:38:28.493
+	 Executed 16 tests, with 0 failures (0 unexpected) in 0.428 (0.428) seconds
+Test Suite 'ControllerTests' started at 2026-10-15 07:38:28.493
+Test Case 'ControllerTests.testDetectionStartAndLifecycleNeverFocusZoom' started at 2026-10-15 07:38:28.493
+Test Case 'ControllerTests.testDetectionStartAndLifecycleNeverFocusZoom' passed (0.005 seconds)
+Test Case 'ControllerTests.testEveryNonGrantedStateIsRefusedWithItsOwnReason' started at 2026-10-15 07:38:28.498
+Test Case 'ControllerTests.testEveryNonGrantedStateIsRefusedWithItsOwnReason' passed (0.003 seconds)
+Test Case 'ControllerTests.testMicrophoneNeedsConsentAndPermission' started at 2026-10-15 07:38:28.501
+Test Case 'ControllerTests.testMicrophoneNeedsConsentAndPermission' passed (0.001 seconds)
+Test Case 'ControllerTests.testNoSelectionNoStart' started at 2026-10-15 07:38:28.502
+Test Case 'ControllerTests.testNoSelectionNoStart' passed (0.001 seconds)
+Test Case 'ControllerTests.testOnboardingFlagSurvivesRestart' started at 2026-10-15 07:38:28.503
+Test Case 'ControllerTests.testOnboardingFlagSurvivesRestart' passed (0.001 seconds)
+Test Case 'ControllerTests.testPolicyCanKeepCapturingThroughLock' started at 2026-10-15 07:38:28.504
+Test Case 'ControllerTests.testPolicyCanKeepCapturingThroughLock' passed (0.001 seconds)
+Test Case 'ControllerTests.testRestartNeverResumesCapture' started at 2026-10-15 07:38:28.505
+Test Case 'ControllerTests.testRestartNeverResumesCapture' passed (0.001 seconds)
+Test Case 'ControllerTests.testResumeRechecksPermissions' started at 2026-10-15 07:38:28.506
+Test Case 'ControllerTests.testResumeRechecksPermissions' passed (0.001 seconds)
+Test Case 'ControllerTests.testScreenRecordingDeniedBlocksStartAndStartsNothing' started at 2026-10-15 07:38:28.508
+Test Case 'ControllerTests.testScreenRecordingDeniedBlocksStartAndStartsNothing' passed (0.001 seconds)
+Test Case 'ControllerTests.testSleepAndLockStopAndPurgeWakeNeverResumes' started at 2026-10-15 07:38:28.508
+Test Case 'ControllerTests.testSleepAndLockStopAndPurgeWakeNeverResumes' passed (0.003 seconds)
+Test Case 'ControllerTests.testSourceFailureCleansUpAndReports' started at 2026-10-15 07:38:28.511
+Test Case 'ControllerTests.testSourceFailureCleansUpAndReports' passed (0.001 seconds)
+Test Case 'ControllerTests.testStartPauseResumeStop' started at 2026-10-15 07:38:28.512
+Test Case 'ControllerTests.testStartPauseResumeStop' passed (0.001 seconds)
+Test Case 'ControllerTests.testStopAllIsIdempotentAndSafeWhenIdle' started at 2026-10-15 07:38:28.513
+Test Case 'ControllerTests.testStopAllIsIdempotentAndSafeWhenIdle' passed (0.001 seconds)
+Test Case 'ControllerTests.testStopAllStopsEverySourceImmediatelyPurgesAndDropsLateCallbacks' started at 2026-10-15 07:38:28.514
+Test Case 'ControllerTests.testStopAllStopsEverySourceImmediatelyPurgesAndDropsLateCallbacks' passed (0.003 seconds)
+Test Case 'ControllerTests.testTerminateStopsEverything' started at 2026-10-15 07:38:28.517
+Test Case 'ControllerTests.testTerminateStopsEverything' passed (0.001 seconds)
+Test Case 'ControllerTests.testZoomHintLevels' started at 2026-10-15 07:38:28.517
+Test Case 'ControllerTests.testZoomHintLevels' passed (0.0 seconds)
+Test Suite 'ControllerTests' passed at 2026-10-15 07:38:28.518
+	 Executed 16 tests, with 0 failures (0 unexpected) in 0.024 (0.024) seconds
+Test Suite 'RedactionDiagnosticsTests' started at 2026-10-15 07:38:28.518
+Test Case 'RedactionDiagnosticsTests.testDiagnosticsReportIsRedactedAndComplete' started at 2026-10-15 07:38:28.518
+Test Case 'RedactionDiagnosticsTests.testDiagnosticsReportIsRedactedAndComplete' passed (0.001 seconds)
+Test Case 'RedactionDiagnosticsTests.testLoggerRedactsOnWrite' started at 2026-10-15 07:38:28.519
+Test Case 'RedactionDiagnosticsTests.testLoggerRedactsOnWrite' passed (0.0 seconds)
+Test Case 'RedactionDiagnosticsTests.testRedaction' started at 2026-10-15 07:38:28.519
+Test Case 'RedactionDiagnosticsTests.testRedaction' passed (0.0 seconds)
+Test Suite 'RedactionDiagnosticsTests' passed at 2026-10-15 07:38:28.520
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.002 (0.002) seconds
+Test Suite 'UIStateTests' started at 2026-10-15 07:38:28.520
+Test Case 'UIStateTests.testButtonsPerPhase' started at 2026-10-15 07:38:28.520
+Test Case 'UIStateTests.testButtonsPerPhase' passed (0.0 seconds)
+Test Case 'UIStateTests.testEachPermissionStateHasDistinctMessage' started at 2026-10-15 07:38:28.520
+Test Case 'UIStateTests.testEachPermissionStateHasDistinctMessage' passed (0.0 seconds)
+Test Case 'UIStateTests.testErrorTextIsRedacted' started at 2026-10-15 07:38:28.520
+Test Case 'UIStateTests.testErrorTextIsRedacted' passed (0.0 seconds)
+Test Case 'UIStateTests.testGrantedWithSelectionCanStartButNotWithoutSelection' started at 2026-10-15 07:38:28.520
+Test Case 'UIStateTests.testGrantedWithSelectionCanStartButNotWithoutSelection' passed (0.0 seconds)
+Test Case 'UIStateTests.testOnboardingFlowSteps' started at 2026-10-15 07:38:28.521
+Test Case 'UIStateTests.testOnboardingFlowSteps' passed (0.0 seconds)
+Test Case 'UIStateTests.testPermissionDeniedShowsSettingsButtonAndDisablesStart' started at 2026-10-15 07:38:28.521
+Test Case 'UIStateTests.testPermissionDeniedShowsSettingsButtonAndDisablesStart' passed (0.0 seconds)
+Test Case 'UIStateTests.testRestartAndSleepBanners' started at 2026-10-15 07:38:28.521
+Test Case 'UIStateTests.testRestartAndSleepBanners' passed (0.0 seconds)
+Test Case 'UIStateTests.testScreenRecordingResolver' started at 2026-10-15 07:38:28.521
+Test Case 'UIStateTests.testScreenRecordingResolver' passed (0.0 seconds)
+Test Case 'UIStateTests.testStatusIconsAndLevels' started at 2026-10-15 07:38:28.522
+Test Case 'UIStateTests.testStatusIconsAndLevels' passed (0.0 seconds)
+Test Case 'UIStateTests.testStopAllAvailableWheneverSomethingRuns' started at 2026-10-15 07:38:28.522
+Test Case 'UIStateTests.testStopAllAvailableWheneverSomethingRuns' passed (0.101 seconds)
+Test Suite 'UIStateTests' passed at 2026-10-15 07:38:28.623
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.103 (0.103) seconds
+Test Suite 'debug.xctest' passed at 2026-10-15 07:38:28.623
+	 Executed 45 tests, with 0 failures (0 unexpected) in 0.557 (0.557) seconds
+Test Suite 'All tests' passed at 2026-10-15 07:38:28.623
+	 Executed 45 tests, with 0 failures (0 unexpected) in 0.557 (0.557) seconds
+◇ Test run started.
+↳ Testing Library Version: 6.0.3 (18c42c19cac3faf)
+✔ Test run with 0 tests passed after 0.001 seconds.

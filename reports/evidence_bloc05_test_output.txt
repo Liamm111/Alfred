@@ -1,0 +1,122 @@
+
+> alfred-zoom-app@0.1.0 test
+> node --test "test/*.test.js"
+
+TAP version 13
+# Subtest: init never starts RTMS by itself
+ok 1 - init never starts RTMS by itself
+  ---
+  duration_ms: 2.075484
+  type: 'test'
+  ...
+# Subtest: Zoom Apps unavailable (opened in a normal browser)
+ok 2 - Zoom Apps unavailable (opened in a normal browser)
+  ---
+  duration_ms: 0.369491
+  type: 'test'
+  ...
+# Subtest: config failure -> unavailable; guest error -> guest
+ok 3 - config failure -> unavailable; guest error -> guest
+  ---
+  duration_ms: 0.540213
+  type: 'test'
+  ...
+# Subtest: not in a meeting / old client / API unsupported
+ok 4 - not in a meeting / old client / API unsupported
+  ---
+  duration_ms: 0.397142
+  type: 'test'
+  ...
+# Subtest: request -> awaiting_host -> started; only nonce+meetingUUID leave the app
+ok 5 - request -> awaiting_host -> started; only nonce+meetingUUID leave the app
+  ---
+  duration_ms: 2.349848
+  type: 'test'
+  ...
+# Subtest: same participant list before/after start (no extra participant)
+ok 6 - same participant list before/after start (no extra participant)
+  ---
+  duration_ms: 0.728026
+  type: 'test'
+  ...
+# Subtest: host denies via rejection or via status stopped while awaiting
+ok 7 - host denies via rejection or via status stopped while awaiting
+  ---
+  duration_ms: 0.735131
+  type: 'test'
+  ...
+# Subtest: disabled by host/admin
+ok 8 - disabled by host/admin
+  ---
+  duration_ms: 0.484039
+  type: 'test'
+  ...
+# Subtest: approval timeout
+ok 9 - approval timeout
+  ---
+  duration_ms: 0.620527
+  type: 'test'
+  ...
+# Subtest: association refused -> startRTMS is never called
+ok 10 - association refused -> startRTMS is never called
+  ---
+  duration_ms: 0.624573
+  type: 'test'
+  ...
+# Subtest: stop after started
+ok 11 - stop after started
+  ---
+  duration_ms: 0.428698
+  type: 'test'
+  ...
+# Subtest: host stops RTMS from Zoom UI
+ok 12 - host stops RTMS from Zoom UI
+  ---
+  duration_ms: 1.620027
+  type: 'test'
+  ...
+# Subtest: app reopened mid-session picks up existing RTMS status
+ok 13 - app reopened mid-session picks up existing RTMS status
+  ---
+  duration_ms: 0.186836
+  type: 'test'
+  ...
+# Subtest: request ignored unless state allows it (no double start)
+ok 14 - request ignored unless state allows it (no double start)
+  ---
+  duration_ms: 0.189442
+  type: 'test'
+  ...
+# Subtest: association client: body has exactly two fields, no credentials, no secrets
+ok 15 - association client: body has exactly two fields, no credentials, no secrets
+  ---
+  duration_ms: 0.459473
+  type: 'test'
+  ...
+# Subtest: classifiers
+ok 16 - classifiers
+  ---
+  duration_ms: 0.12793
+  type: 'test'
+  ...
+# Subtest: Zoom App source contains no secret / token handling
+ok 17 - Zoom App source contains no secret / token handling
+  ---
+  duration_ms: 2.221529
+  type: 'test'
+  ...
+# Subtest: REAL @zoom/appssdk typings expose the RTMS API we rely on
+ok 18 - REAL @zoom/appssdk typings expose the RTMS API we rely on
+  ---
+  duration_ms: 3.029328
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 175.886156

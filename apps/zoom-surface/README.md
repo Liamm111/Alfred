@@ -1,2 +1,2 @@
 # apps/zoom-surface — Zoom App in-client (Zoom Apps SDK)
-**NON CONSTRUIT** (bloc 05). Rôle unique : `startRTMS()`/`stopRTMS()` depuis la session réelle de l'utilisateur (Zoom Desktop ≥ 6.5.5). Ne devient jamais un participant. Aucun Meeting SDK (`pnpm check:no-bot`).
+`startRTMS()`/`stopRTMS()` depuis la session réelle de l'utilisateur ; n'envoie au backend que `{nonce, meetingUUID}`. Tests : `pnpm --filter @alfred/zoom-surface test` (SDK mocké). Installation : `docs/INSTALL.md`. Test réel : `manual/MANUAL_REAL_ZOOM.md` — **NON EXÉCUTÉ**. Rapport : `reports/BLOC_05.md`. Note : la version client minimale vérifiée par le code est 6.4.10 (annotation du SDK) ; l'ADR annonce ≥ 6.5.5 — à trancher au test réel.

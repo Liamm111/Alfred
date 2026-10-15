@@ -10,10 +10,10 @@ Assistant personnel **transparent** pour suivre ton cours Zoom (PRD V0.2 hybride
 | Chemin | Rôle | État |
 |---|---|---|
 | `apps/web` | Next.js : connexion, onboarding, paramètres (PWA/Live à venir) | partiel |
-| `apps/mac` | compagnon SwiftUI (menu bar, ScreenCaptureKit, Vision) | non construit |
-| `apps/zoom-surface` | Zoom App in-client (`startRTMS`) | non construit |
+| `apps/mac` | compagnon SwiftUI (menu bar, ScreenCaptureKit) : `CompanionCore` testé Linux+macOS, app compilée en CI macOS ; capture réelle NON VÉRIFIÉE | partiel (BLOCs 04/07) |
+| `apps/zoom-surface` | Zoom App in-client (`startRTMS`), testée avec SDK mocké ; test réel Zoom NON EXÉCUTÉ | partiel (BLOC 05) |
 | `services/api` | Fastify : santé, auth produit, préférences | partiel |
-| `services/rtms-gateway` | consommateur `@zoom/rtms` | non construit |
+| `services/rtms-gateway` | consommateur `@zoom/rtms` 1.1.0 : webhooks signés, sessions, normalisation, association nonce ; aucun flux réel testé | partiel (BLOC 06) |
 | `services/workers` | worker de jobs durables (lease) | squelette |
 | `db` | Drizzle : migrations up/down, jobs/outbox | partiel |
 | `packages/core` | env (MOCK_MODE, bot_join), logger expurgé, erreurs, alias, préférences | construit |

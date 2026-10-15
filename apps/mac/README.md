@@ -1,2 +1,2 @@
 # apps/mac — compagnon macOS (SwiftUI + AppKit)
-**NON CONSTRUIT** (bloc 04, capture : blocs 07–08). Aucun Mac n'est disponible dans l'environnement actuel : tout bloc le concernant sera `BLOCKED` pour la partie réelle. Invariants : voir `docs/ARCHITECTURE_ADR.md` (pas de connexion/micro/caméra Zoom automatisés ; Stop-All immédiat ; permissions minimales).
+Swift package : `CompanionCore` (logique testée Linux + macOS) et `AlfredCompanion` (app, macOS seulement). `swift build && swift test`, `scripts/build_app.sh`. Validation réelle (permissions, ScreenCaptureKit, isolation audio) : `MANUAL_MAC_ZOOM.md` — **NON EXÉCUTÉ**. Rapports : `reports/BLOC_04.md`, `BLOC_07.md`. Invariants : `docs/ARCHITECTURE_ADR.md`.

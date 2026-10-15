@@ -34,6 +34,8 @@ jobs:
       - run: pnpm lint
       - run: pnpm typecheck
       - run: pnpm test
+      - name: RTMS gateway + Zoom surface tests (node:test)
+        run: pnpm --filter @alfred/rtms-gateway --filter @alfred/zoom-surface test
       - name: Migrations up / down / up
         run: |
           pnpm migrate:up
@@ -45,3 +47,16 @@ jobs:
       - run: pnpm test:e2e
       - name: Production bundle checks
         run: pnpm check:prod-bundle
+
+  mac:
+    # Compiles the SwiftUI/AppKit/ScreenCaptureKit companion and runs CompanionCore tests on macOS (blocs 04 / 07).
+    runs-on: macos-14
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - run: swift build -c release
+        working-directory: apps/mac
+      - run: swift test
+        working-directory: apps/mac
+      - run: ./scripts/build_app.sh
+        working-directory: apps/mac
